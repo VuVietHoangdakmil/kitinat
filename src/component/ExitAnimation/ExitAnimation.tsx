@@ -31,6 +31,7 @@ type PropType = {
   slideSize: "100%" | "70%" | "100%/3";
   positionAbsolute?: boolean;
   startAnimation?: boolean;
+  isboxBtn?: boolean;
 };
 const TWEEN_FACTOR_BASE = 0.84;
 
@@ -46,6 +47,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     hiddenDot,
     slideSize,
     startAnimation,
+    isboxBtn,
   } = props;
   const transRef = useSpringRef();
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -137,10 +139,16 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     if (startAnimation) transRef.start();
   }, []);
   const element = (
-    <div className="embla">
-      <div style={{ display: "flex", alignItems: "center" }}>
+    <div className={`embla ${isboxBtn && "box-button"}`}>
+      <div
+        style={{ display: "flex", alignItems: "center", position: "relative" }}
+      >
         {hiddenArrow || (
-          <PrevButton onClick={onPrevButtonClick} disabled={prevBtnDisabled} />
+          <PrevButton
+            // style={{ position: "absolute", zIndex: 999, width: "50px" }}
+            onClick={onPrevButtonClick}
+            disabled={prevBtnDisabled}
+          />
         )}
         <div className="embla__viewport" ref={emblaRef}>
           <div className="embla__container">
@@ -160,6 +168,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                     className="embla__slide__img"
                     src={properties?.src}
                     loading="lazy"
+                    style={{ height: "500px" }}
                   />
                 ) : (
                   <div

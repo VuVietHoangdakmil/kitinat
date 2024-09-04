@@ -12,7 +12,7 @@ const Layout: React.FC<Props> = ({ children }) => {
   return (
     <div>
       <Header />
-      <main style={{ width: "100", overflow: "hidden", margin: "0 auto" }}>
+      <main style={{ width: "100%", overflow: "hidden", margin: "0 auto" }}>
         {children}
       </main>
       <Footer />

@@ -36,11 +36,12 @@ const Header: React.FC = () => {
     <header className="header_container">
       <div className="children_h1">
         <img
-          width={"2px"}
-          height={"2px"}
-          style={{ borderRadius: "50%" }}
-          // src="img/logo.png"
-        ></img>
+          width={"200px"}
+          height={"150px"}
+          // style={{ borderRadius: "50%" }}
+          src="/img/logo.png"
+          loading="lazy"
+        />
         <div className="list_left">
           <ul>
             {list.map((item, index) => {

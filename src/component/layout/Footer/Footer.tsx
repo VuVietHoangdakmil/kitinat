@@ -12,7 +12,16 @@ const Footer = () => {
         }}
       >
         <Col span={8}>
-          <h1>VỀ CHÚNG TÔI</h1>
+          <div style={{ textAlign: "center" }}>
+            <img
+              width={"250px"}
+              height={"200px"}
+              src="/img/logo.png"
+              loading="lazy"
+              alt=""
+            />
+          </div>
+          <h2>VỀ CHÚNG TÔI</h2>
           <h3>
             KATINAT – HÀNH TRÌNH CHINH PHỤC PHONG VỊ MỚI KATINAT không ngừng
             theo đuổi sứ mệnh mang phong vị mới từ những vùng đất trứ danh tại

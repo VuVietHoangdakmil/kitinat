@@ -1,8 +1,9 @@
 import { useTransition, useSpringRef, animated } from "@react-spring/web";
 import { useEffect } from "react";
 import useInViewCustom from "../../../../hook/useInviewCustom";
-
+import { useNavigate } from "react-router-dom";
 import { Row, Col, Button } from "antd";
+import { routers } from "../../../../routes";
 const listTrantions = [
   { from: { transform: "translate3d(0,-100%,0)" }, type: "text" },
   { from: { transform: "translate3d(0,200%,0)" }, type: "button" },
@@ -10,7 +11,7 @@ const listTrantions = [
 
 const ContentLeft = () => {
   const transRef = useSpringRef();
-
+  const navigate = useNavigate();
   const transitions = useTransition(listTrantions, {
     ref: transRef,
     keys: null,
@@ -38,7 +39,10 @@ const ContentLeft = () => {
           </div>
         )}
         {item.type === "button" && (
-          <Button style={{ width: "165px", height: "40px", marginTop: "50px" }}>
+          <Button
+            onClick={() => navigate(routers.about)}
+            style={{ width: "165px", height: "40px", marginTop: "50px" }}
+          >
             Xem thêm
           </Button>
         )}

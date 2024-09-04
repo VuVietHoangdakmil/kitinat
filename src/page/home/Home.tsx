@@ -6,22 +6,25 @@ import Content1 from "./content/content1";
 
 const Home = () => {
   return (
-    <div style={{ width: "var(--with-main)", margin: "50px auto" }}>
-      <Content1 />
-
-      <div style={{ marginTop: "50px", overflow: "hidden" }}>
-        <Content2 />
+    <>
+      <div style={{ width: "90%", margin: "50px auto 0 auto" }}>
+        <Content1 />
       </div>
-      <div style={{ width: "100%", marginTop: "50px" }}>
-        <Content3 />
+      <div style={{ width: "var(--with-main)", margin: "50px auto" }}>
+        <div style={{ marginTop: "50px", overflow: "hidden" }}>
+          <Content2 />
+        </div>
+        <div style={{ width: "100%", marginTop: "50px" }}>
+          <Content3 />
+        </div>
+        <div style={{ width: "100%", marginTop: "50px" }}>
+          <Content4 />
+        </div>
+        <div style={{ width: "100%", marginTop: "50px" }}>
+          <Content5 />
+        </div>
       </div>
-      <div style={{ width: "100%", marginTop: "50px" }}>
-        <Content4 />
-      </div>
-      <div style={{ width: "100%", marginTop: "50px" }}>
-        <Content5 />
-      </div>
-    </div>
+    </>
   );
 };
 export default Home;

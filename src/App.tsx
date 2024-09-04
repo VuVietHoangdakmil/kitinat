@@ -4,7 +4,7 @@ import Layout from "./component/layout/LayoutKatinat";
 import Home from "./page/home";
 import { ConfigProvider } from "antd";
 import { routers } from "./routes";
-
+import Loading from "../src/component/loading/loadingBasic";
 const About = lazy(() => import("./page/about"));
 const Event = lazy(() => import("./page/event"));
 const EventPage = lazy(() => import("./page/eventPage"));
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
       {
         path: routers.home,
         element: (
-          <Suspense fallback={<></>}>
+          <Suspense fallback={<Loading />}>
             <Home />
           </Suspense>
         ),
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       {
         path: routers.eventPage,
         element: (
-          <Suspense fallback={<></>}>
+          <Suspense fallback={<Loading />}>
             <EventPage />
           </Suspense>
         ),
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       {
         path: routers.about,
         element: (
-          <Suspense fallback={<></>}>
+          <Suspense fallback={<Loading />}>
             <About />
           </Suspense>
         ),
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
       {
         path: routers.event + "/:id",
         element: (
-          <Suspense fallback={<></>}>
+          <Suspense fallback={<Loading />}>
             <Event />
           </Suspense>
         ),

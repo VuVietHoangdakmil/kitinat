@@ -119,6 +119,7 @@ const Content5 = () => {
         slides={SLIDES}
         options={OPTIONS}
         positionAbsolute={false}
+        isboxBtn={true}
       />
     </>
   );

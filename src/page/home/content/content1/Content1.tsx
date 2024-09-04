@@ -34,7 +34,7 @@ const Content1 = () => {
   return (
     <ExitAnimation
       startAnimation={true}
-      slideSize="70%"
+      slideSize="100%"
       slides={SLIDES}
       options={OPTIONS}
       positionAbsolute={true}
