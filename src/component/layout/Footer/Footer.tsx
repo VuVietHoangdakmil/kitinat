@@ -15,7 +15,7 @@ const Footer = () => {
           <div style={{ textAlign: "center" }}>
             <img
               width={"250px"}
-              height={"200px"}
+              height={"150px"}
               src="/img/logo.png"
               loading="lazy"
               alt=""

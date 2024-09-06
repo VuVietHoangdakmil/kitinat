@@ -26,6 +26,7 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+
       {
         path: routers.eventPage,
         element: (

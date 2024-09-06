@@ -36,11 +36,12 @@ const Header: React.FC = () => {
     <header className="header_container">
       <div className="children_h1">
         <img
-          width={"200px"}
-          height={"150px"}
+          width={"120x"}
+          // height={"100px"}
           // style={{ borderRadius: "50%" }}
           src="/img/logo.png"
           loading="lazy"
+          alt="logo"
         />
         <div className="list_left">
           <ul>
