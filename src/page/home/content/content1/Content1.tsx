@@ -7,25 +7,25 @@ const OPTIONS: EmblaOptionsType = { loop: true };
 const SLIDES: silde[] = [
   {
     properties: {
-      src: "/img/home/content1/KAT_BANNER-WEB_CPPM.jpg",
+      src: "/img/view/view1.jpg",
     },
     type: "img",
   },
   {
     properties: {
-      src: "/img/home/content1/KAT_BANNER-WEB_OBL.jpg",
+      src: "/img/view/view5.jpg",
     },
     type: "img",
   },
   {
     properties: {
-      src: "/img/home/content1/KAT_NEWBRANDING_COVERFB_3-scaled.jpg",
+      src: "/img/view/view6.jpg",
     },
     type: "img",
   },
   {
     properties: {
-      src: "/img/home/content1/WEB-BANNER (1).jpg",
+      src: "/img/view/view9.jpg",
     },
     type: "img",
   },

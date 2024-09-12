@@ -51,7 +51,7 @@ const CustomContent: React.FC<PropsContent> = ({
       <Col span={12}>
         <img
           width="100%"
-          // height="500px"
+          height="500px"
           style={{ borderRadius: "50px" }}
           src={img}
         />
@@ -74,7 +74,7 @@ const Menu = () => {
         <animated.div style={style}>
           {" "}
           <img
-            src="/img/home/content1/KAT_NEWBRANDING_COVERFB_3-scaled.jpg"
+            src="/img/view/view2.jpg"
             className="img-zoom-animation"
             width="95%"
             height="600px"
@@ -139,8 +139,7 @@ const Menu = () => {
               value:
                 " – Bộ sưu tập Cà Phê Phin với công thức độc quyền KATINAT, làm bật nên vị đậm đặc trưng của Robusta Buôn Mê Thuột, tạo nên hương vị sáng tạo khó phai.",
             }}
-            img="/img/about/about1.jpg
-            "
+            img="/img/view/view8.jpg"
           />
           <CustomContent
             wrapCol={true}
@@ -157,7 +156,7 @@ const Menu = () => {
               value:
                 " – Bộ sưu tập Cà Phê Phin với công thức độc quyền KATINAT, làm bật nên vị đậm đặc trưng của Robusta Buôn Mê Thuột, tạo nên hương vị sáng tạo khó phai.",
             }}
-            img="/img/about/about2.jpg
+            img="/img/view/view7.jpg
             "
           />
         </div>

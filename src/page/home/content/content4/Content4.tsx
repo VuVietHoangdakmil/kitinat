@@ -52,25 +52,25 @@ const OPTIONS: EmblaOptionsType = { loop: true };
 const SLIDES: silde[] = [
   {
     properties: {
-      src: "/img/home/content4/content4a.jpg",
+      src: "/img/view/view1.jpg",
     },
     type: "img",
   },
   {
     properties: {
-      src: "/img/home/content4/content4b.jpeg",
+      src: "/img/view/view2.jpg",
     },
     type: "img",
   },
   {
     properties: {
-      src: "/img/home/content4/content4c.jpg",
+      src: "/img/view/view3.jpg",
     },
     type: "img",
   },
   {
     properties: {
-      src: "/img/home/content4/content4d.jpg",
+      src: "/img/view/view4.jpg",
     },
     type: "img",
   },

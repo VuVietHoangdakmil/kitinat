@@ -11,7 +11,7 @@ const Content3 = () => {
           className="css-background-img"
           style={{
             height: "600px",
-            backgroundImage: "url(/img/home/content3/content3a.jpg)",
+            backgroundImage: "url(/img/product/product11.jpg)",
           }}
         ></div>
       </Col>
@@ -23,7 +23,7 @@ const Content3 = () => {
           className="css-background-img"
           style={{
             height: "600px",
-            backgroundImage: "url(/img/home/content3/content3b.png)",
+            backgroundImage: "url(/img/product/product9.jpg)",
           }}
         ></div>
       </Col>
@@ -35,7 +35,7 @@ const Content3 = () => {
           className="css-background-img"
           style={{
             height: "600px",
-            backgroundImage: "url(/img/home/content3/content3c.png)",
+            backgroundImage: "url(/img/product/product6.jpg)",
           }}
         ></div>
       </Col>
