@@ -15,9 +15,9 @@ const Product = () => {
 
   const transitions = useTransition(null, {
     keys: pageCurrent,
-    from: { transform: "translate3d(-50%,0%,0)" },
+    from: { transform: "translate3d(-20%,0%,0)" },
     enter: { opacity: 1, transform: "translate3d(0,0,0)" },
-    config: { duration: 600 },
+    config: { duration: 500 },
   });
 
   const data = useMemo(() => {
