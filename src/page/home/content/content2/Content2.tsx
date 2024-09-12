@@ -70,7 +70,7 @@ const ContentRight = () => {
         style={{ borderRadius: "6px" }}
         width="100%"
         height="500px"
-        src="/img/home/content2/about-us.jpeg"
+        src="/img/elink5.jpg"
         loading="lazy"
       />
     </animated.div>

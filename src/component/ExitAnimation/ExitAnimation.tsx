@@ -169,6 +169,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
                     src={properties?.src}
                     loading="lazy"
                     style={{ height: "500px" }}
+                    alt=""
                   />
                 ) : (
                   <div

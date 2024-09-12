@@ -18,6 +18,11 @@ const Header: React.FC = () => {
       path: routers.home,
     },
     {
+      label: "Sản phẩm",
+      active: routers.product === pathname,
+      path: routers.product + "?page=1",
+    },
+    {
       label: "Về chúng tôi",
       active: routers.about === pathname,
       path: routers.about,

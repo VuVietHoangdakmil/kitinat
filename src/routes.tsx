@@ -4,4 +4,5 @@ export const routers = {
   about: "/about",
   event: "/event",
   eventPage: "/tin-tuc-su-kien",
+  product: "/product",
 };

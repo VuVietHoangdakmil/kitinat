@@ -8,7 +8,7 @@ import Loading from "../src/component/loading/loadingBasic";
 const About = lazy(() => import("./page/about"));
 const Event = lazy(() => import("./page/event"));
 const EventPage = lazy(() => import("./page/eventPage"));
-
+const Product = lazy(() => import("./page/product"));
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,7 +26,14 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-
+      {
+        path: routers.product,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Product />
+          </Suspense>
+        ),
+      },
       {
         path: routers.eventPage,
         element: (
