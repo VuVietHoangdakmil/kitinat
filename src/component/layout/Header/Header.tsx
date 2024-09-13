@@ -5,7 +5,7 @@ import { routers } from "../../../routes";
 import { useResponsive } from "../../../hook/useResponsive";
 import { cn } from "../../../utils/helper/class.helper";
 import { FaBars } from "react-icons/fa6";
-import FloatingContactButtons from "../../FloatingContactButtons ";
+import FloatingContactButtons from "../../FloatingContactButtons";
 import { Drawer, Typography } from "antd";
 type typeList = {
   label: string;
