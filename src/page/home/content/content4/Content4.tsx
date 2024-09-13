@@ -34,7 +34,8 @@ const ContentLeft = () => {
             <h3>
               Hành trình luôn bắt đầu từ việc chọn lựa nguyên liệu kỹ càng từ
               các vùng đất trù phú, cho đến việc bảo quản, pha chế từ bàn tay
-              nghệ nhân. Qua những nỗ lực không ngừng, KATINAT luôn hướng đến...
+              nghệ nhân. Qua những nỗ lực không ngừng, ECoffeeLink luôn hướng
+              đến...
             </h3>
           </div>
         )}
@@ -104,13 +105,13 @@ const ContentRight = () => {
 const Content4: React.FC = () => {
   const { ref, inView } = useInViewCustom();
   return (
-    <Row ref={ref} gutter={20} style={{ width: "90%", margin: "0 auto" }}>
+    <Row ref={ref} gutter={[20, 20]} style={{ width: "90%", margin: "0 auto" }}>
       {inView && (
         <>
-          <Col span={12}>
+          <Col span={12} xs={24} sm={12} md={8} lg={12}>
             <ContentRight />
           </Col>
-          <Col span={12}>
+          <Col span={12} xs={24} sm={12} md={8} lg={12}>
             <ContentLeft />
           </Col>
         </>

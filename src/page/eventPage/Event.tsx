@@ -1,10 +1,11 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useMemo } from "react";
-import { Col, Pagination, Row } from "antd";
+import { Col, Image, Pagination, Row } from "antd";
 
 import { animated, useTransition } from "@react-spring/web";
 
 import { SLIDES } from "../home/content/content5/Content5";
+import { useResponsive } from "../../hook/useResponsive";
 const totalPage = SLIDES.length;
 const pageSize = 6;
 const listTrantions = [
@@ -29,21 +30,25 @@ const EventPage = () => {
     return SLIDES.slice(startPage, endPage);
   }, [pageCurrent]);
 
+  const { isMobile } = useResponsive();
+
   return (
     <div
       style={{
-        width: "var(--with-main)",
+        width: isMobile ? "100%" : "var(--with-main)",
         margin: "20px auto",
         color: "var(--text-black-color)",
       }}
     >
-      <Row gutter={20}>
+      <Row gutter={[20, 10]}>
         {transitions((style, item) => (
           <>
             {item.type === "left" ? (
-              <Col span={18}>
+              <Col span={isMobile ? 24 : 18}>
                 <animated.div style={style}>
-                  <h1 style={{ fontSize: "25px" }}>Tin tức và sự kiện</h1>
+                  <h1 style={{ fontSize: "25px", paddingLeft: "5px" }}>
+                    Tin tức và sự kiện
+                  </h1>
                   <hr />
 
                   <Row style={{ margin: "20px" }} gutter={[20, 20]}>
@@ -51,23 +56,28 @@ const EventPage = () => {
                       const { content, src, link } = properties;
                       return (
                         <Col
-                          span={8}
+                          span={24}
+                          md={8}
                           key={index}
                           style={{ cursor: "pointer" }}
                           onClick={() => navigate(link + "")}
                         >
-                          <img
+                          <Image
                             style={{ borderRadius: "5px" }}
                             alt=""
                             loading="lazy"
                             src={src}
                             width="100%"
+                            preview={false}
                           />
                           <p style={{ fontWeight: "bold" }}>
                             {content?.content2}
                           </p>
                           <p style={{ color: "#999999" }}>
-                            {content?.content3?.replace("By KATINAT", "ON: ")}
+                            {content?.content3?.replace(
+                              "By ECoffeeLink",
+                              "ON: "
+                            )}
                           </p>
                           <p>{content?.content4}</p>
                         </Col>
@@ -75,11 +85,47 @@ const EventPage = () => {
                     })}
                   </Row>
                 </animated.div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <p style={{ marginRight: "10px", paddingLeft: "5px" }}>
+                    Trang
+                    <span
+                      style={{
+                        color: "var(--primary-color)",
+                        fontWeight: "bold",
+                        margin: "0 5px",
+                      }}
+                    >
+                      {pageCurrent}
+                    </span>
+                    Trên
+                    <span
+                      style={{
+                        color: "var(--primary-color)",
+                        fontWeight: "bold",
+                        margin: "0 5px",
+                      }}
+                    >
+                      {Math.ceil(totalPage / pageSize)}
+                    </span>
+                  </p>
+                  <Pagination
+                    current={pageCurrent}
+                    onChange={(page) => {
+                      setSearchParams({ page: page + "" });
+                    }}
+                    showSizeChanger={false}
+                    responsive={true}
+                    total={totalPage}
+                    pageSize={pageSize}
+                  />
+                </div>
               </Col>
             ) : (
-              <Col span={6}>
+              <Col span={isMobile ? 24 : 6}>
                 <animated.div style={style}>
-                  <h1 style={{ fontSize: "25px" }}>Bài viết mới</h1>
+                  <h1 style={{ fontSize: "25px", paddingLeft: "12px" }}>
+                    Bài viết mới
+                  </h1>
 
                   <ul
                     style={{
@@ -93,7 +139,7 @@ const EventPage = () => {
                         </span>
                         <p>
                           {item.properties.content?.content3?.replace(
-                            "By KATINAT",
+                            "By ECoffeeLink",
                             ""
                           )}
                         </p>
@@ -106,41 +152,6 @@ const EventPage = () => {
           </>
         ))}
       </Row>
-
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <p style={{ marginRight: "10px" }}>
-          Trang
-          <span
-            style={{
-              color: "var(--primary-color)",
-              fontWeight: "bold",
-              margin: "0 5px",
-            }}
-          >
-            {pageCurrent}
-          </span>
-          Trên
-          <span
-            style={{
-              color: "var(--primary-color)",
-              fontWeight: "bold",
-              margin: "0 5px",
-            }}
-          >
-            {Math.ceil(totalPage / pageSize)}
-          </span>
-        </p>
-        <Pagination
-          current={pageCurrent}
-          onChange={(page) => {
-            setSearchParams({ page: page + "" });
-          }}
-          showSizeChanger={false}
-          responsive={true}
-          total={totalPage}
-          pageSize={pageSize}
-        />
-      </div>
     </div>
   );
 };
