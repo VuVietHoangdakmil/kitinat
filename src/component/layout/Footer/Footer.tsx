@@ -1,17 +1,21 @@
+import { Col, Row } from "antd";
+import { Link } from "react-router-dom";
 import "./index.css";
-import { Row, Col } from "antd";
+import { useResponsive } from "../../../hook/useResponsive";
 const Footer = () => {
+  const { isMobile } = useResponsive();
   return (
-    <footer className="footer-main ">
+    <footer className="footer-main bg-[#233f28]">
       <Row
-        gutter={25}
+        gutter={[25, 4]}
         style={{
-          width: "var(--with-main)",
+          // width: "var(--with-main)",
           margin: "0 auto",
-          paddingTop: "50px",
         }}
+        justify={"space-between"}
+        align={"bottom"}
       >
-        <Col span={8}>
+        <Col span={isMobile ? 24 : 12}>
           <div style={{ textAlign: "center" }}>
             <img
               width={"250px"}
@@ -23,20 +27,28 @@ const Footer = () => {
           </div>
           <h2>VỀ CHÚNG TÔI</h2>
           <h3>
-            KATINAT – HÀNH TRÌNH CHINH PHỤC PHONG VỊ MỚI KATINAT không ngừng
-            theo đuổi sứ mệnh mang phong vị mới từ những vùng đất trứ danh tại
-            Việt Nam và trên thế giới đến khách hàng.
+            ECoffeeLink – HÀNH TRÌNH CHINH PHỤC PHONG VỊ MỚI ECoffeeLink không
+            ngừng theo đuổi sứ mệnh mang phong vị mới từ những vùng đất trứ danh
+            tại Việt Nam và trên thế giới đến khách hàng.
           </h3>
         </Col>
-        <Col span={8}>
+        <Col span={isMobile ? 24 : 12}>
           <h2>LIÊN HỆ</h2>
           <h3>
-            Email: cs@katinat.vn Representative Store : 91 Đồng Khởi, Bến Nghé,
-            Quận 1, Thành Phố Hồ Chí Minh Working Office: 96-98-100 Trần Nguyên
-            Đán, Phường 3, Quận Bình Thạnh, Thành Phố Hồ Chí Minh Customer
-            Service: (028) 7300 1009
+            Facebook:{" "}
+            <Link
+              to="https://www.facebook.com/profile.php?id=61561891767086&mibextid=LQQJ4d"
+              target="_blank"
+            >
+              e.coffeelink
+            </Link>
+            <br />
+            Số điện thoại: 032779 9139
+            <br />
+            Địa chỉ: 235 Trương Thị Hoa, P. Tân Thới Hiệp, Quận 12, Ho Chi Minh
+            City, Vietnam
           </h3>
-          <h2>HỖ TRỢ VÀ CHÍNH SÁCH</h2>
+          {/* <h2>HỖ TRỢ VÀ CHÍNH SÁCH</h2>
           <ul style={{ margin: "0", padding: "0" }}>
             <div style={{ display: "divst-item" }}>
               <h3>- Quy chế hoạt động và Chính sách bảo mật.</h3>
@@ -47,14 +59,7 @@ const Footer = () => {
             <div>
               <h3>- Chính sách thanh toán.</h3>
             </div>
-          </ul>
-        </Col>
-        <Col span={8}>
-          <img
-            className="img-zoom"
-            style={{ borderRadius: "10px", width: "100%", height: "350px" }}
-            src="/img/WEB-FOOTER-2048x1871.png"
-          />
+          </ul> */}
         </Col>
       </Row>
       <div

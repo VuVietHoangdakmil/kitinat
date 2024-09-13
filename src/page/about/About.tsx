@@ -1,5 +1,6 @@
 import { useTransition, animated } from "@react-spring/web";
-import { Button, Col, Row } from "antd";
+import { Button, Col, Row, Image } from "antd";
+import { useResponsive } from "../../hook/useResponsive";
 
 type PropsContent = {
   content1: string;
@@ -49,7 +50,7 @@ const CustomContent: React.FC<PropsContent> = ({
         <Button style={{ marginTop: "50px", width: "100px" }}>Menu</Button>
       </Col>
       <Col span={12}>
-        <img
+        <Image
           width="100%"
           height="500px"
           style={{ borderRadius: "50px" }}
@@ -67,6 +68,7 @@ const Menu = () => {
     //leave: { opacity: 0, transform: "translate3d(0,100%,0)" },
     config: { duration: 500 },
   });
+  const { isMobile } = useResponsive();
 
   return (
     <div style={{ marginTop: "50px" }}>
@@ -88,7 +90,7 @@ const Menu = () => {
           <div
             style={{
               textAlign: "center",
-              width: "var(--with-main)",
+              width: isMobile ? "100%" : "var(--with-main)",
               margin: "0 auto",
             }}
           >
@@ -113,10 +115,11 @@ const Menu = () => {
               </Row>
               <h3 style={{ color: "var(--primary-color)" }}>
                 Từ niềm đam mê khám phá hương vị ở những vùng đất mới, những
-                nghệ nhân KATINAT không ngừng theo đuổi sứ mệnh mang đến phong
-                vị mới cho khách hàng. Sự kết hợp của nguồn nguyên liệu tinh hoa
-                dưới bàn tay của nghệ nhân KATINAT sẽ mang đến cho khách hàng
-                những trải nghiệm cảm nhận hương vị tinh tế và khó quên.{" "}
+                nghệ nhân ECoffeeLink không ngừng theo đuổi sứ mệnh mang đến
+                phong vị mới cho khách hàng. Sự kết hợp của nguồn nguyên liệu
+                tinh hoa dưới bàn tay của nghệ nhân ECoffeeLink sẽ mang đến cho
+                khách hàng những trải nghiệm cảm nhận hương vị tinh tế và khó
+                quên.{" "}
               </h3>
             </div>
           </div>
@@ -127,34 +130,34 @@ const Menu = () => {
         <div style={{ margin: "50px auto" }}>
           <CustomContent
             content1="Cà Phê"
-            content2="  Dưới bàn tay của nghệ nhân tại KATINAT, từng cốc cà phê trở thành
+            content2="  Dưới bàn tay của nghệ nhân tại ECoffeeLink, từng cốc cà phê trở thành
             một cuộc phiêu lưu hương vị đầy mới lạ."
             content3={{
               title: "CÀ PHÊ ESPRESSO",
               value:
-                " – Bộ sưu tập Cà Phê Phin với công thức độc quyền KATINAT, làm bật nên vị đậm đặc trưng của Robusta Buôn Mê Thuột, tạo nên hương vị sáng tạo khó phai.",
+                " – Bộ sưu tập Cà Phê Phin với công thức độc quyền ECoffeeLink, làm bật nên vị đậm đặc trưng của Robusta Buôn Mê Thuột, tạo nên hương vị sáng tạo khó phai.",
             }}
             content4={{
               title: "CÀ PHÊ ESPRESSO",
               value:
-                " – Bộ sưu tập Cà Phê Phin với công thức độc quyền KATINAT, làm bật nên vị đậm đặc trưng của Robusta Buôn Mê Thuột, tạo nên hương vị sáng tạo khó phai.",
+                " – Bộ sưu tập Cà Phê Phin với công thức độc quyền ECoffeeLink, làm bật nên vị đậm đặc trưng của Robusta Buôn Mê Thuột, tạo nên hương vị sáng tạo khó phai.",
             }}
             img="/img/view/view8.jpg"
           />
           <CustomContent
             wrapCol={true}
             content1="Cà Phê"
-            content2="  Dưới bàn tay của nghệ nhân tại KATINAT, từng cốc cà phê trở thành
+            content2="  Dưới bàn tay của nghệ nhân tại ECoffeeLink, từng cốc cà phê trở thành
             một cuộc phiêu lưu hương vị đầy mới lạ."
             content3={{
               title: "CÀ PHÊ ESPRESSO",
               value:
-                " – Bộ sưu tập Cà Phê Phin với công thức độc quyền KATINAT, làm bật nên vị đậm đặc trưng của Robusta Buôn Mê Thuột, tạo nên hương vị sáng tạo khó phai.",
+                " – Bộ sưu tập Cà Phê Phin với công thức độc quyền ECoffeeLink, làm bật nên vị đậm đặc trưng của Robusta Buôn Mê Thuột, tạo nên hương vị sáng tạo khó phai.",
             }}
             content4={{
               title: "CÀ PHÊ ESPRESSO",
               value:
-                " – Bộ sưu tập Cà Phê Phin với công thức độc quyền KATINAT, làm bật nên vị đậm đặc trưng của Robusta Buôn Mê Thuột, tạo nên hương vị sáng tạo khó phai.",
+                " – Bộ sưu tập Cà Phê Phin với công thức độc quyền ECoffeeLink, làm bật nên vị đậm đặc trưng của Robusta Buôn Mê Thuột, tạo nên hương vị sáng tạo khó phai.",
             }}
             img="/img/view/view7.jpg
             "
@@ -163,9 +166,9 @@ const Menu = () => {
         <div style={{ textAlign: "center", margin: "0 auto" }}>
           <h5 style={{ color: "#114358" }}>
             Từng búp trà, từng hạt cà phê là nguồn cảm hứng bất tận cho những
-            công thức đột phá, những sản phẩm tâm huyết giúp KATINAT chinh phục
-            vị giác của khách hàng. KATINAT tự hào mang đến những sản phẩm với
-            hương vị đặc sắc, và bạn chính là một phần đặc biệt của…
+            công thức đột phá, những sản phẩm tâm huyết giúp ECoffeeLink chinh
+            phục vị giác của khách hàng. ECoffeeLink tự hào mang đến những sản
+            phẩm với hương vị đặc sắc, và bạn chính là một phần đặc biệt của…
           </h5>
           <h2
             style={{
