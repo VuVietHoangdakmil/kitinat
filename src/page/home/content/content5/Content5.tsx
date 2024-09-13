@@ -13,7 +13,7 @@ export const SLIDES: silde[] = [
         content1: " Tin tức & sự kiện",
         content2:
           "HUYỀN CHÂU BƠ SỮA – DẺO HUYỀN CHÂU, THƠM SỮA MỚI – CHÍNH THỨC ĐƯỢC RA MẮT",
-        content3: "By KATINAT 01/08/2024",
+        content3: "By ECoffeeLink 01/08/2024",
         content4:
           "Huyền Châu Bơ Sữa chính là sự sáng tạo mới đầy hấp dẫn, đánh dấu lần hợp tác chính thức...",
       },
@@ -28,7 +28,7 @@ export const SLIDES: silde[] = [
         content1: " Tin tức & sự kiện",
         content2:
           "HUYỀN CHÂU BƠ SỮA – DẺO HUYỀN CHÂU, THƠM SỮA MỚI – CHÍNH THỨC ĐƯỢC RA MẮT",
-        content3: "By KATINAT 01/08/2024",
+        content3: "By ECoffeeLink 01/08/2024",
         content4:
           "Huyền Châu Bơ Sữa chính là sự sáng tạo mới đầy hấp dẫn, đánh dấu lần hợp tác chính thức...",
       },
@@ -43,7 +43,7 @@ export const SLIDES: silde[] = [
         content1: " Tin tức & sự kiện",
         content2:
           "HUYỀN CHÂU BƠ SỮA – DẺO HUYỀN CHÂU, THƠM SỮA MỚI – CHÍNH THỨC ĐƯỢC RA MẮT",
-        content3: "By KATINAT 01/08/2024",
+        content3: "By ECoffeeLink 01/08/2024",
         content4:
           "Huyền Châu Bơ Sữa chính là sự sáng tạo mới đầy hấp dẫn, đánh dấu lần hợp tác chính thức...",
       },
@@ -58,7 +58,7 @@ export const SLIDES: silde[] = [
         content1: " Tin tức & sự kiện",
         content2:
           "HUYỀN CHÂU BƠ SỮA – DẺO HUYỀN CHÂU, THƠM SỮA MỚI – CHÍNH THỨC ĐƯỢC RA MẮT",
-        content3: "By KATINAT 01/08/2024",
+        content3: "By ECoffeeLink 01/08/2024",
         content4:
           "Huyền Châu Bơ Sữa chính là sự sáng tạo mới đầy hấp dẫn, đánh dấu lần hợp tác chính thức...",
       },
@@ -73,7 +73,7 @@ export const SLIDES: silde[] = [
         content1: " Tin tức & sự kiện",
         content2:
           "HUYỀN CHÂU BƠ SỮA – DẺO HUYỀN CHÂU, THƠM SỮA MỚI – CHÍNH THỨC ĐƯỢC RA MẮT",
-        content3: "By KATINAT 01/08/2024",
+        content3: "By ECoffeeLink 01/08/2024",
         content4:
           "Huyền Châu Bơ Sữa chính là sự sáng tạo mới đầy hấp dẫn, đánh dấu lần hợp tác chính thức...",
       },
@@ -88,7 +88,7 @@ export const SLIDES: silde[] = [
         content1: " Tin tức & sự kiện",
         content2:
           "HUYỀN CHÂU BƠ SỮA – DẺO HUYỀN CHÂU, THƠM SỮA MỚI – CHÍNH THỨC ĐƯỢC RA MẮT",
-        content3: "By KATINAT 01/08/2024",
+        content3: "By ECoffeeLink 01/08/2024",
         content4:
           "Huyền Châu Bơ Sữa chính là sự sáng tạo mới đầy hấp dẫn, đánh dấu lần hợp tác chính thức...",
       },
@@ -103,7 +103,7 @@ export const SLIDES: silde[] = [
         content1: " Tin tức & sự kiện",
         content2:
           "HUYỀN CHÂU BƠ SỮA – DẺO HUYỀN CHÂU, THƠM SỮA MỚI – CHÍNH THỨC ĐƯỢC RA MẮT",
-        content3: "By KATINAT 01/08/2024",
+        content3: "By ECoffeeLink 01/08/2024",
         content4:
           "Huyền Châu Bơ Sữa chính là sự sáng tạo mới đầy hấp dẫn, đánh dấu lần hợp tác chính thức...",
       },
@@ -118,7 +118,7 @@ export const SLIDES: silde[] = [
         content1: " Tin tức & sự kiện",
         content2:
           "HUYỀN CHÂU BƠ SỮA – DẺO HUYỀN CHÂU, THƠM SỮA MỚI – CHÍNH THỨC ĐƯỢC RA MẮT",
-        content3: "By KATINAT 01/08/2024",
+        content3: "By ECoffeeLink 01/08/2024",
         content4:
           "Huyền Châu Bơ Sữa chính là sự sáng tạo mới đầy hấp dẫn, đánh dấu lần hợp tác chính thức...",
       },
@@ -133,7 +133,7 @@ export const SLIDES: silde[] = [
         content1: " Tin tức & sự kiện",
         content2:
           "HUYỀN CHÂU BƠ SỮA – DẺO HUYỀN CHÂU, THƠM SỮA MỚI – CHÍNH THỨC ĐƯỢC RA MẮT",
-        content3: "By KATINAT 01/08/2024",
+        content3: "By ECoffeeLink 01/08/2024",
         content4:
           "Huyền Châu Bơ Sữa chính là sự sáng tạo mới đầy hấp dẫn, đánh dấu lần hợp tác chính thức...",
       },
@@ -148,7 +148,7 @@ export const SLIDES: silde[] = [
         content1: " Tin tức & sự kiện",
         content2:
           "HUYỀN CHÂU BƠ SỮA – DẺO HUYỀN CHÂU, THƠM SỮA MỚI – CHÍNH THỨC ĐƯỢC RA MẮT",
-        content3: "By KATINAT 01/08/2024",
+        content3: "By ECoffeeLink 01/08/2024",
         content4:
           "Huyền Châu Bơ Sữa chính là sự sáng tạo mới đầy hấp dẫn, đánh dấu lần hợp tác chính thức...",
       },
@@ -163,7 +163,7 @@ export const SLIDES: silde[] = [
         content1: " Tin tức & sự kiện",
         content2:
           "HUYỀN CHÂU BƠ SỮA – DẺO HUYỀN CHÂU, THƠM SỮA MỚI – CHÍNH THỨC ĐƯỢC RA MẮT",
-        content3: "By KATINAT 01/08/2024",
+        content3: "By ECoffeeLink 01/08/2024",
         content4:
           "Huyền Châu Bơ Sữa chính là sự sáng tạo mới đầy hấp dẫn, đánh dấu lần hợp tác chính thức...",
       },
@@ -180,9 +180,16 @@ const Content5 = () => {
       </h1>
       <ExitAnimation
         startAnimation={false}
-        slideSize="100%/3"
+        slideSize="100%"
         slides={SLIDES.slice(0, 7)}
-        options={OPTIONS}
+        options={{
+          ...OPTIONS,
+          breakpoints: {
+            "(max-width: 640px)": { slidesToScroll: 1, dragFree: true },
+            "(min-width: 641px) and (max-width: 1024px)": { slidesToScroll: 2 },
+            "(min-width: 1025px)": { slidesToScroll: 3 },
+          },
+        }}
         positionAbsolute={false}
         isboxBtn={true}
       />

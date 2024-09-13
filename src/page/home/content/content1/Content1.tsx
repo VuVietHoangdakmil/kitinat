@@ -36,7 +36,16 @@ const Content1 = () => {
       startAnimation={true}
       slideSize="100%"
       slides={SLIDES}
-      options={OPTIONS}
+      options={{
+        ...OPTIONS,
+        breakpoints: {
+          "(max-width: 640px)": { slidesToScroll: 1 },
+          "(min-width: 641px) and (max-width: 768px)": {
+            slidesToScroll: 1,
+          },
+          "(min-width: 769px)": { slidesToScroll: 1 },
+        },
+      }}
       positionAbsolute={true}
     />
   );

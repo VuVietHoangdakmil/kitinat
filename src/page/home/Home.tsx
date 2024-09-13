@@ -7,24 +7,25 @@ import Content1 from "./content/content1";
 const Home = () => {
   return (
     <>
-      <div style={{ width: "90%", margin: "50px auto 0 auto" }}>
+      <div className="w-11/12 mx-auto mt-12 lg:w-4/5 xl:w-3/4">
         <Content1 />
       </div>
-      <div style={{ width: "var(--with-main)", margin: "50px auto" }}>
-        <div style={{ marginTop: "50px", overflow: "hidden" }}>
+      <div className="w-full px-4 mx-auto mt-12 md:w-11/12 lg:w-4/5 xl:w-3/4">
+        <div className="mt-12 overflow-hidden">
           <Content2 />
         </div>
-        <div style={{ width: "100%", marginTop: "50px" }}>
+        <div className="w-full mt-12">
           <Content3 />
         </div>
-        <div style={{ width: "100%", marginTop: "50px" }}>
+        <div className="w-full mt-12">
           <Content4 />
         </div>
-        <div style={{ width: "100%", marginTop: "50px" }}>
+        <div className="w-full mt-12">
           <Content5 />
         </div>
       </div>
     </>
   );
 };
+
 export default Home;
