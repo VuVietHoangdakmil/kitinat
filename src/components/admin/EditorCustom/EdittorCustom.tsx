@@ -10,7 +10,8 @@ const EditorCustom = forwardRef<any, Props>(
     const editorRef = useRef<TinyMCEEditor>();
     useImperativeHandle(ref, () => ({
       getContent: () => {
-        if (editorRef.current) return editorRef.current.getContent();
+        if (editorRef.current)
+          return editorRef.current.getContent({ format: "raw" });
       },
     }));
 

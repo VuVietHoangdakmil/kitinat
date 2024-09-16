@@ -7,20 +7,20 @@ import Content1 from "./content/content1";
 const Home = () => {
   return (
     <>
-      <div className="w-11/12 mx-auto mt-12 lg:w-4/5 xl:w-3/4">
+      <div className="w-[98%] mx-auto mt-12 ">
         <Content1 />
       </div>
-      <div className="w-full px-4 mx-auto mt-12 md:w-11/12 lg:w-4/5 xl:w-3/4">
-        <div className="mt-12 overflow-hidden">
+      <div className="w-full px-5 mx-auto mt-12 ">
+        <div className="mt-12 mx-auto  sm:w-[85%] overflow-hidden">
           <Content2 />
         </div>
-        <div className="w-full mt-12">
+        <div className=" sm:w-[85%] mx-auto mt-12">
           <Content3 />
         </div>
-        <div className="w-full mt-12">
+        <div className=" sm:w-[85%] mx-auto mt-12">
           <Content4 />
         </div>
-        <div className="w-full mt-12">
+        <div className=" sm:w-[85%] mx-auto mt-12">
           <Content5 />
         </div>
       </div>

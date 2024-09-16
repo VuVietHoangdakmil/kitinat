@@ -3,6 +3,7 @@ import ExitAnimation from "../../../../components/ExitAnimation";
 import { silde } from "../../../../components/ExitAnimation/ExitAnimation";
 import { routers } from "../../../../routes";
 import { KEY } from "../../../../types/enum";
+import { useResponsive } from "../../../../hook/useResponsive";
 const OPTIONS: EmblaOptionsType = { loop: true };
 
 export const SLIDES: silde[] = [
@@ -173,25 +174,28 @@ export const SLIDES: silde[] = [
   },
 ];
 const Content5 = () => {
+  const { isMobile } = useResponsive();
   return (
     <>
-      <h1 style={{ textAlign: "center", color: "var(--primary-color)" }}>
+      <h1
+        style={{
+          textAlign: "center",
+          color: "var(--primary-color)",
+          marginBottom: "20px",
+        }}
+      >
         Tin Tức & Sự Kiện
       </h1>
       <ExitAnimation
         startAnimation={false}
-        slideSize="100%"
+        slideSize={isMobile ? "100%" : "100%/3"}
         slides={SLIDES.slice(0, 7)}
         options={{
           ...OPTIONS,
-          breakpoints: {
-            "(max-width: 640px)": { slidesToScroll: 1, dragFree: true },
-            "(min-width: 641px) and (max-width: 1024px)": { slidesToScroll: 2 },
-            "(min-width: 1025px)": { slidesToScroll: 3 },
-          },
         }}
         positionAbsolute={false}
         isboxBtn={true}
+        hiddenDot={isMobile}
       />
     </>
   );

@@ -1,0 +1,90 @@
+.tinymce-content {
+  ul {
+    list-style-type: disc;
+
+    padding-left: 40px;
+    margin: 1em 0;
+  }
+
+  ol {
+    list-style-type: decimal;
+
+    padding-left: 40px;
+    margin: 1em 0;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+  h1 {
+    font-size: 2em; /* Thường tương đương với 32px */
+    font-weight: bold;
+    margin: 0.67em 0;
+    line-height: 1.2;
+  }
+
+  h2 {
+    font-size: 1.5em; /* Thường tương đương với 24px */
+    font-weight: bold;
+    margin: 0.75em 0;
+  }
+
+  h3 {
+    font-size: 1.17em; /* Thường tương đương với 18.72px */
+    font-weight: bold;
+    margin: 0.83em 0;
+  }
+
+  h4 {
+    font-size: 1em; /* Thường tương đương với 16px */
+    font-weight: bold;
+    margin: 1.12em 0;
+  }
+
+  h5 {
+    font-size: 0.83em; /* Thường tương đương với 13.28px */
+    font-weight: bold;
+    margin: 1.5em 0;
+  }
+
+  h6 {
+    font-size: 0.67em; /* Thường tương đương với 10.72px */
+    font-weight: bold;
+    margin: 1.67em 0;
+  }
+  table {
+    border-collapse: separate; /* Các trình duyệt có thể mặc định là separate */
+    border-spacing: 2px; /* Khoảng cách giữa các ô */
+    width: auto; /* Kích thước bảng tự động dựa trên nội dung */
+  }
+
+  th,
+  td {
+    border: 1px solid #ddd; /* Đường biên mặc định thường là 1px solid */
+    padding: 8px; /* Khoảng cách bên trong các ô */
+    text-align: left; /* Căn lề trái mặc định cho các ô */
+    vertical-align: middle; /* Căn lề giữa theo chiều dọc */
+  }
+
+  th {
+    text-align: center; /* Căn lề giữa cho tiêu đề cột */
+    background-color: #f2f2f2; /* Màu nền nhẹ cho tiêu đề */
+  }
+
+  tr:nth-child(even) {
+    background-color: #f9f9f9; /* Màu nền xen kẽ cho các hàng */
+  }
+  /* Thiết lập line-height cho tất cả các phần tử */
+  p {
+    line-height: 1.6; /* Tỷ lệ tương đối với kích thước font */
+  }
+
+  span {
+    line-height: 20px; /* Khoảng cách cố định giữa các dòng */
+  }
+
+  /* Đặt line-height để tạo khoảng cách giữa các đoạn */
+  div {
+    line-height: normal; /* Sử dụng giá trị mặc định của trình duyệt */
+  }
+}

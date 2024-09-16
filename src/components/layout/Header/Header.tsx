@@ -44,10 +44,10 @@ const Header: React.FC = () => {
   useEffect(() => {
     if (pathname === "/") navigate(routers.home);
   }, []);
-  console.log(isMobile);
+
   return (
     <header className={cn("header_container bg-[#233f28]")}>
-      <div className="children_h1 ">
+      <div className="children_h1">
         <Link to={routers.home}>
           <img
             width="120"

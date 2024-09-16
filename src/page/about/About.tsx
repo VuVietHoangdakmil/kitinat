@@ -53,8 +53,9 @@ const CustomContent: React.FC<PropsContent> = ({
         <Image
           width="100%"
           height="500px"
-          style={{ borderRadius: "50px" }}
+          style={{ borderRadius: "50px", overflow: "hidden" }}
           src={img}
+          preview={false}
         />
       </Col>
     </Row>
@@ -79,13 +80,14 @@ const Menu = () => {
             src="/img/view/view2.jpg"
             className="img-zoom-animation"
             width="95%"
-            height="600px"
             style={{
               padding: "0",
               margin: "0 auto",
               borderRadius: "10px",
               display: "block",
+              height: "500px",
             }}
+            alt=""
           />
           <div
             style={{

@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { animated, useTransition } from "@react-spring/web";
 import { Product as TypeProduct } from "../../types/product";
 
+// Import hiệu ứng mờ khi tải
 import { useResponsive } from "../../hook/useResponsive";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -86,13 +87,18 @@ const Product = () => {
                       gap={4}
                     >
                       <Image
-                        style={{ borderRadius: "5px" }}
+                        style={{
+                          borderRadius: "5px",
+                          height: "500px",
+                          width: "100%",
+                        }}
                         alt=""
                         loading="lazy"
                         src={item?.uploadImg}
                         preview={false}
-                        className="w-full rounded-2xl h-[20rem] object-center"
+                        className=" rounded-2xl  object-center"
                       />
+
                       <Typography.Text
                         style={{ fontWeight: "bold", fontSize: "30px" }}
                       >

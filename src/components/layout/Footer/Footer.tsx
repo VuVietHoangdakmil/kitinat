@@ -5,11 +5,11 @@ import { useResponsive } from "../../../hook/useResponsive";
 const Footer = () => {
   const { isMobile } = useResponsive();
   return (
-    <footer className="footer-main bg-[#233f28]">
+    <footer className="footer-main bg-[#233f28] mt-11">
       <Row
         gutter={[25, 4]}
         style={{
-          // width: "var(--with-main)",
+          width: "var(--with-main)",
           margin: "0 auto",
         }}
         justify={"space-between"}
@@ -67,8 +67,8 @@ const Footer = () => {
           borderTop: "1px white solid",
           textAlign: "center",
           marginTop: "20px",
-          lineHeight: "60px",
-          height: "60px",
+          lineHeight: "50px",
+          height: "50px",
         }}
       ></div>
     </footer>

@@ -3,7 +3,9 @@ import { useParams } from "react-router-dom";
 import { db } from "../../../firebase";
 import { useEffect, useState } from "react";
 import { Product } from "../../../types/product";
+import TinyCss from "../../../components/provider/TinyCss";
 import parse from "html-react-parser";
+import "./index.css";
 const Detail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState<Product>();
@@ -28,23 +30,25 @@ const Detail = () => {
   useEffect(() => {
     fetchProductDetails(id + "");
   }, [id]);
-  console.log("Fetching product details", product);
+
   if (loading) {
     return <div style={{ minHeight: "60vh" }}></div>;
   }
   return (
-    <div
-      style={{
-        color: "black",
-        margin: "0 auto",
-        width: "80%",
-        minHeight: "60vh",
-      }}
-    >
-      <h1 style={{ margin: "20px 0" }}>{product?.title}</h1>
+    <TinyCss>
+      <div
+        style={{
+          color: "black",
+          margin: "0 auto",
+          width: "80%",
+          minHeight: "60vh",
+        }}
+      >
+        <h1 style={{ margin: "20px 0" }}>{product?.title}</h1>
 
-      {parse(product?.summary + "" + product?.content)}
-    </div>
+        {parse(product?.summary + "" + product?.content)}
+      </div>
+    </TinyCss>
   );
 };
 export default Detail;

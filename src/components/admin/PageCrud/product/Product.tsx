@@ -14,7 +14,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import "./index.css";
 import { FaRegSave } from "react-icons/fa";
 import { IoReturnUpBackOutline } from "react-icons/io5";
-import Config from "../../../ConfigProvide";
+import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { db } from "../../../../firebase";
@@ -54,6 +54,7 @@ const Product: React.FC<Props> = ({ type }) => {
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     const valueSummary = refSummary?.current?.getContent();
     const valueContent = refContent?.current?.getContent();
+    console.log(valueSummary);
     const productData = {
       ...values,
       content: valueContent,
@@ -384,6 +385,7 @@ const Product: React.FC<Props> = ({ type }) => {
             />
           </Col>
         </Row>
+        <></>
       </Form>
     </>
   );

@@ -28,7 +28,7 @@ const ContentLeft = () => {
         {item.type === "text" && (
           <div style={{ color: " var(--primary-color)" }}>
             <h1>Về chúng tôi</h1>
-            <h2>
+            <h2 className="my-5">
               ECoffeeLink Coffee & Tea House – HÀNH TRÌNH CHINH PHỤC PHONG VỊ
               MỚI
             </h2>
@@ -82,7 +82,7 @@ const Content2: React.FC = () => {
   const { ref, inView } = useInViewCustom();
 
   return (
-    <Row ref={ref} gutter={[20, 20]} style={{ width: "90%", margin: "0 auto" }}>
+    <Row ref={ref} gutter={[20, 20]}>
       {inView && (
         <>
           <Col span={12} xs={24} sm={12} md={8} lg={12}>

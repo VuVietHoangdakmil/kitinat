@@ -181,7 +181,7 @@ const ProductTable: React.FC = () => {
   return (
     <Table
       loading={loading}
-      scroll={{ y: "90vh" }}
+      scroll={{ y: "65vh" }}
       columns={columns}
       dataSource={data}
     />
