@@ -3,9 +3,9 @@ import { useEffect } from "react";
 
 import useInViewCustom from "../../../../hook/useInviewCustom";
 import { Row, Col, Button } from "antd";
-import ExitAnimation from "../../../../component/ExitAnimation";
+import ExitAnimation from "../../../../components/ExitAnimation";
 import { EmblaOptionsType } from "embla-carousel";
-import { silde } from "../../../../component/ExitAnimation/ExitAnimation";
+import { silde } from "../../../../components/ExitAnimation/ExitAnimation";
 const listTrantions = [
   { from: { transform: "translate3d(0,-100%,0)" }, type: "text" },
   { from: { transform: "translate3d(0,200%,0)" }, type: "button" },

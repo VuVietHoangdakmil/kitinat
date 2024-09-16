@@ -1,6 +1,6 @@
 import { EmblaOptionsType } from "embla-carousel";
-import ExitAnimation from "../../../../component/ExitAnimation";
-import { silde } from "../../../../component/ExitAnimation/ExitAnimation";
+import ExitAnimation from "../../../../components/ExitAnimation";
+import { silde } from "../../../../components/ExitAnimation/ExitAnimation";
 
 const OPTIONS: EmblaOptionsType = { loop: true };
 

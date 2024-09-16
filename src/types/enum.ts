@@ -4,3 +4,8 @@ export enum KEY {
   COC_MAT_ĐAC_THOM = "COC_MAT_ĐAC_THOM",
   NHAI_SUA_LUC_VAN = "NHAI_SUA_LUC_VAN",
 }
+export enum PageCRUD {
+  CREATE = "create",
+  UPDATE = "update",
+  VIEW = "view",
+}

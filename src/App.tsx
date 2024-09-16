@@ -1,14 +1,17 @@
 import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { lazy, Suspense } from "react";
-import Layout from "./component/layout/LayoutKatinat";
+import Layout from "./components/layout/LayoutKatinat";
+import LayoutAdmin from "./components/admin/layoutAdmin";
 import Home from "./page/home";
 import { ConfigProvider } from "antd";
-import { routers } from "./routes";
-import Loading from "../src/component/loading/loadingBasic";
+import { routers, admin } from "./routes";
+import Loading from "./components/loading/loadingBasic";
 const About = lazy(() => import("./page/about"));
 const Event = lazy(() => import("./page/event"));
 const EventPage = lazy(() => import("./page/eventPage"));
 const Product = lazy(() => import("./page/product"));
+const ProductAdmin = lazy(() => import("./page/admin/Product"));
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -60,6 +63,24 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: admin,
+    element: (
+      <LayoutAdmin>
+        <Outlet />
+      </LayoutAdmin>
+    ),
+    children: [
+      {
+        path: routers.admin.product + "/:type",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ProductAdmin />
+          </Suspense>
+        ),
+      },
+    ],
+  },
 ]);
 function App() {
   return (
@@ -67,6 +88,16 @@ function App() {
       theme={{
         token: {
           colorPrimary: "#bf9369",
+        },
+        components: {
+          Layout: {
+            /* here is your component tokens */
+            siderBg: "white",
+          },
+          Collapse: {
+            /* here is your component tokens */
+            headerBg: "#fafafa",
+          },
         },
       }}
     >

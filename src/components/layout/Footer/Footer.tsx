@@ -66,7 +66,7 @@ const Footer = () => {
         style={{
           borderTop: "1px white solid",
           textAlign: "center",
-
+          marginTop: "20px",
           lineHeight: "60px",
           height: "60px",
         }}
