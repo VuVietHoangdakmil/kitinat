@@ -30,8 +30,9 @@ const LayoutFC: React.FC<Props> = ({ children }) => {
           style={{
             padding: 0,
             backgroundColor: "white",
-            textAlign: "center",
+            display: "flex",
             overflow: "hidden",
+            justifyContent: "center",
           }}
         >
           <img width={80} height={80} alt="" src="/img/logo.png" />

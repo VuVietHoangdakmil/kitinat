@@ -27,6 +27,7 @@
     "embla-carousel-auto-scroll": "^8.1.8",
     "embla-carousel-react": "^8.1.8",
     "firebase": "^10.13.1",
+    "html-react-parser": "^5.1.16",
     "i18next": "^23.14.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

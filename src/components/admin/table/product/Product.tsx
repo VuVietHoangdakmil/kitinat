@@ -46,12 +46,15 @@ const ProductTable: React.FC = () => {
       key: "price",
       dataIndex: "price",
       align: "center",
+      render: (price) => Number(price).toLocaleString("en-US") + "đ",
     },
     {
       title: "Giá khuyến mãi",
       key: "price_discount",
-      dataIndex: "price_discount",
+      dataIndex: "priceDiscount",
       align: "center",
+      render: (priceDiscoun) =>
+        Number(priceDiscoun).toLocaleString("en-US") + "đ",
     },
     {
       title: "Hành động",
@@ -73,6 +76,10 @@ const ProductTable: React.FC = () => {
                 lineHeight: "40px",
                 borderRadius: "10px",
                 border: "none",
+                display: "flex",
+
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               <FaEye />
@@ -92,6 +99,10 @@ const ProductTable: React.FC = () => {
                 lineHeight: "40px",
                 borderRadius: "10px",
                 border: "none",
+                display: "flex",
+
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               <CiEdit />
@@ -109,6 +120,10 @@ const ProductTable: React.FC = () => {
                 lineHeight: "40px",
                 borderRadius: "10px",
                 border: "none",
+                display: "flex",
+
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               <FaRegTrashAlt />

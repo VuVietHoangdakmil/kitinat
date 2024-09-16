@@ -11,7 +11,7 @@ const Event = lazy(() => import("./page/event"));
 const EventPage = lazy(() => import("./page/eventPage"));
 const Product = lazy(() => import("./page/product"));
 const ProductAdmin = lazy(() => import("./page/admin/Product"));
-
+const ProductDetails = lazy(() => import("./page/product/[id]"));
 const router = createBrowserRouter([
   {
     path: "/",
@@ -37,6 +37,15 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path: routers.product + "/:id",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ProductDetails />
+          </Suspense>
+        ),
+      },
+
       {
         path: routers.eventPage,
         element: (
