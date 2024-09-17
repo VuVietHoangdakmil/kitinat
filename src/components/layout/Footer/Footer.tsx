@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Row, Typography } from "antd";
 import { Link } from "react-router-dom";
 import "./index.css";
 import { useResponsive } from "../../../hook/useResponsive";
@@ -16,50 +16,38 @@ const Footer = () => {
         align={"bottom"}
       >
         <Col span={isMobile ? 24 : 12}>
-          <div style={{ textAlign: "center" }}>
+          <div className="flex flex-col justify-start">
             <img
-              width={"250px"}
-              height={"150px"}
+              width={"100px"}
+              height={"100px"}
               src="/img/logo.png"
               loading="lazy"
               alt=""
             />
+            <span className="font-medium">
+              Facebook:{" "}
+              <Link
+                to="https://www.facebook.com/profile.php?id=61561891767086&mibextid=LQQJ4d"
+                target="_blank"
+              >
+                e.coffeelink
+              </Link>
+              <br />
+              Số điện thoại: 032779 9139
+              <br />
+              Địa chỉ: 235 Trương Thị Hoa, P. Tân Thới Hiệp, Quận 12, Ho Chi
+              Minh City, Vietnam
+            </span>
           </div>
-          <h2>VỀ CHÚNG TÔI</h2>
-          <h3>
+        </Col>
+
+        <Col span={isMobile ? 24 : 12}>
+          <h3>VỀ CHÚNG TÔI</h3>
+          <span className="font-medium">
             ECoffeeLink – HÀNH TRÌNH CHINH PHỤC PHONG VỊ MỚI ECoffeeLink không
             ngừng theo đuổi sứ mệnh mang phong vị mới từ những vùng đất trứ danh
             tại Việt Nam và trên thế giới đến khách hàng.
-          </h3>
-        </Col>
-        <Col span={isMobile ? 24 : 12}>
-          <h2>LIÊN HỆ</h2>
-          <h3>
-            Facebook:{" "}
-            <Link
-              to="https://www.facebook.com/profile.php?id=61561891767086&mibextid=LQQJ4d"
-              target="_blank"
-            >
-              e.coffeelink
-            </Link>
-            <br />
-            Số điện thoại: 032779 9139
-            <br />
-            Địa chỉ: 235 Trương Thị Hoa, P. Tân Thới Hiệp, Quận 12, Ho Chi Minh
-            City, Vietnam
-          </h3>
-          {/* <h2>HỖ TRỢ VÀ CHÍNH SÁCH</h2>
-          <ul style={{ margin: "0", padding: "0" }}>
-            <div style={{ display: "divst-item" }}>
-              <h3>- Quy chế hoạt động và Chính sách bảo mật.</h3>
-            </div>
-            <div>
-              <h3>- Chính sách vận chuyển.</h3>
-            </div>
-            <div>
-              <h3>- Chính sách thanh toán.</h3>
-            </div>
-          </ul> */}
+          </span>
         </Col>
       </Row>
       <div
@@ -70,7 +58,16 @@ const Footer = () => {
           lineHeight: "50px",
           height: "50px",
         }}
-      ></div>
+      >
+        <p className="text-text-primary">
+          &copy; 2024
+          <Typography.Link href="https://itbus.vn/" target="_blank">
+            {" "}
+            IT BUS
+          </Typography.Link>
+          . All rights reserved.
+        </p>
+      </div>
     </footer>
   );
 };

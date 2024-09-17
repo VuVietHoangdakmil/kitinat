@@ -25,9 +25,9 @@ const Content3 = () => {
               {index === 0 ? "Trà" : index === 1 ? "Cà phê" : "Nước ép"}
             </h1>
             <div
-              className="css-background-img"
+              className="css-background-img transform transition-transform duration-500 ease-in-out hover:-translate-y-5 cursor-pointer"
               style={{
-                height: "600px",
+                height: "500px",
                 backgroundImage: `url(${image})`,
               }}
             ></div>

@@ -1,0 +1,17 @@
+@import './_config.scss';
+
+.ant-btn {
+  &:active {
+    border-color: $primary !important;
+  }
+  &:hover {
+    border-color: $primary !important;
+  }
+  &:focus-visible {
+    border-color: $primary !important;
+  }
+}
+:where(.css-dev-only-do-not-override-1c0na6j).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+  color: $primary !important;
+  border-color: $primary !important;
+}

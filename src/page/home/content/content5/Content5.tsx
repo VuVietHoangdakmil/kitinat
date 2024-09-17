@@ -196,6 +196,7 @@ const Content5 = () => {
         positionAbsolute={false}
         isboxBtn={true}
         hiddenDot={isMobile}
+        hiddenArrow={true}
       />
     </>
   );

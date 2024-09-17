@@ -1,0 +1,30 @@
+.ck-content {
+  min-height: 20rem;
+  border: none;
+}
+.ck-sticky-panel__content {
+}
+.ck.ck-editor__top {
+  border: none !important;
+  border-bottom: 1px solid #f5f5f5 !important;
+  padding: 8px !important;
+  .ck-toolbar__items {
+    border: none !important;
+  }
+  .ck-sticky-panel__content {
+    border: none !important;
+  }
+}
+.ck-editor {
+  border-radius: 0.8rem;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+.ck.ck-editor__main > .ck-editor__editable {
+  min-height: 20rem;
+  border: none;
+}
+.ck-focused {
+  border: none !important;
+  box-shadow: none !important;
+}

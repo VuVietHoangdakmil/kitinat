@@ -2,7 +2,7 @@ import { useTransition, useSpringRef, animated } from "@react-spring/web";
 import { useEffect } from "react";
 import { useResponsive } from "../../../../hook/useResponsive";
 import useInViewCustom from "../../../../hook/useInviewCustom";
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Typography } from "antd";
 import ExitAnimation from "../../../../components/ExitAnimation";
 import { EmblaOptionsType } from "embla-carousel";
 import { silde } from "../../../../components/ExitAnimation/ExitAnimation";
@@ -29,7 +29,12 @@ const ContentLeft = () => {
       <animated.div style={style}>
         {item.type === "text" && (
           <div style={{ color: " var(--primary-color)" }}>
-            <h1>Cửa hàng</h1>
+            <Typography.Title
+              className="text-text-primary"
+              style={{ color: " var(--primary-color)" }}
+            >
+              Cửa hàng
+            </Typography.Title>
 
             <h3 className="mt-5">
               Hành trình luôn bắt đầu từ việc chọn lựa nguyên liệu kỹ càng từ
@@ -40,7 +45,10 @@ const ContentLeft = () => {
           </div>
         )}
         {item.type === "button" && (
-          <Button style={{ width: "165px", height: "40px", marginTop: "50px" }}>
+          <Button
+            style={{ width: "165px", height: "40px", marginTop: "50px" }}
+            className="material-bubble"
+          >
             Xem thêm
           </Button>
         )}

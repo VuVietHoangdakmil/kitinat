@@ -1,5 +1,5 @@
 import { useTransition, animated } from "@react-spring/web";
-import { Button, Col, Row, Image } from "antd";
+import { Button, Col, Row, Image, Typography } from "antd";
 import { useResponsive } from "../../hook/useResponsive";
 
 type PropsContent = {
@@ -25,8 +25,12 @@ const CustomContent: React.FC<PropsContent> = ({
       style={{ flexDirection: wrapCol ? "row-reverse" : undefined }}
     >
       <Col span={12}>
-        <h1 style={{ color: "var(--primary-color)" }}>{content1}</h1>
-        <h3 style={{ color: "#114358" }}>{content2}</h3>
+        <Typography.Title level={3} style={{ color: "var(--primary-color)" }}>
+          {content1}
+        </Typography.Title>
+        <Typography.Title level={5} style={{ color: "#114358" }}>
+          {content2}
+        </Typography.Title>
         <ul style={{ margin: "0", padding: "0 0 0 15px" }}>
           <li style={{ color: "#114358" }}>
             <span
@@ -47,7 +51,12 @@ const CustomContent: React.FC<PropsContent> = ({
             {content4.value}
           </li>
         </ul>
-        <Button style={{ marginTop: "50px", width: "100px" }}>Menu</Button>
+        <Button
+          style={{ marginTop: "50px", width: "100px" }}
+          className="material-bubble"
+        >
+          Menu
+        </Button>
       </Col>
       <Col span={12}>
         <Image
@@ -79,7 +88,7 @@ const Menu = () => {
           <img
             src="/img/view/view2.jpg"
             className="img-zoom-animation"
-            width="95%"
+            width="99%"
             style={{
               padding: "0",
               margin: "0 auto",
@@ -95,41 +104,63 @@ const Menu = () => {
               width: isMobile ? "100%" : "var(--with-main)",
               margin: "0 auto",
             }}
+            className="mt-16 "
           >
-            <h1 style={{ color: "var(--primary-color)", textAlign: "center" }}>
+            <Typography.Title
+              style={{ color: "var(--primary-color)", textAlign: "center" }}
+              className="mt-10"
+            >
               Hành trình chinh phục phong vị mới
-            </h1>
-            <div style={{ width: "80%", margin: "50px auto" }}>
+            </Typography.Title>
+            <div style={{ margin: "50px auto" }} className="w-[80%] bg-current">
               <Row>
                 <Col span={8}>
-                  <h1 style={{ color: "var(--primary-color)" }}>8</h1>
-                  <h2 style={{ color: "#114358" }}>Năm trên một hành trình</h2>
+                  <Typography.Title
+                    level={1}
+                    style={{ color: "var(--primary-color)" }}
+                  >
+                    8
+                  </Typography.Title>
+                  <Typography.Title level={4} style={{ color: "#114358" }}>
+                    Năm trên một hành trình
+                  </Typography.Title>
                 </Col>
                 <Col span={8}>
                   {" "}
-                  <h1 style={{ color: "var(--primary-color)" }}>10</h1>
-                  <h2 style={{ color: "#114358" }}>Tỉnh thành</h2>
+                  <Typography.Title style={{ color: "var(--primary-color)" }}>
+                    10
+                  </Typography.Title>
+                  <Typography.Title level={4} style={{ color: "#114358" }}>
+                    Tỉnh thành
+                  </Typography.Title>
                 </Col>
                 <Col span={8}>
-                  <h1 style={{ color: "var(--primary-color)" }}>70+</h1>
-                  <h2 style={{ color: "#114358" }}>Trên toàn quốc gia</h2>
+                  <Typography.Title style={{ color: "var(--primary-color)" }}>
+                    70+
+                  </Typography.Title>
+                  <Typography.Title level={4} style={{ color: "#114358" }}>
+                    Trên toàn quốc gia
+                  </Typography.Title>
                 </Col>
               </Row>
-              <h3 style={{ color: "var(--primary-color)" }}>
+              <div
+                style={{ color: "var(--primary-color)" }}
+                className="text-2xl mt-5 w-full"
+              >
                 Từ niềm đam mê khám phá hương vị ở những vùng đất mới, những
                 nghệ nhân ECoffeeLink không ngừng theo đuổi sứ mệnh mang đến
                 phong vị mới cho khách hàng. Sự kết hợp của nguồn nguyên liệu
                 tinh hoa dưới bàn tay của nghệ nhân ECoffeeLink sẽ mang đến cho
                 khách hàng những trải nghiệm cảm nhận hương vị tinh tế và khó
                 quên.{" "}
-              </h3>
+              </div>
             </div>
           </div>
         </animated.div>
       ))}
 
-      <div style={{ width: "var(--with-main)", margin: "0px auto" }}>
-        <div style={{ margin: "50px auto" }}>
+      <div style={{ margin: "0px auto" }} className="w-1/2">
+        <div style={{ margin: "50px auto" }} className="flex flex-col gap-16">
           <CustomContent
             content1="Cà Phê"
             content2="  Dưới bàn tay của nghệ nhân tại ECoffeeLink, từng cốc cà phê trở thành
@@ -166,19 +197,20 @@ const Menu = () => {
           />
         </div>
         <div style={{ textAlign: "center", margin: "0 auto" }}>
-          <h5 style={{ color: "#114358" }}>
+          <Typography.Title level={5} style={{ color: "#114358" }}>
             Từng búp trà, từng hạt cà phê là nguồn cảm hứng bất tận cho những
             công thức đột phá, những sản phẩm tâm huyết giúp ECoffeeLink chinh
             phục vị giác của khách hàng. ECoffeeLink tự hào mang đến những sản
             phẩm với hương vị đặc sắc, và bạn chính là một phần đặc biệt của…
-          </h5>
-          <h2
+          </Typography.Title>
+          <Typography.Title
+            level={2}
             style={{
               color: "var(--primary-color)",
             }}
           >
             ...HÀNH TRÌNH CHINH PHỤC PHONG VỊ MỚI!
-          </h2>
+          </Typography.Title>
         </div>
       </div>
     </div>
