@@ -110,7 +110,7 @@ const Blog = () => {
                     >
                       <div className="h-[250px] container-hidden-scroll">
                         <h1>{item?.title}</h1>
-                        <p className="text-lg text-[#404040]">
+                        <p className="text-[16px] text-[#404040]">
                           {item?.summary}
                         </p>
                       </div>
