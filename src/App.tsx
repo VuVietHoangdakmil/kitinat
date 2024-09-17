@@ -10,8 +10,11 @@ const About = lazy(() => import("./page/about"));
 const Event = lazy(() => import("./page/event"));
 const EventPage = lazy(() => import("./page/eventPage"));
 const Product = lazy(() => import("./page/product"));
+const Blog = lazy(() => import("./page/blog"));
 const ProductAdmin = lazy(() => import("./page/admin/Product"));
+const BlogAdmin = lazy(() => import("./page/admin/blog"));
 const ProductDetails = lazy(() => import("./page/product/[id]"));
+const BlogDetails = lazy(() => import("./page/blog/[id]"));
 const router = createBrowserRouter([
   {
     path: "/",
@@ -45,7 +48,22 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-
+      {
+        path: routers.blog,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Blog />
+          </Suspense>
+        ),
+      },
+      {
+        path: routers.blog + "/:id",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <BlogDetails />
+          </Suspense>
+        ),
+      },
       {
         path: routers.eventPage,
         element: (
@@ -85,6 +103,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <ProductAdmin />
+          </Suspense>
+        ),
+      },
+      {
+        path: routers.admin.blog + "/:type",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <BlogAdmin />
           </Suspense>
         ),
       },

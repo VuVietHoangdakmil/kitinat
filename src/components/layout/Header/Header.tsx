@@ -7,6 +7,7 @@ import { cn } from "../../../utils/helper/class.helper";
 import { FaBars } from "react-icons/fa6";
 import FloatingContactButtons from "../../FloatingContactButtons";
 import { Drawer, Typography } from "antd";
+
 type typeList = {
   label: string;
   active: boolean;
@@ -34,7 +35,11 @@ const Header: React.FC = () => {
       active: routers.about === pathname,
       path: routers.about,
     },
-    { label: "Cửa hàng", active: false, path: routers.home },
+    {
+      label: "Bài viết",
+      active: pathname.startsWith(routers.blog),
+      path: routers.blog + "?page=1",
+    },
     {
       label: "Tin tức & sự kiện",
       active: routers.eventPage === pathname,

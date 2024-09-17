@@ -1,0 +1,10 @@
+.container-hidden-scroll {
+  overflow-y: scroll; /* Cho phép cuộn dọc */
+  scrollbar-width: none; /* Ẩn thanh cuộn trên Firefox */
+  -ms-overflow-style: none;
+}
+
+/* WebKit Browsers (Chrome, Safari) */
+.container-hidden-scroll::-webkit-scrollbar {
+  display: none;
+}

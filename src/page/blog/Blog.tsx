@@ -1,10 +1,10 @@
-import { Card, Flex, Image, List, Pagination, Row, Typography } from "antd";
+import { Card, Flex, Image, List, Pagination, Row } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { animated, useTransition } from "@react-spring/web";
-import { Product as TypeProduct } from "../../types/product";
-
+import { Blog as TypeBlog } from "../../types/blogs";
+import "../../css/hidden-scroll.css";
 // Import hiệu ứng mờ khi tải
 import { useResponsive } from "../../hook/useResponsive";
 import { collection, getDocs } from "firebase/firestore";
@@ -13,14 +13,14 @@ import { routers } from "../../routes";
 
 const pageSize = 8;
 
-const Product = () => {
+const Blog = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
-  const [products, setProducts] = useState<Partial<TypeProduct[]>>([]);
+  const [blogs, setBlogs] = useState<Partial<TypeBlog[]>>([]);
   const pageCurrent = Number(searchParams.get("page"));
   const { isMobile } = useResponsive();
-  const totalPage = products.length;
+  const totalPage = blogs.length;
   const transitions = useTransition(null, {
     keys: pageCurrent,
     from: { transform: "translate3d(-20%,0%,0)" },
@@ -31,16 +31,16 @@ const Product = () => {
   const data = useMemo(() => {
     const endPage = pageCurrent * pageSize;
     const startPage = endPage - pageSize;
-    return products.slice(startPage, endPage);
-  }, [pageCurrent, products.length]);
+    return blogs.slice(startPage, endPage);
+  }, [pageCurrent, blogs.length]);
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchBlogs = async () => {
       setLoading(true);
-      const productsCollection = collection(db, "products");
-      const productsSnapshot = await getDocs(productsCollection);
-      const productsList: any[] =
-        productsSnapshot.docs.map((doc) => {
+      const BlogsCollection = collection(db, "blogs");
+      const BlogsSnapshot = await getDocs(BlogsCollection);
+      const BlogsList: any[] =
+        BlogsSnapshot.docs.map((doc) => {
           const data = doc.data();
           return {
             key: doc.id,
@@ -48,11 +48,11 @@ const Product = () => {
           };
         }) ?? [];
 
-      setProducts(productsList);
+      setBlogs(BlogsList);
       setLoading(false);
     };
 
-    fetchProducts();
+    fetchBlogs();
   }, []);
   return (
     <div
@@ -62,9 +62,9 @@ const Product = () => {
 
         color: "var(--text-black-color)",
       }}
-      className="px-4"
+      className="px-4 container-hidden-scroll"
     >
-      <h1 style={{ fontSize: "25px" }}>Sản phẩm</h1>
+      <h1>Bài viết</h1>
       <hr style={{ margin: "10px 0px" }} />
 
       {transitions((style) => (
@@ -83,12 +83,10 @@ const Product = () => {
               }}
               renderItem={(item, index) => {
                 return (
-                  <List.Item key={index} className="w-full max-w-[38rem] ">
+                  <List.Item key={index}>
                     <Card
                       hoverable
-                      onClick={() =>
-                        navigate(routers.product + "/" + item?.key)
-                      }
+                      onClick={() => navigate(routers.blog + "/" + item?.key)}
                       style={{
                         overflow: "hidden",
                         width: "100%",
@@ -97,23 +95,25 @@ const Product = () => {
                       cover={
                         <Image
                           style={{
-                            height: "350px",
+                            height: "250px",
                             width: "100%",
+
+                            borderRadius: "0px",
                           }}
                           alt=""
                           loading="lazy"
-                          src={item?.uploadImg}
+                          src={item?.img}
                           preview={false}
-                          className="   object-center"
+                          className=" rounded-2xl "
                         />
                       }
                     >
-                      <h1>{item?.title}</h1>
-                      <p className="text-lg text-[#404040]">
-                        {!item?.price
-                          ? 0 + "đ"
-                          : Number(item?.price).toLocaleString("en-US") + "đ"}
-                      </p>
+                      <div className="h-[250px] container-hidden-scroll">
+                        <h1>{item?.title}</h1>
+                        <p className="text-lg text-[#404040]">
+                          {item?.summary}
+                        </p>
+                      </div>
                     </Card>
                   </List.Item>
                 );
@@ -161,4 +161,4 @@ const Product = () => {
     </div>
   );
 };
-export default Product;
+export default Blog;
