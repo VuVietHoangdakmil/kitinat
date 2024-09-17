@@ -49,7 +49,7 @@ const EventPage = () => {
                   <h1 style={{ fontSize: "25px", paddingLeft: "5px" }}>
                     Tin tức và sự kiện
                   </h1>
-                  <hr />
+                  <hr color="#bf9369" />
 
                   <Row style={{ margin: "20px" }} gutter={[20, 20]}>
                     {data.map(({ properties }, index) => {
@@ -131,10 +131,16 @@ const EventPage = () => {
                     style={{
                       paddingLeft: "16px",
                     }}
+                    className="flex flex-col gap-4 list-disc  text-gray-700 space-y-10"
                   >
                     {SLIDES.map((item, index) => (
                       <li key={index}>
-                        <span style={{ color: "var(--primary-color)" }}>
+                        <span
+                          style={{
+                            color: "var(--primary-color)",
+                            listStyleType: "disc",
+                          }}
+                        >
                           {item.properties.content?.content2}
                         </span>
                         <p>

@@ -1,0 +1,12 @@
+@import "../../../scss/config";
+
+.app-input {
+  min-height: 4rem !important;
+  &:focus-within {
+    border-color: $input-border-hover;
+    box-shadow: $box-shadow-focus;
+  }
+}
+.ant-input-affix-wrapper {
+  z-index: 0 !important;
+}

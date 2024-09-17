@@ -10,6 +10,7 @@ import { useResponsive } from "../../hook/useResponsive";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import { routers } from "../../routes";
+import { cn } from "../../utils/helper/class.helper";
 
 const pageSize = 8;
 
@@ -57,12 +58,11 @@ const Product = () => {
   return (
     <div
       style={{
-        width: isMobile ? "100%" : "var(--with-main)",
         margin: "20px auto",
 
         color: "var(--text-black-color)",
       }}
-      className="px-4"
+      className={cn(isMobile ? "w-full" : "w-4/6")}
     >
       <h1 style={{ fontSize: "25px" }}>Sản phẩm</h1>
       <hr style={{ margin: "10px 0px" }} />
@@ -72,10 +72,18 @@ const Product = () => {
           <Row style={{ zIndex: 1 }}>
             <List
               dataSource={data}
-              grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 3, xl: 3, xxl: 3 }}
+              grid={{
+                gutter: [16, 24],
+                xs: 1,
+                sm: 2,
+                md: 2,
+                lg: 3,
+                xl: 3,
+                xxl: 3,
+              }}
               renderItem={(item, index) => {
                 return (
-                  <List.Item className="w-full max-w-[38rem] ">
+                  <List.Item className="w-full max-w-[38rem] transform transition-transform duration-500 ease-in-out hover:-translate-y-5 cursor-pointer">
                     <Flex
                       key={index}
                       style={{ cursor: "pointer" }}
@@ -89,7 +97,7 @@ const Product = () => {
                       <Image
                         style={{
                           borderRadius: "5px",
-                          height: "500px",
+                          height: "400px",
                           width: "100%",
                         }}
                         alt=""
@@ -99,9 +107,7 @@ const Product = () => {
                         className=" rounded-2xl  object-center"
                       />
 
-                      <Typography.Text
-                        style={{ fontWeight: "bold", fontSize: "30px" }}
-                      >
+                      <Typography.Text className="text-xl font-medium">
                         {item?.title}
                       </Typography.Text>
 

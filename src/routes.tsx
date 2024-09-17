@@ -12,5 +12,6 @@ export const routers = {
     productView: admin + `/product/${PageCRUD.VIEW}`,
     productCreate: admin + `/product/${PageCRUD.CREATE}`,
     productUpdate: admin + `/product/${PageCRUD.UPDATE}`,
+    blog: admin + `/blog`,
   },
 };

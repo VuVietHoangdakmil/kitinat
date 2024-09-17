@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { FaEye, FaRegTrashAlt } from "react-icons/fa";
-import { Table, Image, Modal } from "antd";
 import type { TableProps } from "antd";
-import { CiEdit } from "react-icons/ci";
-import { useNavigate } from "react-router-dom";
-import { routers } from "../../../../routes";
-import "./product.css";
+import { Image, Modal, Typography } from "antd";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { CiEdit } from "react-icons/ci";
+import { FaEye, FaRegTrashAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { db } from "../../../../firebase";
+import { routers } from "../../../../routes";
+import AppTable from "../../../shared/app-table";
+import "./product.css";
 interface DataType {
   key: string;
   uploadImg: string;
@@ -26,33 +27,33 @@ const ProductTable: React.FC = () => {
       title: "Hình",
       dataIndex: "uploadImg",
       key: "uploadImg",
-      render: (src) => <Image height={100} src={src} />,
-      align: "center",
+      render: (src) => (
+        <Image height={48} width={48} src={src} className="rounded-lg" />
+      ),
     },
     {
       title: "Tiêu đề",
       dataIndex: "title",
       key: "title",
-      align: "center",
+      render: (text) => (
+        <Typography.Text className=" font-medium">{text}</Typography.Text>
+      ),
     },
     {
       title: "Chuyên mục",
       dataIndex: "chuyen_muc",
       key: "chuyen_muc",
-      align: "center",
     },
     {
       title: "Giá",
       key: "price",
       dataIndex: "price",
-      align: "center",
       render: (price) => Number(price).toLocaleString("en-US") + "đ",
     },
     {
       title: "Giá khuyến mãi",
       key: "price_discount",
       dataIndex: "priceDiscount",
-      align: "center",
       render: (priceDiscoun) =>
         Number(priceDiscoun).toLocaleString("en-US") + "đ",
     },
@@ -60,74 +61,19 @@ const ProductTable: React.FC = () => {
       title: "Hành động",
       dataIndex: "key",
       key: "action",
-      align: "center",
       render: (key) => {
         return (
-          <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-            <button
-              className="action-btn"
-              style={{
-                backgroundColor: "#08e783",
-                height: "40px",
-                width: "40px",
-                fontSize: "20px",
-                color: "white",
-                textAlign: "center",
-                lineHeight: "40px",
-                borderRadius: "10px",
-                border: "none",
-                display: "flex",
-
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <FaEye />
-            </button>
-            <button
+          <div className="flex gap-4 items-center  justify-start">
+            <CiEdit
+              className="text-[#416dea] cursor-pointer"
               onClick={() =>
                 navigate(routers.admin.productUpdate + "?id=" + key)
               }
-              className="action-btn"
-              style={{
-                backgroundColor: "#416dea",
-                height: "40px",
-                width: "40px",
-                fontSize: "20px",
-                color: "white",
-                textAlign: "center",
-                lineHeight: "40px",
-                borderRadius: "10px",
-                border: "none",
-                display: "flex",
-
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <CiEdit />
-            </button>
-            <button
-              className="action-btn text-center"
+            />
+            <FaRegTrashAlt
+              className="text-[#f82222] cursor-pointer"
               onClick={() => handleDelete(key)}
-              style={{
-                backgroundColor: "#f82222",
-                height: "40px",
-                width: "40px",
-                fontSize: "20px",
-                color: "white",
-                textAlign: "center",
-                lineHeight: "40px",
-                borderRadius: "10px",
-                border: "none",
-                display: "flex",
-
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <FaRegTrashAlt />
-            </button>
+            />
           </div>
         );
       },
@@ -179,12 +125,7 @@ const ProductTable: React.FC = () => {
   }, []);
 
   return (
-    <Table
-      loading={loading}
-      scroll={{ y: "65vh" }}
-      columns={columns}
-      dataSource={data}
-    />
+    <AppTable loading={loading} columns={columns as any} dataSource={data} />
   );
 };
 

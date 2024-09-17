@@ -2,7 +2,7 @@ import { useTransition, useSpringRef, animated } from "@react-spring/web";
 import { useEffect } from "react";
 import useInViewCustom from "../../../../hook/useInviewCustom";
 import { useNavigate } from "react-router-dom";
-import { Row, Col, Button } from "antd";
+import { Row, Col, Button, Typography } from "antd";
 import { routers } from "../../../../routes";
 const listTrantions = [
   { from: { transform: "translate3d(0,-100%,0)" }, type: "text" },
@@ -27,7 +27,12 @@ const ContentLeft = () => {
       <animated.div style={style}>
         {item.type === "text" && (
           <div style={{ color: " var(--primary-color)" }}>
-            <h1>Về chúng tôi</h1>
+            <Typography.Title
+              className="text-text-primary"
+              style={{ color: " var(--primary-color)" }}
+            >
+              Về chúng tôi
+            </Typography.Title>
             <h2 className="my-5">
               ECoffeeLink Coffee & Tea House – HÀNH TRÌNH CHINH PHỤC PHONG VỊ
               MỚI
@@ -44,6 +49,7 @@ const ContentLeft = () => {
           <Button
             onClick={() => navigate(routers.about)}
             style={{ width: "165px", height: "40px", marginTop: "50px" }}
+            className="material-bubble"
           >
             Xem thêm
           </Button>
@@ -74,6 +80,7 @@ const ContentRight = () => {
         height="500px"
         src="/img/elink5.jpg"
         loading="lazy"
+        className="transform transition-transform duration-500 ease-in-out hover:scale-110 hover:rotate-6"
       />
     </animated.div>
   ));

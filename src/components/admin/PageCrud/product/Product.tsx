@@ -8,6 +8,8 @@ import {
   Upload,
   Button,
   FormProps,
+  Typography,
+  InputNumber,
 } from "antd";
 import EditorCustom from "../../EditorCustom";
 import { UploadOutlined } from "@ant-design/icons";
@@ -20,6 +22,8 @@ import { useEffect, useRef, useState } from "react";
 import { db } from "../../../../firebase";
 import { collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { formatNumberPrice } from "../../../../utils/const";
+import AppInput from "../../../shared/app-input";
 type Props = {
   type: string;
 };
@@ -234,7 +238,11 @@ const Product: React.FC<Props> = ({ type }) => {
               items={[
                 {
                   key: "1",
-                  label: "Thông tin",
+                  label: (
+                    <Typography.Text className="font-semibold">
+                      Thông tin
+                    </Typography.Text>
+                  ),
                   children: (
                     <>
                       <Form.Item<FieldType> label="Tiêu đề" name="title">
@@ -245,28 +253,38 @@ const Product: React.FC<Props> = ({ type }) => {
                         <EditorCustom
                           initialValue={summaryValue}
                           ref={refSummary}
-                          height={200}
+                          height={600}
                         />
                       </Form.Item>
                       <Form.Item name="content" label="Nội dung">
                         <EditorCustom
                           ref={refContent}
                           initialValue={contentValue}
-                          height={400}
+                          height={800}
                         />
                       </Form.Item>
                     </>
                   ),
                 },
               ]}
+              bordered={false}
+              expandIconPosition="end"
+              className="shadow-lg bg-white"
             />
             <Collapse
               style={{ marginTop: "10px" }}
               defaultActiveKey={"1"}
+              bordered={false}
+              expandIconPosition="end"
+              className="shadow-lg bg-white"
               items={[
                 {
                   key: "1",
-                  label: "Lượt xem tùy chỉnh",
+                  label: (
+                    <Typography.Text className="font-semibold">
+                      Lượt xem tùy chỉnh
+                    </Typography.Text>
+                  ),
                   children: (
                     <Form.Item<FieldType> label="Lượt xem sản phẩm" name="view">
                       <Input style={{ display: "block" }} />
@@ -279,10 +297,17 @@ const Product: React.FC<Props> = ({ type }) => {
           <Col span={8}>
             <Collapse
               defaultActiveKey={"1"}
+              bordered={false}
+              expandIconPosition="end"
+              className="shadow-lg bg-white"
               items={[
                 {
                   key: "1",
-                  label: "Phân loại",
+                  label: (
+                    <Typography.Text className="font-semibold">
+                      Phân loại
+                    </Typography.Text>
+                  ),
                   children: (
                     <>
                       <Form.Item<FieldType> label="Mã sản phẩm" name="id">
@@ -299,15 +324,25 @@ const Product: React.FC<Props> = ({ type }) => {
             <Collapse
               style={{ marginTop: "10px" }}
               defaultActiveKey={"1"}
+              bordered={false}
+              expandIconPosition="end"
+              className="shadow-lg bg-white"
               items={[
                 {
                   key: "1",
-                  label: "Thông tin giá",
+                  label: (
+                    <Typography.Text className="font-semibold">
+                      Thông tin giá
+                    </Typography.Text>
+                  ),
                   children: (
                     <>
-                      <Form.Item<FieldType> label="Giá" name="price">
-                        <Input style={{}} />
-                      </Form.Item>
+                      <AppInput
+                        label="Giá"
+                        name="price"
+                        {...(formatNumberPrice as any)}
+                      />
+
                       <Form.Item<FieldType>
                         label="Giá khuyến mãi"
                         name="priceDisCount"
@@ -322,10 +357,17 @@ const Product: React.FC<Props> = ({ type }) => {
             <Collapse
               style={{ marginTop: "10px" }}
               defaultActiveKey={"1"}
+              bordered={false}
+              expandIconPosition="end"
+              className="shadow-lg bg-white"
               items={[
                 {
                   key: "1",
-                  label: "Hình ảnh",
+                  label: (
+                    <Typography.Text className="font-semibold">
+                      Hình ảnh
+                    </Typography.Text>
+                  ),
 
                   children: (
                     <Form.Item
@@ -354,10 +396,13 @@ const Product: React.FC<Props> = ({ type }) => {
             <Collapse
               style={{ marginTop: "10px" }}
               defaultActiveKey={"1"}
+              bordered={false}
+              expandIconPosition="end"
+              className="shadow-lg bg-white"
               items={[
                 {
                   key: "1",
-                  label: "SEO",
+                  label: <Typography.Text>SEO</Typography.Text>,
                   children: (
                     <>
                       <Form.Item<FieldType> label="Slug" name="slug">
