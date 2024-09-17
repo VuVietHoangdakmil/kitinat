@@ -1,0 +1,19 @@
+@import "../../../scss/config";
+
+.app-table {
+  th.ant-table-cell {
+    background-color: #ffffff !important;
+    border-radius: 0rem !important;
+  }
+  .ant-table-pagination {
+    margin: 0 !important;
+    background-color: #ffffff !important;
+    padding: 1.6rem;
+    .ant-pagination-item-active {
+      border-color: $primary !important;
+      a {
+        color: $primary !important;
+      }
+    }
+  }
+}

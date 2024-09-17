@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { BiSolidDrink } from "react-icons/bi";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { TfiPencilAlt } from "react-icons/tfi";
+import "./layout.scss";
+
 const { Header, Content, Sider } = Layout;
 type Props = {
   children: React.ReactNode;
@@ -38,7 +40,12 @@ const LayoutFC: React.FC<Props> = ({ children }) => {
 
   return (
     <Layout style={{ height: "100vh" }}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        className="bg-white"
+      >
         <Header
           style={{
             padding: 0,
@@ -58,6 +65,7 @@ const LayoutFC: React.FC<Props> = ({ children }) => {
           style={{ border: "none" }}
           mode="inline"
           selectedKeys={[customPath]}
+          className="bg-white"
           items={[
             {
               key: routers.admin.product,

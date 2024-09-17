@@ -19,6 +19,8 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
   const { isMobile } = useResponsive();
   const [open, setOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
   const list: typeList[] = [
     {
       label: "Trang chủ",
@@ -50,9 +52,33 @@ const Header: React.FC = () => {
     if (pathname === "/") navigate(routers.home);
   }, []);
 
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header className={cn("header_container bg-[#233f28]")}>
-      <div className="children_h1">
+    <header
+      className={cn(
+        "header_container flex justify-center transition-all",
+        isScrolled && "bg-primary"
+      )}
+    >
+      <div
+        className={cn(" w-4/6  flex justify-between   z-10   items-center ")}
+      >
         <Link to={routers.home}>
           <img
             width="120"
@@ -111,7 +137,15 @@ const Header: React.FC = () => {
                     onClick={() => navigate(item.path)}
                     key={index}
                   >
-                    <span className="nav-link text-white">{item.label}</span>
+                    <span
+                      className={cn(
+                        "nav-link ",
+                        isScrolled && "text-white",
+                        item.active && "text-text-primary"
+                      )}
+                    >
+                      {item.label}
+                    </span>
                   </li>
                 );
               })}

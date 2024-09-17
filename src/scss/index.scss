@@ -1,0 +1,240 @@
+@use "../abstracts/mixin" as *;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/themes/lark.css");
+
+@import "./_config.scss";
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+  -webkit-transition-delay: 9999s;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// Scrollbar
+html *::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+html *::-webkit-scrollbar-thumb {
+  border-radius: 0.4rem;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+html *::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Inter", sans-serif !important;
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+  overflow-y: overlay;
+  scroll-behavior: smooth;
+}
+.ant-form-item-label {
+  text-align: start !important;
+}
+// -----------------------------------------------------------------------
+
+//PAGINATION
+.ant-pagination-item-active {
+  background-color: $primary-color !important;
+  border-color: #6b67db !important;
+  a {
+    color: white !important;
+    &:hover {
+      color: white !important;
+    }
+  }
+  &:hover {
+    border-color: #8b88e0 !important;
+  }
+}
+
+// BADGE
+.ant-badge {
+  .ant-badge-count {
+    background: $primary-color;
+  }
+}
+
+//COLLAPSE
+.ant-collapse:not(.sidebar-container .ant-collapse) {
+  background-color: white;
+}
+.card-collapse-element {
+  background-color: white;
+  border-radius: $border-radius-base !important;
+  border: 0.1rem solid #e2ebf6;
+  border-bottom: 0.1rem solid #e2ebf6 !important;
+}
+
+//CHECKBOX
+.ant-switch-checked {
+  background-color: $primary-color !important;
+}
+
+//SWITCH
+.ant-switch {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+//BUTTON
+.ant-btn-primary {
+  background-color: $primary-color;
+}
+// -----------------------------------------------------------------------
+//*TABLE
+
+.ant-table-tbody > tr > td > .ant-table-wrapper:only-child .ant-table,
+.ant-table-tbody
+  > tr
+  > td
+  > .ant-table-expanded-row-fixed
+  > .ant-table-wrapper:only-child
+  .ant-table {
+  margin: -16px -16px -16px 0px !important;
+}
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  vertical-align: baseline;
+}
+
+.ant-image-preview-wrap {
+  .ant-image-preview-img-wrapper::before {
+    height: unset !important;
+  }
+  .ant-image-preview-img-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .ant-image-preview-img {
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+    }
+  }
+}
+// TAB
+.ant-tabs-top > .ant-tabs-nav {
+  margin: 0 !important;
+}
+// LIST FORM ITEM
+.ant-list.ant-list-split.ant-list-grid
+  .ant-row
+  > div:has(> .ant-col > .ant-list-item.images) {
+  width: 100% !important;
+  max-width: unset !important;
+}
+
+.site-layout-background {
+  @include respond(desktop) {
+    min-height: calc(100dvh - 116px);
+  }
+  @include respond(laptop) {
+    min-height: calc(100dvh - 116px);
+  }
+  @include respond(tablet) {
+    min-height: calc(100dvh - 116px);
+  }
+  @include respond(phone) {
+    min-height: calc(100dvh - 116px);
+  }
+  background-color: $background-color-primary;
+  // @include screen(tablet) {
+  //   padding: 0 !important;
+  // }
+}
+
+.modal-content-signature {
+  display: grid;
+  place-items: center;
+  .sigCanvas {
+    border: dashed 1px #ccc;
+    border-radius: 0.4rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.float-button-custom {
+  .ant-float-btn-content {
+    width: 100% !important;
+    padding: 0px !important;
+    .ant-float-btn-icon {
+      width: 100% !important;
+    }
+  }
+}
+
+/* Track */
+::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 0.4rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
+
+/* Track on hover */
+::-webkit-scrollbar-track:hover {
+  background-color: #eaeaea;
+}
+
+.ant-input {
+  border-width: 1px !important;
+}
+
+/* Label Form Item */
+.ant-form-item {
+  .ant-form-item-label {
+    label.ant-form-item-required {
+      &::after {
+        content: "*";
+        color: $danger-color;
+        display: inline-block;
+        margin-inline-start: 4px;
+        font-size: 1.6rem;
+        line-height: 1;
+        visibility: initial;
+      }
+      &::before {
+        content: none !important;
+      }
+    }
+  }
+}
+/* Card */
+.ant-card-hoverable {
+  &:hover {
+    box-shadow: #9f9cfc 0px 1px 4px;
+  }
+}

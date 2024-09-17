@@ -32,7 +32,7 @@ const Detail = () => {
   }, [id]);
 
   if (loading) {
-    return <div style={{ minHeight: "60vh" }}></div>;
+    return <div style={{ minHeight: "64vh" }}></div>;
   }
   return (
     <TinyCss>
@@ -40,9 +40,14 @@ const Detail = () => {
         style={{
           color: "black",
           margin: "0 auto",
+<<<<<<< HEAD
           width: "60%",
           minHeight: "60vh",
+=======
+          minHeight: "64vh",
+>>>>>>> cbba3ad57da36ffa6cf265dfff19b19acd33005b
         }}
+        className="w-2/4"
       >
         <h1 style={{ margin: "20px 0" }}>{product?.title}</h1>
 

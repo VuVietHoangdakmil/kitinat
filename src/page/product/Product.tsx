@@ -1,4 +1,4 @@
-import { Card, Flex, Image, List, Pagination, Row, Typography } from "antd";
+import { Card, Image, List, Pagination, Row } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -10,6 +10,7 @@ import { useResponsive } from "../../hook/useResponsive";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import { routers } from "../../routes";
+import { cn } from "../../utils/helper/class.helper";
 
 const pageSize = 8;
 
@@ -57,12 +58,11 @@ const Product = () => {
   return (
     <div
       style={{
-        width: isMobile ? "100%" : "var(--with-main)",
         margin: "20px auto",
 
         color: "var(--text-black-color)",
       }}
-      className="px-4"
+      className={cn(isMobile ? "w-full" : "w-4/6")}
     >
       <h1 style={{ fontSize: "25px" }}>Sản phẩm</h1>
       <hr style={{ margin: "10px 0px" }} />
@@ -73,7 +73,7 @@ const Product = () => {
             <List
               dataSource={data}
               grid={{
-                gutter: [28, 14],
+                gutter: [16, 24],
                 xs: 1,
                 sm: 2,
                 md: 2,
@@ -83,7 +83,10 @@ const Product = () => {
               }}
               renderItem={(item, index) => {
                 return (
-                  <List.Item key={index} className="w-full max-w-[38rem] ">
+                  <List.Item
+                    key={index}
+                    className="w-full max-w-[38rem] w-full max-w-[38rem] transform transition-transform duration-500 ease-in-out hover:-translate-y-5 cursor-pointer "
+                  >
                     <Card
                       hoverable
                       onClick={() =>
