@@ -12,6 +12,8 @@ const EventPage = lazy(() => import("./page/eventPage"));
 const Product = lazy(() => import("./page/product"));
 const Blog = lazy(() => import("./page/blog"));
 const ProductAdmin = lazy(() => import("./page/admin/Product"));
+const CategoryAdmin = lazy(() => import("./page/admin/category"));
+const MenuProductAdmin = lazy(() => import("./page/admin/menu-product"));
 const BlogAdmin = lazy(() => import("./page/admin/blog"));
 const ProductDetails = lazy(() => import("./page/product/[id]"));
 const BlogDetails = lazy(() => import("./page/blog/[id]"));
@@ -105,6 +107,22 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <ProductAdmin />
+          </Suspense>
+        ),
+      },
+      {
+        path: routers.admin.category + "/:type",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <CategoryAdmin />
+          </Suspense>
+        ),
+      },
+      {
+        path: routers.admin.menu + "/:type",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <MenuProductAdmin />
           </Suspense>
         ),
       },

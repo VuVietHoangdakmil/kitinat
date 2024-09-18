@@ -12,3 +12,9 @@ export interface Product {
   title: string;
   uploadImg: string;
 }
+
+export type StoreCreateMenuProduct = {
+  image: string;
+  index: number;
+  type: string;
+};
