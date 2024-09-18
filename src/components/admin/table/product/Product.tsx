@@ -9,6 +9,8 @@ import { db } from "../../../../firebase";
 import { routers } from "../../../../routes";
 import AppTable from "../../../shared/app-table";
 import "./product.css";
+import { usePagination } from "../../../../hook/helpers/usePagination.hook";
+import { getListProducts } from "../../../../services/product.service";
 interface DataType {
   key: string;
   uploadImg: string;
@@ -20,12 +22,17 @@ interface DataType {
 
 const ProductTable: React.FC = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState<DataType[]>([]);
+  // const [data, setData] = useState<DataType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const { data: listProduct } = usePagination(
+    "list-product",
+    {},
+    getListProducts
+  );
   const columns: TableProps<DataType>["columns"] = [
     {
       title: "Hình",
-      dataIndex: "uploadImg",
+      dataIndex: "image",
       key: "uploadImg",
       render: (src) => (
         <Image height={48} width={48} src={src} className="rounded-lg" />
@@ -33,7 +40,7 @@ const ProductTable: React.FC = () => {
     },
     {
       title: "Tiêu đề",
-      dataIndex: "title",
+      dataIndex: "name",
       key: "title",
       render: (text) => (
         <Typography.Text className=" font-medium">{text}</Typography.Text>
@@ -47,16 +54,23 @@ const ProductTable: React.FC = () => {
     {
       title: "Giá",
       key: "price",
-      dataIndex: "price",
-      render: (price) => Number(price).toLocaleString("en-US") + "đ",
+      dataIndex: "variants",
+      render: (variants) => (
+        <div>
+          {variants.map((variant: any) => (
+            <div className="flex items-center gap-4">
+              <Typography.Text className="uppercase text-text-primary font-medium">
+                {variant.size}
+              </Typography.Text>
+              <Typography.Text>
+                {Number(variant.price).toLocaleString("en-US") + "đ"}
+              </Typography.Text>
+            </div>
+          ))}
+        </div>
+      ),
     },
-    {
-      title: "Giá khuyến mãi",
-      key: "price_discount",
-      dataIndex: "priceDiscount",
-      render: (priceDiscoun) =>
-        Number(priceDiscoun).toLocaleString("en-US") + "đ",
-    },
+
     {
       title: "Hành động",
       dataIndex: "key",
@@ -89,7 +103,7 @@ const ProductTable: React.FC = () => {
       onOk: async () => {
         try {
           await deleteDoc(doc(db, "products", key));
-          setData(data.filter((item) => item.key !== key));
+          // setData(data.filter((item) => item.key !== key));
         } catch (error) {
           console.error("Error deleting document: ", error);
           Modal.error({
@@ -117,15 +131,20 @@ const ProductTable: React.FC = () => {
         } as DataType;
       });
 
-      setData(productsList);
+      // setData(productsList);
       setLoading(false);
     };
 
     fetchProducts();
   }, []);
+  console.log(listProduct);
 
   return (
-    <AppTable loading={loading} columns={columns as any} dataSource={data} />
+    <AppTable
+      loading={loading}
+      columns={columns as any}
+      dataSource={listProduct}
+    />
   );
 };
 

@@ -1,29 +1,39 @@
-import { PageCRUD } from "../../../../types/enum";
-import {
-  Row,
-  Col,
-  Form,
-  Input,
-  Collapse,
-  Upload,
-  Button,
-  FormProps,
-  Typography,
-  InputNumber,
-} from "antd";
-import EditorCustom from "../../EditorCustom";
 import { UploadOutlined } from "@ant-design/icons";
-import "./index.css";
-import { FaRegSave } from "react-icons/fa";
-import { IoReturnUpBackOutline } from "react-icons/io5";
-import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import {
+  Button,
+  Col,
+  Collapse,
+  Form,
+  FormProps,
+  Input,
+  Row,
+  Typography,
+  Upload,
+  UploadProps,
+} from "antd";
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
+import { FaRegSave, FaUpload } from "react-icons/fa";
+import { IoReturnUpBackOutline } from "react-icons/io5";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { db } from "../../../../firebase";
-import { collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { PageCRUD } from "../../../../types/enum";
 import { formatNumberPrice } from "../../../../utils/const";
+import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
 import AppInput from "../../../shared/app-input";
+import EditorCustom from "../../EditorCustom";
+import "./index.css";
+import { getBase64 } from "../../../../utils/helper/file.helper";
+import { RcFile, UploadFile } from "antd/es/upload";
+import VariantsProduct from "./components/variants-product/VariantsProduct";
+import _ from "lodash";
+import { uploadManyFiles } from "../../../../services/upload.service";
+import { createProduct } from "../../../../services/product.service";
+import {
+  notifyError,
+  notifySuccess,
+} from "../../../../utils/helper/notify.helper";
 type Props = {
   type: string;
 };
@@ -42,9 +52,40 @@ type FieldType = {
   metaKeyWord?: string;
   metaDescription?: string;
 };
+
+const normFile = (e: any) => {
+  if (Array.isArray(e)) {
+    return e;
+  }
+  return e?.fileList;
+};
+const props: UploadProps = {
+  name: "file",
+  multiple: true,
+
+  onChange(info) {
+    const { status } = info.file;
+
+    if (status === "done") {
+      // message.success(`${info.file.name} file uploaded successfully.`);
+    } else if (status === "error") {
+      // message.error(`${info.file.name} file upload failed.`);
+    }
+  },
+  beforeUpload(file) {
+    console.log(file);
+    // Prevent the upload
+    return false;
+  },
+  onDrop(e) {
+    console.log("Dropped files", e.dataTransfer.files);
+  },
+};
 const Product: React.FC<Props> = ({ type }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState("");
+
   console.log("d", setSearchParams);
   const [form] = Form.useForm();
   const summaryValue = Form.useWatch("summary", form);
@@ -55,20 +96,54 @@ const Product: React.FC<Props> = ({ type }) => {
   const refContent = useRef<any>();
   const dataCollectionRef = collection(db, "products");
   const navigate = useNavigate();
-  const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    const valueSummary = refSummary?.current?.getContent();
-    const valueContent = refContent?.current?.getContent();
-    console.log(valueSummary);
-    const productData = {
-      ...values,
-      content: valueContent,
-      summary: valueSummary,
-    };
+  const onFinish: FormProps<FieldType>["onFinish"] = async (values: any) => {
+    try {
+      const valueSummary = refSummary?.current?.getContent();
+      const valueContent = refContent?.current?.getContent();
+      console.log(values);
+      const { name, description, variants, file } = values;
 
-    if (type === PageCRUD.CREATE) {
-      handleAdd(productData);
-    } else if (type === PageCRUD.UPDATE) {
-      handleUpdate(productData);
+      const fmData = new FormData();
+      let responseImage = [];
+      const imageUrls: string[] = [];
+      if (!_.isEmpty(file)) {
+        file?.forEach((file: UploadFile) => {
+          const fileOrigin = file.originFileObj;
+          console.log(file);
+          if (fileOrigin) fmData.append("images", fileOrigin);
+          if (_.isString(file)) {
+            imageUrls.push(file);
+          }
+        });
+        // Check if FormData is not empty before making the API call
+        if (fmData.has("images")) {
+          const res = await uploadManyFiles(fmData);
+          responseImage = res.images;
+        }
+      }
+      console.log(name, description, variants);
+      await createProduct({
+        name,
+        description: valueContent,
+        variants,
+        image: responseImage?.[0],
+      });
+      form.resetFields();
+      notifySuccess("Thêm thành công");
+      return;
+      const productData = {
+        ...values,
+        content: valueContent,
+        summary: valueSummary,
+      };
+
+      if (type === PageCRUD.CREATE) {
+        handleAdd(productData);
+      } else if (type === PageCRUD.UPDATE) {
+        handleUpdate(productData);
+      }
+    } catch (error: any) {
+      notifyError(error.response.data.message);
     }
   };
 
@@ -164,8 +239,10 @@ const Product: React.FC<Props> = ({ type }) => {
   ) => {
     console.log("Failed:", errorInfo);
   };
-  const normFile = (e: any) => {
-    return e?.fileList[0].originFileObj;
+
+  const handleChange: UploadProps["onChange"] = async (info) => {
+    const url = await getBase64(info.file as RcFile);
+    setImageUrl(url);
   };
 
   useEffect(() => {
@@ -245,23 +322,51 @@ const Product: React.FC<Props> = ({ type }) => {
                   ),
                   children: (
                     <>
-                      <Form.Item<FieldType> label="Tiêu đề" name="title">
+                      <Form.Item label="Tên" name="name">
                         <Input style={{ display: "block" }} />
                       </Form.Item>
 
-                      <Form.Item name="summary" label="Tóm tắt">
+                      {/* <Form.Item name="summary" label="Tóm tắt">
                         <EditorCustom
                           initialValue={summaryValue}
                           ref={refSummary}
                           height={600}
                         />
-                      </Form.Item>
-                      <Form.Item name="content" label="Nội dung">
+                      </Form.Item> */}
+                      {/* <Form.Item name="content" label="Nội dung">
                         <EditorCustom
                           ref={refContent}
                           initialValue={contentValue}
                           height={800}
                         />
+                      </Form.Item> */}
+                      <Form.Item name="description" label="Mô tả">
+                        <EditorCustom
+                          ref={refContent}
+                          initialValue={contentValue}
+                          height={400}
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="file"
+                        label="Hình ảnh"
+                        valuePropName="file"
+                        getValueFromEvent={normFile}
+                      >
+                        <Upload
+                          name="logo"
+                          listType="picture"
+                          maxCount={1}
+                          beforeUpload={() => false}
+                          onChange={(d) => {
+                            console.log("d", d);
+                          }}
+                          {...propsUpload}
+                        >
+                          <Button icon={<UploadOutlined />}>
+                            Chọn hình ảnh
+                          </Button>
+                        </Upload>
                       </Form.Item>
                     </>
                   ),
@@ -282,6 +387,28 @@ const Product: React.FC<Props> = ({ type }) => {
                   key: "1",
                   label: (
                     <Typography.Text className="font-semibold">
+                      Thuộc tính sản phẩm
+                    </Typography.Text>
+                  ),
+                  children: (
+                    <Form.Item name="variants">
+                      <VariantsProduct />
+                    </Form.Item>
+                  ),
+                },
+              ]}
+            />
+            {/* <Collapse
+              style={{ marginTop: "10px" }}
+              defaultActiveKey={"1"}
+              bordered={false}
+              expandIconPosition="end"
+              className="shadow-lg bg-white"
+              items={[
+                {
+                  key: "1",
+                  label: (
+                    <Typography.Text className="font-semibold">
                       Lượt xem tùy chỉnh
                     </Typography.Text>
                   ),
@@ -292,7 +419,7 @@ const Product: React.FC<Props> = ({ type }) => {
                   ),
                 },
               ]}
-            />
+            /> */}
           </Col>
           <Col span={8}>
             <Collapse
