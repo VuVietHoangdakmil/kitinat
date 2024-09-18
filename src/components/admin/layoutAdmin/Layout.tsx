@@ -8,6 +8,7 @@ import "./layout.scss";
 import { FaRegUser } from "react-icons/fa";
 const { Header, Content, Sider } = Layout;
 import { useInfo } from "../../../components/provider/InfoProvider";
+import { FaStore } from "react-icons/fa";
 type Props = {
   children: React.ReactNode;
 };
@@ -25,6 +26,12 @@ const pathCusom = (pathname: string, type: "path" | "pathView") => {
       return routers.admin.blogView;
     }
     return routers.admin.blog;
+  }
+  if (pathname.startsWith(routers.admin.store)) {
+    if (type === "pathView") {
+      return routers.admin.storeView;
+    }
+    return routers.admin.store;
   }
   return pathname;
 };
@@ -83,6 +90,11 @@ const LayoutFC: React.FC<Props> = ({ children }) => {
               key: routers.admin.info,
               icon: <FaRegUser />,
               label: "Thông tin Website",
+            },
+            {
+              key: routers.admin.store,
+              icon: <FaStore />,
+              label: "Cửa hàng",
             },
             {
               key: "",

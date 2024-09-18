@@ -16,6 +16,8 @@ const BlogAdmin = lazy(() => import("./page/admin/blog"));
 const ProductDetails = lazy(() => import("./page/product/[id]"));
 const BlogDetails = lazy(() => import("./page/blog/[id]"));
 const Info = lazy(() => import("./page/admin/info"));
+const Store = lazy(() => import("./page/store"));
+const StoreAdmin = lazy(() => import("./page/admin/store"));
 const router = createBrowserRouter([
   {
     path: "/",
@@ -33,7 +35,14 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
-
+      {
+        path: routers.store,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Store />
+          </Suspense>
+        ),
+      },
       {
         path: routers.product,
         element: (
@@ -105,6 +114,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <ProductAdmin />
+          </Suspense>
+        ),
+      },
+      {
+        path: routers.admin.store + "/:type",
+        element: (
+          <Suspense fallback={<Loading />}>
+            <StoreAdmin />
           </Suspense>
         ),
       },

@@ -3,8 +3,9 @@ import { useState } from "react";
 import { FaComment, FaFacebookF, FaPhoneAlt } from "react-icons/fa";
 import { SiZalo } from "react-icons/si"; // Zalo icon from react-icons/si
 // import "./FloatingContactButtons.css"; // Import the CSS file for animations
-
+import { useInfo } from "../provider/InfoProvider";
 const FloatingContactButtons = () => {
+  const { info } = useInfo();
   const [showButtons, setShowButtons] = useState(false);
   // Animation for the buttons
   const buttonAnimation = useSpring({
@@ -22,7 +23,7 @@ const FloatingContactButtons = () => {
       {/* Floating Contact Buttons */}
       <animated.div style={buttonAnimation} className={" flex flex-col gap-4"}>
         <a
-          href="tel:0327799139"
+          href={`tel:${info?.phoneNumber}`}
           className="bg-red-500 p-4 rounded-full shadow-lg transition-transform duration-300 hover:scale-110 hover:opacity-90"
           aria-label="Phone"
         >
@@ -30,7 +31,7 @@ const FloatingContactButtons = () => {
         </a>
 
         <a
-          href="https://www.facebook.com/profile.php?id=61561891767086&mibextid=LQQJ4d"
+          href={info?.urlFacebook}
           target="_blank"
           rel="noopener noreferrer"
           className="bg-blue-500 p-4 rounded-full shadow-lg transition-transform duration-300 hover:scale-110 hover:opacity-90"
@@ -40,7 +41,7 @@ const FloatingContactButtons = () => {
         </a>
 
         <a
-          href="https://zalo.me/+84335930504" // Replace with actual Zalo link
+          href={info?.urlZalo} // Replace with actual Zalo link
           target="_blank"
           rel="noopener noreferrer"
           className="bg-blue-600 p-4 rounded-full shadow-lg transition-transform duration-300 hover:scale-110 hover:opacity-90"

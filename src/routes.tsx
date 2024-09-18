@@ -8,6 +8,7 @@ export const routers = {
   eventPage: "/tin-tuc-su-kien",
   product: "/product",
   blog: "/blog",
+  store: "/store",
   admin: {
     product: admin + "/product",
     productView: admin + `/product/${PageCRUD.VIEW}`,
@@ -20,5 +21,9 @@ export const routers = {
     blogUpdate: admin + `/blog/${PageCRUD.UPDATE}`,
 
     info: admin + "/info",
+    store: admin + "/store",
+    storeView: admin + `/store/${PageCRUD.VIEW}`,
+    storeCreate: admin + `/store/${PageCRUD.CREATE}`,
+    storeUpdate: admin + `/store/${PageCRUD.UPDATE}`,
   },
 };

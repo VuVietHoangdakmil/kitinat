@@ -5,7 +5,7 @@ import type { TableProps } from "antd";
 import { CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { routers } from "../../../../routes";
-import "./blog.css";
+import "./Store.css";
 
 import { Blog } from "../../../../types/data/blogs";
 import { firebaseService } from "../../../../service/crudFireBase";
