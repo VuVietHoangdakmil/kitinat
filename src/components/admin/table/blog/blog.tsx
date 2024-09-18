@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { FaEye, FaRegTrashAlt } from "react-icons/fa";
-import { Table, Image, Modal } from "antd";
+import { Image, Modal } from "antd";
 import type { TableProps } from "antd";
 import { CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { routers } from "../../../../routes";
 import "./blog.css";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { db } from "../../../../firebase";
-import { Blog } from "../../../../types/blogs";
 
+import { Blog } from "../../../../types/blogs";
+import { firebaseService } from "../../../../service/crudFireBase";
+import AppTable from "../../../shared/app-table";
 const ProductTable: React.FC = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<Blog[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const { remove, getData } = firebaseService;
   const columns: TableProps<Blog>["columns"] = [
     {
       title: "Hình",
@@ -128,7 +129,7 @@ const ProductTable: React.FC = () => {
       cancelText: "Không",
       onOk: async () => {
         try {
-          await deleteDoc(doc(db, "blogs", key));
+          await remove("blogs", key);
           setData(data.filter((item) => item.key !== key));
         } catch (error) {
           console.error("Error deleting document: ", error);
@@ -143,19 +144,18 @@ const ProductTable: React.FC = () => {
   useEffect(() => {
     const fetchblogs = async () => {
       setLoading(true);
-      const blogsCollection = collection(db, "blogs");
-      const blogsSnapshot = await getDocs(blogsCollection);
-      const blogsList = blogsSnapshot.docs.map((doc) => {
-        const data = doc.data() as Blog;
+      const blogs = await getData<Blog>("blogs");
+
+      const blogsCustom: Blog[] = blogs.map((item) => {
         return {
-          key: doc.id,
-          img: data.img || "",
-          title: data.title || "",
-          summary: data.summary || "",
-        } as Blog;
+          key: item.id,
+          img: item?.img ?? "",
+          title: item?.title ?? "",
+          summary: item?.summary ?? "",
+        };
       });
 
-      setData(blogsList);
+      setData(blogsCustom);
       setLoading(false);
     };
 
@@ -163,7 +163,7 @@ const ProductTable: React.FC = () => {
   }, []);
 
   return (
-    <Table
+    <AppTable
       loading={loading}
       scroll={{ y: "65vh" }}
       columns={columns}

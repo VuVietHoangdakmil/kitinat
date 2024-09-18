@@ -18,5 +18,7 @@ export const routers = {
     blogView: admin + `/blog/${PageCRUD.VIEW}`,
     blogCreate: admin + `/blog/${PageCRUD.CREATE}`,
     blogUpdate: admin + `/blog/${PageCRUD.UPDATE}`,
+
+    info: admin + "/info",
   },
 };

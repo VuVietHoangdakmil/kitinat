@@ -3,7 +3,7 @@ import { Image, Modal, Typography } from "antd";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
-import { FaEye, FaRegTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../../../firebase";
 import { routers } from "../../../../routes";

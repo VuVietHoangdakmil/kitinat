@@ -1,25 +1,25 @@
-import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
-import { db } from "../../../firebase";
+
 import { useEffect, useState } from "react";
-import { Blog } from "../../../types/blogs";
+import { Blog } from "../../../types/data/blogs";
 import TinyCss from "../../../components/provider/TinyCss";
-import { Image } from "antd";
+import { Image, Spin } from "antd";
 import parse from "html-react-parser";
 import "./index.css";
+import { firebaseService } from "../../../service/crudFireBase";
 const Detail = () => {
   const { id } = useParams();
-  const [blog, setblog] = useState<Blog>();
+  const { getById } = firebaseService;
+  const [blogData, setblogData] = useState<Blog>({});
   const [loading, setLoading] = useState<boolean>(false);
+
   const fetchblogDetails = async (blogId: string) => {
     setLoading(true);
     try {
-      const docRef = doc(db, "blogs", blogId);
-      const docSnap = await getDoc(docRef);
+      const blog = await getById<Blog>("blogs", blogId);
 
-      if (docSnap.exists()) {
-        const blogData = docSnap.data() as any;
-        setblog(blogData);
+      if (blog) {
+        setblogData(blog);
       } else {
         console.log("No such document!");
       }
@@ -33,7 +33,16 @@ const Detail = () => {
   }, [id]);
 
   if (loading) {
-    return <div style={{ minHeight: "60vh" }}></div>;
+    return (
+      <Spin
+        style={{
+          minHeight: "60vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      />
+    );
   }
   return (
     <TinyCss>
@@ -47,19 +56,19 @@ const Detail = () => {
         className="sm:w-[80%] px-3"
       >
         <div className="sm:w-10/12 mx-auto mb-10">
-          <h1>{blog?.title}</h1>
-          <p className="text-lg text-[#404040]">{blog?.summary}</p>
+          <h1>{blogData?.title}</h1>
+          <p className="text-lg text-[#404040]">{blogData?.summary}</p>
         </div>
 
         <Image
-          src={blog?.img}
+          src={blogData?.img}
           width={"100%"}
           height={600}
           preview={false}
           className="rounded-md"
         />
         <div className="sm:w-10/12  mx-auto mt-10">
-          {parse(blog?.content + "")}
+          {parse(blogData?.content + "")}
         </div>
       </div>
     </TinyCss>

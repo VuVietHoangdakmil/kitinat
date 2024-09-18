@@ -5,8 +5,9 @@ import { BiSolidDrink } from "react-icons/bi";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { TfiPencilAlt } from "react-icons/tfi";
 import "./layout.scss";
-
+import { FaRegUser } from "react-icons/fa";
 const { Header, Content, Sider } = Layout;
+import { useInfo } from "../../../components/provider/InfoProvider";
 type Props = {
   children: React.ReactNode;
 };
@@ -30,6 +31,7 @@ const pathCusom = (pathname: string, type: "path" | "pathView") => {
 const LayoutFC: React.FC<Props> = ({ children }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { info } = useInfo();
   const [collapsed, setCollapsed] = useState(false);
   const customPath = pathCusom(pathname, "path");
   useEffect(() => {
@@ -55,7 +57,7 @@ const LayoutFC: React.FC<Props> = ({ children }) => {
             justifyContent: "center",
           }}
         >
-          <img width={80} height={80} alt="" src="/img/logo.png" />
+          <img width={80} height={80} alt="" src={info?.logo} />
         </Header>
         <Menu
           onClick={({ key }) => {
@@ -76,6 +78,11 @@ const LayoutFC: React.FC<Props> = ({ children }) => {
               key: routers.admin.blog,
               icon: <TfiPencilAlt />,
               label: "Bài viết",
+            },
+            {
+              key: routers.admin.info,
+              icon: <FaRegUser />,
+              label: "Thông tin Website",
             },
             {
               key: "",

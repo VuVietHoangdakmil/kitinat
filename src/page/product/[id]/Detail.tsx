@@ -2,7 +2,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "../../../firebase";
 import { useEffect, useState } from "react";
-import { Product } from "../../../types/product";
+import { Product } from "../../../types/data/product";
 import TinyCss from "../../../components/provider/TinyCss";
 import parse from "html-react-parser";
 import "./index.css";

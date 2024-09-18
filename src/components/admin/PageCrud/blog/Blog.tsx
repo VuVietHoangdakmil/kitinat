@@ -17,9 +17,8 @@ import { IoReturnUpBackOutline } from "react-icons/io5";
 import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { db } from "../../../../firebase";
-import { collection, addDoc, doc, getDoc, updateDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+import { firebaseService } from "../../../../service/crudFireBase";
 type Props = {
   type: string;
 };
@@ -37,14 +36,14 @@ type FieldType = {
 const Product: React.FC<Props> = ({ type }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
-
+  const { upLoad, getById, update, create } = firebaseService;
   const [form] = Form.useForm();
 
   const contentValue = Form.useWatch("content", form);
   const uploadImgURL = Form.useWatch("img", form);
 
   const refContent = useRef<any>();
-  const dataCollectionRef = collection(db, "blogs");
+
   const navigate = useNavigate();
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
     const valueContent = refContent?.current?.getContent();
@@ -66,11 +65,7 @@ const Product: React.FC<Props> = ({ type }) => {
     try {
       let imageUrl = "";
       if (inputAdd.img instanceof File) {
-        const storage = getStorage();
-        const imageRef = ref(storage, `blogs/${inputAdd.img.name}`);
-
-        await uploadBytes(imageRef, inputAdd.img);
-        imageUrl = await getDownloadURL(imageRef);
+        imageUrl = await upLoad(inputAdd.img, "blogs");
       } else if (typeof inputAdd.img === "string") {
         imageUrl = inputAdd.img;
       }
@@ -86,8 +81,8 @@ const Product: React.FC<Props> = ({ type }) => {
         }
       }
 
-      const docRef = await addDoc(dataCollectionRef, BlogsData);
-      console.log("Document written with ID: ", docRef.id);
+      await create<FieldType>("blogs", BlogsData);
+
       navigate(-1);
     } catch (error) {
       console.error("Error adding document: ", error);
@@ -103,10 +98,7 @@ const Product: React.FC<Props> = ({ type }) => {
 
       let imageUrl = "";
       if (inputUpdate.img instanceof File) {
-        const storage = getStorage();
-        const imageRef = ref(storage, `blogs/${inputUpdate.img.name}`);
-        await uploadBytes(imageRef, inputUpdate.img);
-        imageUrl = await getDownloadURL(imageRef);
+        imageUrl = await upLoad(inputUpdate.img, "blogs");
       } else if (typeof inputUpdate.img === "string") {
         imageUrl = inputUpdate.img;
       }
@@ -121,10 +113,8 @@ const Product: React.FC<Props> = ({ type }) => {
           delete blogData[key];
         }
       }
+      update<FieldType>("blogs", BlogsId, blogData);
 
-      const docRef = doc(db, "blogs", BlogsId);
-      await updateDoc(docRef, blogData);
-      console.log("Document updated with ID: ", BlogsId);
       navigate(-1);
     } catch (error) {
       console.error("Error updating document: ", error);
@@ -134,12 +124,8 @@ const Product: React.FC<Props> = ({ type }) => {
 
   const fetchProductDetails = async (BlogsId: string) => {
     try {
-      const docRef = doc(db, "blogs", BlogsId);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const productData = docSnap.data() as FieldType;
-
+      const productData = await getById<FieldType>("blogs", BlogsId);
+      if (productData) {
         form.setFieldsValue(productData);
       } else {
         console.log("No such document!");

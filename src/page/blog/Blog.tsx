@@ -1,23 +1,23 @@
-import { Card, Flex, Image, List, Pagination, Row } from "antd";
+import { Card, Image, List, Pagination, Row } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { animated, useTransition } from "@react-spring/web";
-import { Blog as TypeBlog } from "../../types/blogs";
+import { Blog as TypeBlog } from "../../types/data/blogs";
 import "../../css/hidden-scroll.css";
 // Import hiệu ứng mờ khi tải
 import { useResponsive } from "../../hook/useResponsive";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
-import { routers } from "../../routes";
 
+import { routers } from "../../routes";
+import { firebaseService } from "../../service/crudFireBase";
 const pageSize = 8;
 
 const Blog = () => {
+  const { getData } = firebaseService;
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
-  const [blogs, setBlogs] = useState<Partial<TypeBlog[]>>([]);
+  const [blogs, setBlogs] = useState<TypeBlog[]>([]);
   const pageCurrent = Number(searchParams.get("page"));
   const { isMobile } = useResponsive();
   const totalPage = blogs.length;
@@ -37,14 +37,13 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       setLoading(true);
-      const BlogsCollection = collection(db, "blogs");
-      const BlogsSnapshot = await getDocs(BlogsCollection);
-      const BlogsList: any[] =
-        BlogsSnapshot.docs.map((doc) => {
-          const data = doc.data();
+      const blogs = await getData<TypeBlog>("blogs");
+
+      const BlogsList =
+        blogs.map((item) => {
           return {
-            key: doc.id,
-            ...data,
+            key: item.id,
+            ...item,
           };
         }) ?? [];
 

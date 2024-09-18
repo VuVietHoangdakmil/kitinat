@@ -7,7 +7,7 @@ import { cn } from "../../../utils/helper/class.helper";
 import { FaBars } from "react-icons/fa6";
 import FloatingContactButtons from "../../FloatingContactButtons";
 import { Drawer, Typography } from "antd";
-
+import { useInfo } from "../../provider/InfoProvider";
 type typeList = {
   label: string;
   active: boolean;
@@ -17,6 +17,7 @@ type typeList = {
 const Header: React.FC = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { info } = useInfo();
   const { isMobile } = useResponsive();
   const [open, setOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -83,7 +84,7 @@ const Header: React.FC = () => {
           <img
             width="120"
             height="120"
-            src="/img/logo.png"
+            src={info?.logo}
             loading="lazy"
             alt="ECoffeeLink Coffee logo"
           />

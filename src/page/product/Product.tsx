@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { animated, useTransition } from "@react-spring/web";
-import { Product as TypeProduct } from "../../types/product";
+import { Product as TypeProduct } from "../../types/data/product";
 
 // Import hiệu ứng mờ khi tải
 import { useResponsive } from "../../hook/useResponsive";
