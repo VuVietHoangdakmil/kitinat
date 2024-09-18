@@ -20,6 +20,7 @@ const BlogDetails = lazy(() => import("./page/blog/[id]"));
 const Info = lazy(() => import("./page/admin/info"));
 const Store = lazy(() => import("./page/store"));
 const StoreAdmin = lazy(() => import("./page/admin/store"));
+const AboutAdmin = lazy(() => import("./page/admin/about"));
 const router = createBrowserRouter([
   {
     path: "/",
@@ -156,6 +157,14 @@ const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <Info />
+          </Suspense>
+        ),
+      },
+      {
+        path: routers.admin.about,
+        element: (
+          <Suspense fallback={<Loading />}>
+            <AboutAdmin />
           </Suspense>
         ),
       },

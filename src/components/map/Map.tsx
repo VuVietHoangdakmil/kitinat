@@ -21,7 +21,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: iconShadow,
 });
 
-interface Location {
+export interface Location {
   lat: number;
   lng: number;
   name: string;
@@ -33,6 +33,7 @@ interface MapProps {
   center: L.LatLngExpression;
   zoom: number;
   onMapClick?: (lat: number, lng: number) => void;
+  disableEventHandlers?: boolean;
 }
 
 const MapEvents = ({
@@ -63,7 +64,10 @@ function ChangeView({
 }
 
 const Map = forwardRef<L.Map, MapProps>(
-  ({ style, locations, center, zoom, onMapClick }, ref) => {
+  (
+    { style, locations, center, zoom, onMapClick, disableEventHandlers },
+    ref
+  ) => {
     const mapRef = useRef<L.Map | null>(null);
 
     // Kiểm tra xem có ít nhất một vị trí hợp lệ không
@@ -98,7 +102,10 @@ const Map = forwardRef<L.Map, MapProps>(
               key={index}
               position={[location.lat, location.lng]}
               eventHandlers={{
-                click: () => handleMarkerClick(location.lat, location.lng),
+                click: () =>
+                  disableEventHandlers
+                    ? undefined
+                    : handleMarkerClick(location.lat, location.lng),
               }}
             >
               <Popup>{location.name}</Popup>

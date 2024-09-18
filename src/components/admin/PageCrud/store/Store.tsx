@@ -9,8 +9,10 @@ import {
   Upload,
   Button,
   FormProps,
+  TimePicker,
 } from "antd";
-import EditorCustom from "../../EditorCustom";
+import { createStore } from "../../../../services/stores.service";
+import { uploadManyFiles } from "../../../../services/upload.service";
 import { UploadOutlined } from "@ant-design/icons";
 import "./index.css";
 import { FaRegSave } from "react-icons/fa";
@@ -18,22 +20,15 @@ import { IoReturnUpBackOutline } from "react-icons/io5";
 import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-
+import { StoreBody } from "../../../../types/data/store";
 import { firebaseService } from "../../../../service/crudFireBase";
+import dayjs from "dayjs";
 type Props = {
   type: string;
 };
-type FieldType = {
-  title?: string;
-  summary?: string;
-  content?: string;
-
-  img?: File;
-  slug?: string;
-  metaTitle?: string;
-  metaKeyWord?: string;
-  metaDescription?: string;
-};
+interface FieldType extends Omit<StoreBody, "images"> {
+  images?: File | string;
+}
 const locations: any[] = [
   { lat: 21.0285, lng: 105.8542, name: "Hà Nội" },
   { lat: 10.8231, lng: 106.6297, name: "Hồ Chí Minh" },
@@ -42,10 +37,6 @@ const locations: any[] = [
 const Product: React.FC<Props> = ({ type }) => {
   const [center] = useState<[number, number]>([16.0544, 108.2022]);
   const [zoom] = useState(6);
-  const [clickedLocation, setClickedLocation] = useState<{
-    lat: number;
-    lng: number;
-  } | null>(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
@@ -53,9 +44,10 @@ const Product: React.FC<Props> = ({ type }) => {
   const [form] = Form.useForm();
 
   const handleMapClick = (lat: number, lng: number) => {
-    setClickedLocation({ lat, lng });
+    form.setFieldValue("latitude", lat.toFixed(4));
+    form.setFieldValue("longitude", lng.toFixed(4));
   };
-  const contentValue = Form.useWatch("content", form);
+
   const uploadImgURL = Form.useWatch("img", form);
 
   const refContent = useRef<any>();
@@ -80,24 +72,33 @@ const Product: React.FC<Props> = ({ type }) => {
     setLoading(true);
     try {
       let imageUrl = "";
-      if (inputAdd.img instanceof File) {
-        imageUrl = await upLoad(inputAdd.img, "blogs");
-      } else if (typeof inputAdd.img === "string") {
-        imageUrl = inputAdd.img;
-      }
+      if (inputAdd.images instanceof File) {
+        const formData = new FormData();
+        formData.append("images", inputAdd.images);
+        if (formData.has("images")) {
+          const resFile = await uploadManyFiles(formData);
 
-      const BlogsData = {
-        ...inputAdd,
-        img: imageUrl,
-      } as Record<string, any>;
-
-      for (const key in BlogsData) {
-        if (BlogsData[key] === undefined || BlogsData[key] === null) {
-          delete BlogsData[key];
+          imageUrl = resFile.images[0];
         }
+      } else {
+        imageUrl = inputAdd?.images ?? "";
       }
 
-      await create<FieldType>("blogs", BlogsData);
+      const storeData: StoreBody = {
+        name: inputAdd.name,
+        address: inputAdd.address,
+        phone: inputAdd.phone,
+        description: inputAdd.description,
+        email: inputAdd.email,
+        open_time: dayjs(inputAdd.open_time).format("HH:mm:ss"),
+        close_time: dayjs(inputAdd.close_time).format("HH:mm:ss"),
+        is_open: inputAdd.is_open,
+        images: imageUrl,
+        longitude: inputAdd.longitude,
+        latitude: inputAdd.latitude,
+      };
+
+      await createStore(storeData);
 
       navigate(-1);
     } catch (error) {
@@ -164,7 +165,7 @@ const Product: React.FC<Props> = ({ type }) => {
       fetchProductDetails(searchParams.get("id") || "");
     }
   }, [type, searchParams.get("id")]);
-  console.log("clickedLocation", clickedLocation);
+
   const propsUpload: any =
     uploadImgURL instanceof File || type === PageCRUD.CREATE
       ? {}
@@ -209,36 +210,27 @@ const Product: React.FC<Props> = ({ type }) => {
           </Button>
         </Config>
       </div>
-      <Map
-        style={{ height: "500px", width: "100%" }}
-        center={center}
-        zoom={zoom}
-        onMapClick={handleMapClick}
-        locations={locations}
-      />
+      <Row style={{ overflow: "auto", height: "80vh" }} gutter={20}>
+        <Col span={16}>
+          <Map
+            style={{ height: "80vh", width: "100%" }}
+            center={center}
+            zoom={zoom}
+            onMapClick={handleMapClick}
+            locations={locations}
+          />
+        </Col>
 
-      {clickedLocation && (
-        <div>
-          Vị trí được click: Lat: {clickedLocation.lat.toFixed(4)}, Lng:{" "}
-          {clickedLocation.lng.toFixed(4)}
-        </div>
-      )}
-      <Form
-        form={form}
-        layout="vertical"
-        name="basic"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-        style={{
-          overflowY: "auto",
-          height: "100vh",
-          paddingBottom: "150px",
-        }}
-      >
-        <Row gutter={20}>
-          <Col span={16}>
+        <Col span={8}>
+          <Form
+            form={form}
+            layout="vertical"
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
             <Collapse
               defaultActiveKey={"1"}
               items={[
@@ -247,94 +239,174 @@ const Product: React.FC<Props> = ({ type }) => {
                   label: "Thông tin",
                   children: (
                     <>
-                      <Form.Item<FieldType> label="Tiêu đề" name="title">
+                      <Row gutter={14}>
+                        <Col span={12}>
+                          <Form.Item
+                            rules={[
+                              {
+                                required: true,
+                                message: "Longitude không được để trống",
+                              },
+                            ]}
+                            name="longitude"
+                            label="Longitude"
+                          >
+                            <Input
+                              disabled
+                              style={{ width: "100%", height: "46px" }}
+                            />
+                          </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                          <Form.Item
+                            rules={[
+                              {
+                                required: true,
+                                message: "Latitude không được để trống",
+                              },
+                            ]}
+                            name="latitude"
+                            label="Latitude"
+                          >
+                            <Input
+                              disabled
+                              style={{ width: "100%", height: "46px" }}
+                            />
+                          </Form.Item>
+                        </Col>
+                      </Row>
+                      <Form.Item<FieldType>
+                        rules={[
+                          {
+                            required: true,
+                            message: "Tên cửa hàng không được để trống",
+                          },
+                        ]}
+                        label="Tên cửa hàng"
+                        name="name"
+                      >
                         <Input style={{ display: "block" }} />
                       </Form.Item>
 
-                      <Form.Item name="summary" label="Tóm tắt">
-                        <Input.TextArea style={{ height: "200px" }} />
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: "Địa chỉ không được để trống",
+                          },
+                        ]}
+                        name="address"
+                        label="Địa chỉ"
+                      >
+                        <Input.TextArea style={{ height: "100px" }} />
                       </Form.Item>
-                      <Form.Item name="content" label="Nội dung">
-                        <EditorCustom
-                          ref={refContent}
-                          initialValue={contentValue}
-                          height={800}
-                        />
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: "Mô tả không được để trống",
+                          },
+                        ]}
+                        name="description"
+                        label="Mô tả"
+                      >
+                        <Input.TextArea style={{ height: "100px" }} />
                       </Form.Item>
-                    </>
-                  ),
-                },
-              ]}
-            />
-          </Col>
-          <Col span={8}>
-            <Collapse
-              defaultActiveKey={"1"}
-              items={[
-                {
-                  key: "1",
-                  label: "Hình ảnh",
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: "Số điện thoại không được để trống",
+                          },
+                        ]}
+                        name="phone"
+                        label="Số điện thoại"
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: "Email không được để trống",
+                            type: "email",
+                          },
+                        ]}
+                        name="email"
+                        label="Email"
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Row gutter={14}>
+                        <Col span={12}>
+                          <Form.Item
+                            rules={[
+                              {
+                                required: true,
+                                message: "Giờ mở cửa không được để trống",
+                                type: "object",
+                              },
+                            ]}
+                            name="open_time"
+                            label="Giờ mở cửa"
+                          >
+                            <TimePicker
+                              style={{ width: "100%", height: "46px" }}
+                            />
+                          </Form.Item>
+                        </Col>
+                        <Col span={12}>
+                          <Form.Item
+                            rules={[
+                              {
+                                required: true,
+                                message: "Giờ đóng cửa không được để trống",
+                                type: "object",
+                              },
+                            ]}
+                            name="close_time"
+                            label="Giờ đóng cửa"
+                          >
+                            <TimePicker
+                              style={{ width: "100%", height: "46px" }}
+                            />
+                          </Form.Item>
+                        </Col>
+                      </Row>
 
-                  children: (
-                    <Form.Item<FieldType>
-                      name="img"
-                      label="Hình ảnh"
-                      valuePropName="file"
-                      getValueFromEvent={normFile}
-                    >
-                      <Upload
-                        name="logo"
-                        listType="picture"
-                        maxCount={1}
-                        beforeUpload={() => false}
-                        onChange={(d) => {
-                          console.log("d", d);
-                        }}
-                        {...propsUpload}
+                      <Form.Item
+                        rules={[
+                          {
+                            type: "object",
+                            required: true,
+                            message: "Hình ảnh không được để trống",
+                          },
+                        ]}
+                        name="images"
+                        label="Hình ảnh"
+                        valuePropName="file"
+                        getValueFromEvent={normFile}
                       >
-                        <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
-                      </Upload>
-                    </Form.Item>
-                  ),
-                },
-              ]}
-            />
-            <Collapse
-              style={{ marginTop: "10px" }}
-              defaultActiveKey={"1"}
-              items={[
-                {
-                  key: "1",
-                  label: "SEO",
-                  children: (
-                    <>
-                      <Form.Item<FieldType> label="Slug" name="slug">
-                        <Input style={{}} />
-                      </Form.Item>
-                      <Form.Item<FieldType> label="Meta title" name="metaTitle">
-                        <Input style={{}} />
-                      </Form.Item>
-                      <Form.Item<FieldType>
-                        label="Meta Keyword"
-                        name="metaKeyWord"
-                      >
-                        <Input style={{}} />
-                      </Form.Item>
-                      <Form.Item<FieldType>
-                        label="Meta Description"
-                        name="metaDescription"
-                      >
-                        <Input.TextArea style={{ height: "150px" }} />
+                        <Upload
+                          name="Hình ảnh"
+                          listType="picture"
+                          maxCount={1}
+                          beforeUpload={() => false}
+                          {...propsUpload}
+                        >
+                          <Button icon={<UploadOutlined />}>
+                            Chọn hình ảnh
+                          </Button>
+                        </Upload>
                       </Form.Item>
                     </>
                   ),
                 },
               ]}
             />
-          </Col>
-        </Row>
-        <></>
-      </Form>
+          </Form>
+        </Col>
+      </Row>
     </>
   );
 };

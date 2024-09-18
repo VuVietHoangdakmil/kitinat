@@ -5,10 +5,10 @@ import { BiSolidDrink } from "react-icons/bi";
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { TfiPencilAlt } from "react-icons/tfi";
 import "./layout.scss";
-import { FaRegUser } from "react-icons/fa";
+import { FaRegUser, FaStore } from "react-icons/fa";
 const { Header, Content, Sider } = Layout;
 import { useInfo } from "../../../components/provider/InfoProvider";
-import { FaStore } from "react-icons/fa";
+import { MdWeb } from "react-icons/md";
 type Props = {
   children: React.ReactNode;
 };
@@ -111,17 +111,17 @@ const LayoutFC: React.FC<Props> = ({ children }) => {
             },
             {
               key: routers.admin.info,
-              icon: <FaRegUser />,
+              icon: <MdWeb />,
               label: "Thông tin Website",
             },
             {
-              key: routers.admin.store,
+              key: routers.admin.storeView,
               icon: <FaStore />,
               label: "Cửa hàng",
             },
             {
-              key: "",
-
+              key: routers.admin.about,
+              icon: <FaRegUser />,
               label: "Về chúng tôi",
             },
           ]}

@@ -1,14 +1,18 @@
 import { useRef, forwardRef, useImperativeHandle } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import { Editor as TinyMCEEditor } from "tinymce";
-import { firebaseService } from "../../../service/crudFireBase";
+
+import useFormInstance from "antd/es/form/hooks/useFormInstance";
+import { uploadManyFiles } from "../../../services/upload.service";
 
 type Props = {
   initialValue?: string;
   height?: number;
+  nameForm?: string[];
 };
 const EditorCustom = forwardRef<any, Props>(
-  ({ initialValue, height = 500 }, ref) => {
+  ({ initialValue, height = 500, nameForm }, ref) => {
+    const form = useFormInstance();
     const editorRef = useRef<TinyMCEEditor>();
     useImperativeHandle(ref, () => ({
       getContent: () => {
@@ -19,6 +23,9 @@ const EditorCustom = forwardRef<any, Props>(
 
     return (
       <Editor
+        onChange={(e: any) => {
+          form.setFieldValue(nameForm, e.level.content);
+        }}
         apiKey="3qqcz9fjuhbmqgqdy3ujxx4oyt1jgm986gq6o52dzmrba3cu"
         onInit={(_evt, editor) => (editorRef.current = editor)}
         initialValue={initialValue}
@@ -65,8 +72,13 @@ const EditorCustom = forwardRef<any, Props>(
                 const file = target.files?.[0];
                 if (file) {
                   try {
-                    const url = await firebaseService.upLoad(file, "products");
-                    cb(url, { title: file.name });
+                    const formData = new FormData();
+                    formData.append("images", file);
+                    if (formData.has("images")) {
+                      const resFile = await uploadManyFiles(formData);
+                      const url = resFile.images[0];
+                      cb(url, { title: file.name });
+                    }
                   } catch (error) {
                     console.error("Upload failed:", error);
                     // Xử lý lỗi ở đây (ví dụ: hiển thị thông báo cho người dùng)

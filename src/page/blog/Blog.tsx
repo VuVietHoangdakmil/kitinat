@@ -1,4 +1,4 @@
-import { Card, Image, List, Pagination, Row } from "antd";
+import { Card, Image, List, Pagination } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -9,11 +9,11 @@ import "../../css/hidden-scroll.css";
 import { useResponsive } from "../../hook/useResponsive";
 
 import { routers } from "../../routes";
-import { firebaseService } from "../../service/crudFireBase";
+
+import { getBlog } from "../../services/blog.service";
 const pageSize = 8;
 
 const Blog = () => {
-  const { getData } = firebaseService;
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,10 +37,10 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlogs = async () => {
       setLoading(true);
-      const blogs = await getData<TypeBlog>("blogs");
+      const blogs = (await getBlog()) as any;
 
-      const BlogsList =
-        blogs.map((item) => {
+      const BlogsList: TypeBlog[] =
+        blogs.map((item: any) => {
           return {
             key: item.id,
             ...item,
@@ -68,58 +68,54 @@ const Blog = () => {
 
       {transitions((style) => (
         <animated.div style={style}>
-          <Row style={{ zIndex: 1 }}>
-            <List
-              dataSource={data}
-              grid={{
-                gutter: [28, 14],
-                xs: 1,
-                sm: 2,
-                md: 2,
-                lg: 3,
-                xl: 3,
-                xxl: 3,
-              }}
-              renderItem={(item, index) => {
-                return (
-                  <List.Item key={index}>
-                    <Card
-                      hoverable
-                      onClick={() => navigate(routers.blog + "/" + item?.key)}
-                      style={{
-                        overflow: "hidden",
-                        width: "100%",
-                        border: "1px #ebebeb solid ",
-                      }}
-                      cover={
-                        <Image
-                          style={{
-                            height: "250px",
-                            width: "100%",
-
-                            borderRadius: "0px",
-                          }}
-                          alt=""
-                          loading="lazy"
-                          src={item?.img}
-                          preview={false}
-                          className=" rounded-2xl "
-                        />
-                      }
-                    >
-                      <div className="h-[250px] container-hidden-scroll">
-                        <h1>{item?.title}</h1>
-                        <p className="text-[16px] text-[#404040]">
-                          {item?.summary}
-                        </p>
-                      </div>
-                    </Card>
-                  </List.Item>
-                );
-              }}
-              loading={loading}
-            />
-          </Row>
+          <List
+            dataSource={data}
+            grid={{
+              gutter: [28, 14],
+              xs: 1,
+              sm: 2,
+              md: 2,
+              lg: 3,
+              xl: 3,
+              xxl: 3,
+            }}
+            renderItem={(item, index) => {
+              return (
+                <List.Item key={index}>
+                  <Card
+                    hoverable
+                    onClick={() => navigate(routers.blog + "/" + item?.key)}
+                    style={{
+                      overflow: "hidden",
+                      width: "100%",
+                      border: "1px #ebebeb solid ",
+                    }}
+                    cover={
+                      <Image
+                        style={{
+                          height: "250px",
+                          width: "100%",
+                          objectFit: "cover",
+                        }}
+                        alt=""
+                        loading="lazy"
+                        src={item?.img}
+                        preview={false}
+                      />
+                    }
+                  >
+                    <div className="h-[250px] container-hidden-scroll">
+                      <h1>{item?.title}</h1>
+                      <p className="text-[16px] text-[#404040]">
+                        {item?.summary}
+                      </p>
+                    </div>
+                  </Card>
+                </List.Item>
+              );
+            }}
+            loading={loading}
+          />
         </animated.div>
       ))}
 

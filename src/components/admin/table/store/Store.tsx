@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { FaEye, FaRegTrashAlt } from "react-icons/fa";
-import { Image, Modal } from "antd";
+import { Image, Modal, Tag } from "antd";
 import type { TableProps } from "antd";
 import { CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { routers } from "../../../../routes";
 import "./Store.css";
+import { Store } from "../../../../types/data/store";
+import { getStore, deleteStore } from "../../../../services/stores.service";
 
-import { Blog } from "../../../../types/data/blogs";
-import { firebaseService } from "../../../../service/crudFireBase";
 import AppTable from "../../../shared/app-table";
 const ProductTable: React.FC = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState<Blog[]>([]);
+  const [data, setData] = useState<Store[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const { remove, getData } = firebaseService;
-  const columns: TableProps<Blog>["columns"] = [
+
+  const columns: TableProps<Store>["columns"] = [
     {
-      title: "Hình",
-      dataIndex: "img",
-      key: "img",
+      title: "Hình ảnh",
+      dataIndex: "images",
+      key: "images",
       width: "200px",
       render: (src) => (
         <Image
@@ -32,18 +32,30 @@ const ProductTable: React.FC = () => {
       align: "center",
     },
     {
-      title: "Tiêu đề",
-      dataIndex: "title",
-      key: "title",
+      title: "Tên cửa hàng",
+      dataIndex: "name",
+      key: "name",
       align: "center",
     },
     {
-      title: "Tóm tắt",
-      dataIndex: "summary",
-      key: "summary",
+      title: "Địa chỉ",
+      dataIndex: "address",
+      key: "address",
       align: "center",
     },
-
+    {
+      title: "Trạng thái",
+      dataIndex: "is_open",
+      key: "is_open",
+      align: "center",
+      render: (is_open) => {
+        return is_open ? (
+          <Tag color="green">Mở cửa</Tag>
+        ) : (
+          <Tag color="red">Đóng cửa</Tag>
+        );
+      },
+    },
     {
       width: "200px",
       title: "Hành động",
@@ -74,7 +86,7 @@ const ProductTable: React.FC = () => {
               <FaEye />
             </button>
             <button
-              onClick={() => navigate(routers.admin.blogUpdate + "?id=" + key)}
+              onClick={() => navigate(routers.admin.storeUpdate + "?id=" + key)}
               className="action-btn"
               style={{
                 backgroundColor: "#416dea",
@@ -122,15 +134,15 @@ const ProductTable: React.FC = () => {
   ];
   const handleDelete = (key: string) => {
     Modal.confirm({
-      title: "Bạn có muốn xóa sản phẩm này không?",
+      title: "Bạn có muốn xóa cửa này không?",
 
       okText: "Có",
       okType: "danger",
       cancelText: "Không",
       onOk: async () => {
         try {
-          await remove("blogs", key);
-          setData(data.filter((item) => item.key !== key));
+          await deleteStore(Number(key));
+          setData(data.filter((item) => item?.key + "" !== key));
         } catch (error) {
           console.error("Error deleting document: ", error);
           Modal.error({
@@ -144,18 +156,20 @@ const ProductTable: React.FC = () => {
   useEffect(() => {
     const fetchblogs = async () => {
       setLoading(true);
-      const blogs = await getData<Blog>("blogs");
-      console.log(blogs);
-      const blogsCustom: Blog[] = blogs.map((item) => {
+      const stores = (await getStore()) as any;
+
+      const storesCustom: Store[] = stores.map((store: Store) => {
         return {
-          key: item.key,
-          img: item?.img ?? "",
-          title: item?.title ?? "",
-          summary: item?.summary ?? "",
+          key: store.key,
+          name: store.name,
+          address: store.address,
+
+          is_open: store.is_open,
+          images: store.images,
         };
       });
 
-      setData(blogsCustom);
+      setData(storesCustom);
       setLoading(false);
     };
 

@@ -16,9 +16,15 @@ import { FaRegSave } from "react-icons/fa";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { uploadManyFiles } from "../../../../services/upload.service";
+import {
+  createBlog,
+  getBlogById,
+  updateBlog,
+} from "../../../../services/blog.service";
 
-import { firebaseService } from "../../../../service/crudFireBase";
+import { BlogBody } from "../../../../types/data/blogs";
 type Props = {
   type: string;
 };
@@ -36,21 +42,16 @@ type FieldType = {
 const Product: React.FC<Props> = ({ type }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
-  const { upLoad, getById, update, create } = firebaseService;
+  // const { upLoad, getById, update, create } = firebaseService;
   const [form] = Form.useForm();
 
   const contentValue = Form.useWatch("content", form);
   const uploadImgURL = Form.useWatch("img", form);
 
-  const refContent = useRef<any>();
-
   const navigate = useNavigate();
   const onFinish: FormProps<FieldType>["onFinish"] = (values) => {
-    const valueContent = refContent?.current?.getContent();
-
     const productData = {
       ...values,
-      content: valueContent,
     };
 
     if (type === PageCRUD.CREATE) {
@@ -65,23 +66,31 @@ const Product: React.FC<Props> = ({ type }) => {
     try {
       let imageUrl = "";
       if (inputAdd.img instanceof File) {
-        imageUrl = await upLoad(inputAdd.img, "blogs");
-      } else if (typeof inputAdd.img === "string") {
-        imageUrl = inputAdd.img;
-      }
+        const formData = new FormData();
+        formData.append("images", inputAdd.img);
+        if (formData.has("images")) {
+          const resFile = await uploadManyFiles(formData);
 
-      const BlogsData = {
-        ...inputAdd,
-        img: imageUrl,
-      } as Record<string, any>;
-
-      for (const key in BlogsData) {
-        if (BlogsData[key] === undefined || BlogsData[key] === null) {
-          delete BlogsData[key];
+          imageUrl = resFile.images[0];
         }
+      } else {
+        imageUrl = inputAdd?.img ?? "";
       }
 
-      await create<FieldType>("blogs", BlogsData);
+      const body: BlogBody = {
+        img: imageUrl,
+        title: inputAdd.title ?? "",
+        summary: inputAdd.summary ?? "",
+        content: inputAdd.content ?? "",
+        seo: {
+          slug: inputAdd.slug ?? "",
+          meta_title: inputAdd.metaTitle ?? "",
+          meta_keyword: inputAdd.metaKeyWord ?? "",
+          meta_description: inputAdd.metaDescription ?? "",
+        },
+      };
+      const res = await createBlog(body);
+      console.log("res", res);
 
       navigate(-1);
     } catch (error) {
@@ -98,22 +107,38 @@ const Product: React.FC<Props> = ({ type }) => {
 
       let imageUrl = "";
       if (inputUpdate.img instanceof File) {
-        imageUrl = await upLoad(inputUpdate.img, "blogs");
-      } else if (typeof inputUpdate.img === "string") {
-        imageUrl = inputUpdate.img;
-      }
+        const formData = new FormData();
+        formData.append("images", inputUpdate.img);
+        if (formData.has("images")) {
+          const resFile = await uploadManyFiles(formData);
 
-      const blogData = {
-        ...inputUpdate,
-        img: imageUrl,
-      } as Record<string, any>;
-
-      for (const key in blogData) {
-        if (blogData[key] === undefined || blogData[key] === null) {
-          delete blogData[key];
+          imageUrl = resFile.images[0];
         }
+      } else {
+        imageUrl = inputUpdate?.img ?? "";
       }
-      update<FieldType>("blogs", BlogsId, blogData);
+
+      const body: BlogBody = {
+        img: imageUrl,
+        title: inputUpdate.title ?? "",
+        summary: inputUpdate.summary ?? "",
+        content: inputUpdate.content ?? "",
+        seo: {
+          slug: inputUpdate.slug ?? "",
+          meta_title: inputUpdate.metaTitle ?? "",
+          meta_keyword: inputUpdate.metaKeyWord ?? "",
+          meta_description: inputUpdate.metaDescription ?? "",
+        },
+      };
+
+      // for (const key in blogData) {
+      //   if (blogData[key] === undefined || blogData[key] === null) {
+      //     delete blogData[key];
+      //   }
+      // }
+      // update<FieldType>("blogs", BlogsId, blogData);
+      const res = await updateBlog(Number(BlogsId), body);
+      console.log("res", res);
 
       navigate(-1);
     } catch (error) {
@@ -124,12 +149,14 @@ const Product: React.FC<Props> = ({ type }) => {
 
   const fetchProductDetails = async (BlogsId: string) => {
     try {
-      const productData = await getById<FieldType>("blogs", BlogsId);
-      if (productData) {
-        form.setFieldsValue(productData);
-      } else {
-        console.log("No such document!");
-      }
+      // const productData = await getById<FieldType>("blogs", BlogsId);
+      const res = await getBlogById(Number(BlogsId));
+      console.log("res", res);
+      // if (productData) {
+      //   // form.setFieldsValue(productData);
+      // } else {
+      //   console.log("No such document!");
+      // }
     } catch (error) {
       console.error("Error fetching product details: ", error);
     }
@@ -202,7 +229,7 @@ const Product: React.FC<Props> = ({ type }) => {
         autoComplete="off"
         style={{
           overflowY: "auto",
-          height: "100vh",
+          height: "80vh",
           paddingBottom: "150px",
         }}
       >
@@ -216,18 +243,45 @@ const Product: React.FC<Props> = ({ type }) => {
                   label: "Thông tin",
                   children: (
                     <>
-                      <Form.Item<FieldType> label="Tiêu đề" name="title">
+                      <Form.Item<FieldType>
+                        label="Tiêu đề"
+                        name="title"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập tiêu đề",
+                          },
+                        ]}
+                      >
                         <Input style={{ display: "block" }} />
                       </Form.Item>
 
-                      <Form.Item name="summary" label="Tóm tắt">
+                      <Form.Item
+                        name="summary"
+                        label="Tóm tắt"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập tóm tắt",
+                          },
+                        ]}
+                      >
                         <Input.TextArea style={{ height: "200px" }} />
                       </Form.Item>
-                      <Form.Item name="content" label="Nội dung">
+                      <Form.Item
+                        name="content"
+                        label="Nội dung"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập nội dung",
+                          },
+                        ]}
+                      >
                         <EditorCustom
-                          ref={refContent}
                           initialValue={contentValue}
                           height={800}
+                          nameForm={["content"]}
                         />
                       </Form.Item>
                     </>
@@ -250,6 +304,13 @@ const Product: React.FC<Props> = ({ type }) => {
                       label="Hình ảnh"
                       valuePropName="file"
                       getValueFromEvent={normFile}
+                      rules={[
+                        {
+                          required: true,
+                          message: "Vui lòng chọn hình ảnh",
+                          type: "object",
+                        },
+                      ]}
                     >
                       <Upload
                         name="logo"
@@ -277,21 +338,51 @@ const Product: React.FC<Props> = ({ type }) => {
                   label: "SEO",
                   children: (
                     <>
-                      <Form.Item<FieldType> label="Slug" name="slug">
+                      <Form.Item<FieldType>
+                        label="Slug"
+                        name="slug"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập slug",
+                          },
+                        ]}
+                      >
                         <Input style={{}} />
                       </Form.Item>
-                      <Form.Item<FieldType> label="Meta title" name="metaTitle">
+                      <Form.Item<FieldType>
+                        label="Meta title"
+                        name="metaTitle"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập meta title",
+                          },
+                        ]}
+                      >
                         <Input style={{}} />
                       </Form.Item>
                       <Form.Item<FieldType>
                         label="Meta Keyword"
                         name="metaKeyWord"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập meta keyword",
+                          },
+                        ]}
                       >
                         <Input style={{}} />
                       </Form.Item>
                       <Form.Item<FieldType>
                         label="Meta Description"
                         name="metaDescription"
+                        rules={[
+                          {
+                            required: true,
+                            message: "Vui lòng nhập meta description",
+                          },
+                        ]}
                       >
                         <Input.TextArea style={{ height: "150px" }} />
                       </Form.Item>

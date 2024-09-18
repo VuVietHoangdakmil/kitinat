@@ -6,15 +6,15 @@ import { CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { routers } from "../../../../routes";
 import "./blog.css";
-
+import { getBlog, deleteBlog } from "../../../../services/blog.service";
 import { Blog } from "../../../../types/data/blogs";
-import { firebaseService } from "../../../../service/crudFireBase";
+
 import AppTable from "../../../shared/app-table";
 const ProductTable: React.FC = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<Blog[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const { remove, getData } = firebaseService;
+
   const columns: TableProps<Blog>["columns"] = [
     {
       title: "Hình",
@@ -129,7 +129,7 @@ const ProductTable: React.FC = () => {
       cancelText: "Không",
       onOk: async () => {
         try {
-          await remove("blogs", key);
+          await deleteBlog(Number(key));
           setData(data.filter((item) => item.key !== key));
         } catch (error) {
           console.error("Error deleting document: ", error);
@@ -144,9 +144,9 @@ const ProductTable: React.FC = () => {
   useEffect(() => {
     const fetchblogs = async () => {
       setLoading(true);
-      const blogs = await getData<Blog>("blogs");
-      console.log(blogs);
-      const blogsCustom: Blog[] = blogs.map((item) => {
+      const blogs: Blog[] = (await getBlog()) as any;
+
+      const blogsCustom: Blog[] = blogs.map((item: any) => {
         return {
           key: item.key,
           img: item?.img ?? "",

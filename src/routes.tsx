@@ -31,6 +31,7 @@ export const routers = {
     blogUpdate: admin + `/blog/${PageCRUD.UPDATE}`,
 
     info: admin + "/info",
+    about: admin + "/about",
     store: admin + "/store",
     storeView: admin + `/store/${PageCRUD.VIEW}`,
     storeCreate: admin + `/store/${PageCRUD.CREATE}`,
