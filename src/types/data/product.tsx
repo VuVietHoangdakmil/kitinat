@@ -18,3 +18,13 @@ export type StoreCreateMenuProduct = {
   index: number;
   type: string;
 };
+
+export type StoreCreateProduct = {
+  image: string;
+  name: string;
+  description: string;
+  variants: {
+    size: string;
+    price: number;
+  };
+};
