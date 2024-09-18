@@ -1,4 +1,4 @@
-import { List, Row } from "antd";
+import { Col, List, Row, Typography } from "antd";
 
 const Content3 = () => {
   const coffeeImages = [
@@ -9,12 +9,19 @@ const Content3 = () => {
 
   return (
     <Row gutter={22}>
+      <Col span={24}>
+        <div className="flex flex-col justify-center items-center ">
+          <Typography.Title style={{ color: " var(--primary-color)" }}>
+            Best Seller
+          </Typography.Title>
+        </div>
+      </Col>
       <List
         className=" w-full"
         dataSource={coffeeImages}
-        grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 2, xl: 3, xxl: 3 }}
+        grid={{ gutter: [40, 40], xs: 1, sm: 1, md: 1, lg: 2, xl: 3, xxl: 3 }}
         renderItem={(image, index) => (
-          <List.Item className="w-full" key={index}>
+          <List.Item className="w-full max-w-[38rem]" key={index}>
             <h1
               style={{
                 color: "var(--primary-color)",
@@ -27,7 +34,7 @@ const Content3 = () => {
             <div
               className="css-background-img transform transition-transform duration-500 ease-in-out hover:-translate-y-5 cursor-pointer"
               style={{
-                height: "500px",
+                height: "450px",
                 backgroundImage: `url(${image})`,
               }}
             ></div>
