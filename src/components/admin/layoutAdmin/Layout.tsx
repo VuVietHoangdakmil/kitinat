@@ -27,11 +27,17 @@ const pathCusom = (pathname: string, type: "path" | "pathView") => {
     }
     return routers.admin.blog;
   }
-  if (pathname.startsWith(routers.admin.store)) {
+  if (pathname.startsWith(routers.admin.menu)) {
     if (type === "pathView") {
-      return routers.admin.storeView;
+      return routers.admin.menuView;
     }
-    return routers.admin.store;
+    return routers.admin.menu;
+  }
+  if (pathname.startsWith(routers.admin.category)) {
+    if (type === "pathView") {
+      return routers.admin.categoryView;
+    }
+    return routers.admin.category;
   }
   return pathname;
 };
@@ -80,6 +86,23 @@ const LayoutFC: React.FC<Props> = ({ children }) => {
               key: routers.admin.product,
               icon: <BiSolidDrink />,
               label: "Sản phẩm",
+              children: [
+                {
+                  key: routers.admin.product,
+                  icon: <BiSolidDrink />,
+                  label: "Sản phẩm",
+                },
+                {
+                  key: routers.admin.category,
+                  icon: <BiSolidDrink />,
+                  label: "Danh mục",
+                },
+                {
+                  key: routers.admin.menu,
+                  icon: <BiSolidDrink />,
+                  label: "Menu",
+                },
+              ],
             },
             {
               key: routers.admin.blog,

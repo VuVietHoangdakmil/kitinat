@@ -28,21 +28,29 @@ const ContentLeft = () => {
         {item.type === "text" && (
           <div style={{ color: " var(--primary-color)" }}>
             <Typography.Title
+              level={1}
               className="text-text-primary"
               style={{ color: " var(--primary-color)" }}
             >
               Về chúng tôi
             </Typography.Title>
-            <h2 className="my-5">
+            <Typography.Title
+              level={3}
+              className="my-5"
+              style={{ color: " var(--primary-color)" }}
+            >
               ECoffeeLink Coffee & Tea House – HÀNH TRÌNH CHINH PHỤC PHONG VỊ
               MỚI
-            </h2>
-            <h3>
+            </Typography.Title>
+            <Typography.Title
+              level={5}
+              style={{ color: " var(--primary-color)" }}
+            >
               Hành trình luôn bắt đầu từ việc chọn lựa nguyên liệu kỹ càng từ
               các vùng đất trù phú, cho đến việc bảo quản, pha chế từ bàn tay
               nghệ nhân. Qua những nỗ lực không ngừng, ECoffeeLink luôn hướng
               đến...
-            </h3>
+            </Typography.Title>
           </div>
         )}
         {item.type === "button" && (
