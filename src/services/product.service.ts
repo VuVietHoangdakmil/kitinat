@@ -1,9 +1,15 @@
 import axiosClient from "../libs/axios";
-import { StoreCreateMenuProduct } from "../types/data/product";
+import {
+  StoreCreateMenuProduct,
+  StoreCreateProduct,
+} from "../types/data/product";
 
-export const getProducts = async () => {
-  const { data } = await axiosClient.get(import.meta.env.VITE_APP_API_PRODUCT);
-  return data;
+export const getListProducts = async () => {
+  return await axiosClient.get(import.meta.env.VITE_APP_API_PRODUCT);
+};
+
+export const createProduct = async (body: StoreCreateProduct) => {
+  return await axiosClient.post(import.meta.env.VITE_APP_API_PRODUCT, body);
 };
 export const createMenu = async (body: StoreCreateMenuProduct) => {
   return axiosClient.post(import.meta.env.VITE_APP_API_MENU_PRODUCT, body);

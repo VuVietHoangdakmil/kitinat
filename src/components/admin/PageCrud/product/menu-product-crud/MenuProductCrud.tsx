@@ -16,6 +16,10 @@ import { FaUpload } from "react-icons/fa6";
 import _ from "lodash";
 import { uploadManyFiles } from "../../../../../services/upload.service";
 import { createMenu } from "../../../../../services/product.service";
+import {
+  notifyError,
+  notifySuccess,
+} from "../../../../../utils/helper/notify.helper";
 const normFile = (e: any) => {
   if (Array.isArray(e)) {
     return e;
@@ -80,8 +84,10 @@ const MenuProductCrud: React.FC<Props> = () => {
         });
         form.resetFields();
       }
+      notifySuccess("Thêm thành công");
     } catch (error: any) {
       console.log(error);
+      notifyError(error.response.data.message);
     }
   };
   return (
