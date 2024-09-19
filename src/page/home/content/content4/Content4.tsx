@@ -6,6 +6,8 @@ import { Row, Col, Button, Typography } from "antd";
 import ExitAnimation from "../../../../components/ExitAnimation";
 import { EmblaOptionsType } from "embla-carousel";
 import { silde } from "../../../../components/ExitAnimation/ExitAnimation";
+import { routers } from "../../../../routes";
+import { useNavigate } from "react-router-dom";
 const listTrantions = [
   { from: { transform: "translate3d(0,-100%,0)" }, type: "text" },
   { from: { transform: "translate3d(0,200%,0)" }, type: "button" },
@@ -13,7 +15,7 @@ const listTrantions = [
 
 const ContentLeft = () => {
   const transRef = useSpringRef();
-
+  const navigate = useNavigate();
   const transitions = useTransition(listTrantions, {
     ref: transRef,
     keys: null,
@@ -46,6 +48,7 @@ const ContentLeft = () => {
         )}
         {item.type === "button" && (
           <Button
+            onClick={() => navigate(routers.store)}
             style={{ width: "165px", height: "40px", marginTop: "50px" }}
             className="material-bubble"
           >

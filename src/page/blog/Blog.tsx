@@ -76,8 +76,8 @@ const Blog = () => {
               sm: 2,
               md: 2,
               lg: 3,
-              xl: 4,
-              xxl: 4,
+              xl: 3,
+              xxl: 3,
             }}
             renderItem={(item, index) => {
               return (
@@ -89,6 +89,7 @@ const Blog = () => {
                       overflow: "hidden",
                       width: "100%",
                       border: "1px #ebebeb solid ",
+                      height: "500px",
                     }}
                     className="hover:border-border-color hover:shadow-none shadow-lg bg-card  cursor-pointer transition-all"
                     cover={
