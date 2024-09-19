@@ -161,18 +161,7 @@ const Product: React.FC<Props> = ({ type }) => {
           metaKeyWord: data?.seo?.meta_keyword,
           metaDescription: data?.seo?.meta_description,
         };
-        const dataBlogDataBase: BlogBody = {
-          img: data.img ?? "",
-          title: data.title ?? "",
-          summary: data.summary ?? "",
-          content: data.content ?? "",
-          seo: {
-            slug: data.seo?.slug ?? "",
-            meta_title: data.seo?.meta_title ?? "",
-            meta_keyword: data.seo?.meta_keyword ?? "",
-            meta_description: data.seo?.meta_description ?? "",
-          },
-        };
+
         form.setFieldsValue(dataBlog);
       } else {
         console.log("No such document!");
