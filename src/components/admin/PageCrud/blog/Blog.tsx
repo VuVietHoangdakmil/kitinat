@@ -44,6 +44,7 @@ type FieldType = {
 const Product: React.FC<Props> = ({ type }) => {
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingImg, setLoadingImg] = useState<boolean>(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
   const error = (message: string) => {
@@ -69,19 +70,20 @@ const Product: React.FC<Props> = ({ type }) => {
   };
 
   const handleAdd = async (inputAdd: any) => {
+    console.log("inputAdd", inputAdd);
     setLoading(true);
     try {
-      let imageUrl = { src: "" };
+      let imageUrl = "";
       if (inputAdd.img instanceof File) {
         const formData = new FormData();
         formData.append("images", inputAdd.img);
         if (formData.has("images")) {
           const resFile = await uploadManyFiles(formData);
 
-          imageUrl = { src: resFile.images[0] };
+          imageUrl = resFile.images[0];
         }
       } else {
-        imageUrl = { src: inputAdd?.img?.src ?? "" };
+        imageUrl = inputAdd?.img;
       }
 
       const body: BlogBody = {
@@ -107,6 +109,7 @@ const Product: React.FC<Props> = ({ type }) => {
   };
 
   const handleUpdate = async (inputUpdate: FieldType) => {
+    console.log("inputUpdate", inputUpdate);
     setLoading(true);
     try {
       const BlogsId = searchParams.get("id");
@@ -150,6 +153,7 @@ const Product: React.FC<Props> = ({ type }) => {
   };
 
   const fetchProductDetails = async (BlogsId: string) => {
+    setLoadingImg(true);
     try {
       const res = (await getBlogById(Number(BlogsId))) as any;
       const data: Blog = res;
@@ -169,6 +173,7 @@ const Product: React.FC<Props> = ({ type }) => {
     } catch (error) {
       console.error("Error fetching product details: ", error);
     }
+    setLoadingImg(false);
   };
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
@@ -176,7 +181,12 @@ const Product: React.FC<Props> = ({ type }) => {
     console.log("Failed:", errorInfo);
   };
   const normFile = (e: any) => {
-    return e?.fileList[0].originFileObj;
+    try {
+      return e?.fileList[0].originFileObj;
+    } catch (error) {
+      console.error("Error fetching product details: ", error);
+      return "";
+    }
   };
 
   useEffect(() => {
@@ -184,19 +194,7 @@ const Product: React.FC<Props> = ({ type }) => {
       fetchProductDetails(searchParams.get("id") ?? "");
     }
   }, [type, searchParams.get("id")]);
-  const propsUpload: any =
-    uploadImgURL instanceof File || type === PageCRUD.CREATE
-      ? {}
-      : {
-          fileList: [
-            {
-              uid: "-1",
-              name: "",
-              status: "done",
-              url: uploadImgURL,
-            },
-          ],
-        };
+
   return (
     <>
       {contextHolder}
@@ -323,18 +321,26 @@ const Product: React.FC<Props> = ({ type }) => {
                         },
                       ]}
                     >
-                      <Upload
-                        name="logo"
-                        listType="picture"
-                        maxCount={1}
-                        beforeUpload={() => false}
-                        onChange={(d) => {
-                          console.log("d", d);
-                        }}
-                        {...propsUpload}
-                      >
-                        <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
-                      </Upload>
+                      {loadingImg || (
+                        <Upload
+                          name="logo"
+                          listType="picture"
+                          maxCount={1}
+                          beforeUpload={() => false}
+                          defaultFileList={[
+                            {
+                              uid: "-1",
+                              name: "",
+                              status: "done",
+                              url: uploadImgURL,
+                            },
+                          ]}
+                        >
+                          <Button icon={<UploadOutlined />}>
+                            Chọn hình ảnh
+                          </Button>
+                        </Upload>
+                      )}
                     </Form.Item>
                   ),
                 },

@@ -25,6 +25,7 @@ interface Field extends Omit<FieldType, "logo"> {
 
 const Product: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingFetch, setLoadingFetch] = useState<boolean>(false);
   const { setInfo } = useInfo();
   const { upLoad, getById, update } = firebaseService;
   const [form] = Form.useForm();
@@ -47,11 +48,11 @@ const Product: React.FC = () => {
     try {
       if (!KEY.KEY_INFO) throw new Error("No info ID provided");
 
-      let imageUrl = "";
+      let imageUrl: string | undefined = "";
       if (inputUpdate?.logo instanceof File) {
         imageUrl = await upLoad(inputUpdate.logo, "info");
       } else if (typeof inputUpdate.logo === "string") {
-        imageUrl = inputUpdate.logo;
+        imageUrl = undefined;
       }
 
       const blogData: any = {
@@ -75,6 +76,7 @@ const Product: React.FC = () => {
   };
 
   const fetchProductDetails = async (infoId: string) => {
+    setLoadingFetch(true);
     try {
       const infoData = await getById<FieldType>("info", infoId);
       if (infoData) {
@@ -85,11 +87,13 @@ const Product: React.FC = () => {
     } catch (error) {
       console.error("Error fetching product details: ", error);
     }
+    setLoadingFetch(false);
   };
   const onFinishFailed: FormProps<Field>["onFinishFailed"] = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
   const normFile = (e: any) => {
+    console.log(e);
     return e?.fileList[0].originFileObj;
   };
 
@@ -97,19 +101,6 @@ const Product: React.FC = () => {
     fetchProductDetails(KEY.KEY_INFO);
   }, []);
 
-  const propsUpload: any =
-    uploadImgURL instanceof File
-      ? {}
-      : {
-          fileList: [
-            {
-              uid: "-1",
-              name: "",
-              status: "done",
-              url: uploadImgURL,
-            },
-          ],
-        };
   return (
     <>
       {contextHolder}
@@ -185,15 +176,24 @@ const Product: React.FC = () => {
                     valuePropName="file"
                     getValueFromEvent={normFile}
                   >
-                    <Upload
-                      name="logo"
-                      listType="picture"
-                      maxCount={1}
-                      beforeUpload={() => false}
-                      {...propsUpload}
-                    >
-                      <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
-                    </Upload>
+                    {loadingFetch || (
+                      <Upload
+                        defaultFileList={[
+                          {
+                            uid: "-1",
+                            name: "",
+                            status: "done",
+                            url: uploadImgURL,
+                          },
+                        ]}
+                        name="logo"
+                        listType="picture"
+                        maxCount={1}
+                        beforeUpload={() => false}
+                      >
+                        <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
+                      </Upload>
+                    )}
                   </Form.Item>
                 </>
               ),
