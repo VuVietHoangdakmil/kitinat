@@ -1,5 +1,4 @@
-import { combineReducers, createSlice } from "@reduxjs/toolkit";
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 type AuthState = {
   isLogin: boolean;
@@ -25,12 +24,10 @@ export const selectAuth = (state: any) => state.auth;
 
 export const { logout, login } = authSlice.actions;
 
-const rootReducer = combineReducers({
-  auth: authSlice,
-});
-
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    auth: authSlice.reducer,
+  },
 });
 
 export type AppDispatch = typeof store.dispatch;

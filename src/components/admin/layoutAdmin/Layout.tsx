@@ -13,6 +13,7 @@ type Props = {
   children: React.ReactNode;
 };
 import { routers, admin } from "../../../routes";
+import { useSelector } from "react-redux";
 
 const pathCusom = (pathname: string, type: "path" | "pathView") => {
   if (pathname.startsWith(routers.admin.product)) {
@@ -50,6 +51,9 @@ const pathCusom = (pathname: string, type: "path" | "pathView") => {
 const LayoutFC: React.FC<Props> = ({ children }) => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { auth } = useSelector((state) => state) as any;
+  console.log(auth);
+
   const { info } = useInfo();
   const [collapsed, setCollapsed] = useState(false);
   const customPath = pathCusom(pathname, "path");
@@ -58,6 +62,11 @@ const LayoutFC: React.FC<Props> = ({ children }) => {
       navigate(routers.admin.productView);
     }
   }, [pathname]);
+  useEffect(() => {
+    if (!auth.isLogin) {
+      navigate(routers.admin.login);
+    }
+  }, [auth]);
 
   return (
     <Layout style={{ height: "100vh" }}>

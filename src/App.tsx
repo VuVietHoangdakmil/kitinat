@@ -24,6 +24,7 @@ const AboutAdmin = lazy(() => import("./page/admin/about"));
 
 import { Provider } from "react-redux";
 import store from "./store";
+import LoginPage from "./page/login/Login";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+
       {
         path: routers.product + "/:id",
         element: (
@@ -172,6 +174,14 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: routers.admin.login,
+    element: (
+      <Suspense fallback={<Loading />}>
+        <LoginPage />
+      </Suspense>
+    ),
   },
 ]);
 function App() {
