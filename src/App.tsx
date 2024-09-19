@@ -21,6 +21,9 @@ const Info = lazy(() => import("./page/admin/info"));
 const Store = lazy(() => import("./page/store"));
 const StoreAdmin = lazy(() => import("./page/admin/store"));
 const AboutAdmin = lazy(() => import("./page/admin/about"));
+
+import { Provider } from "react-redux";
+import store from "./store";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -173,25 +176,27 @@ const router = createBrowserRouter([
 ]);
 function App() {
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: "#bf9369",
-        },
-        components: {
-          Layout: {
-            /* here is your component tokens */
-            siderBg: "white",
+    <Provider store={store}>
+      <ConfigProvider
+        theme={{
+          token: {
+            colorPrimary: "#bf9369",
           },
-          Collapse: {
-            /* here is your component tokens */
-            headerBg: "#fafafa",
+          components: {
+            Layout: {
+              /* here is your component tokens */
+              siderBg: "white",
+            },
+            Collapse: {
+              /* here is your component tokens */
+              headerBg: "#fafafa",
+            },
           },
-        },
-      }}
-    >
-      <RouterProvider router={router} />
-    </ConfigProvider>
+        }}
+      >
+        <RouterProvider router={router} />
+      </ConfigProvider>
+    </Provider>
   );
 }
 

@@ -17,16 +17,17 @@ import {
 const TableMenuProduct = () => {
   const navigate = useNavigate();
 
-  const { data: listMenus, isLoading } = usePagination(
-    "list-menu",
-    {},
-    getMenusProduct
-  );
+  const {
+    data: listMenus,
+    isLoading,
+    refresh,
+  } = usePagination("list-menu", {}, getMenusProduct);
 
   const handleDelete = async (key: number) => {
     try {
       await deleteMenuProductByIndex(key);
       notifySuccess("Xoá thành công");
+      refresh();
     } catch (error: any) {
       notifyError(error.response.data.message);
       console.log(error);

@@ -83,6 +83,7 @@ const MenuProductCrud: React.FC<Props> = () => {
           image: responseImage?.[0],
         });
         form.resetFields();
+        setImageUrl("");
       }
       notifySuccess("Thêm thành công");
     } catch (error: any) {

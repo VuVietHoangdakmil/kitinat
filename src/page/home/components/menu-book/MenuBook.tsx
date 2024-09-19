@@ -19,14 +19,13 @@ const MenuBook = () => {
     getMenusProduct
   );
   const dataSort = listMenus?.sort((a: any, b: any) => a.index < b.index);
-  console.log(dataSort);
   return (
     <animated.div
       className="flex  justify-center align-center mt-10"
       style={translate}
     >
       <HTMLFlipBook
-        width={500}
+        width={800}
         height={650}
         className="demoBook h-full "
         style={{}}
@@ -43,14 +42,14 @@ const MenuBook = () => {
           audioRef?.current?.play();
           if (e.data === 0) {
             apiAction.start({
-              transform: "translateX(-220px)",
+              transform: "translateX(-360px)",
               config: { tension: 200, friction: 20 },
             });
             return;
           }
           if (e.data == listMenus?.length - 1) {
             apiAction.start({
-              transform: "translateX(220px)",
+              transform: "translateX(300px)",
               config: { tension: 200, friction: 20 },
             });
             return;
@@ -62,7 +61,7 @@ const MenuBook = () => {
           // // api.start({ transform: "translateX(10px)" });
         }}
         minWidth={200}
-        maxWidth={500}
+        maxWidth={800}
         minHeight={650}
         maxHeight={700}
         flippingTime={1}
@@ -79,15 +78,15 @@ const MenuBook = () => {
           <div
             key={image.index}
             // style={props}
-            className="demoPage text-black bg-[#e6e4d1] p-10 flex justify-center items-center "
+            className="demoPage text-black bg-[#e6e4d1] p-10 flex justify-center items-center object-contain"
           >
-            <img src={image.image} className="h-full" />
+            <img src={image.image} className="h-full object-fill" />
             {image.index === 0 ||
             image.index === listMenus?.length - 1 ? null : (
               <div
                 className={cn(
-                  "flex justify-end",
-                  image.index % 2 !== 0 && "justify-start"
+                  "flex justify-start",
+                  image.index % 2 !== 0 && "justify-end"
                 )}
               >
                 <Typography.Text className="text-sm font-semibold">
