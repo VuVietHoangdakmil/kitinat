@@ -10,7 +10,15 @@ export const createBlog = async (body: BlogBody) => {
 };
 
 export const updateBlog = async (key: number, body: BlogBody) => {
-  return axiosClient.put(import.meta.env.VITE_APP_API_BLOG + `${key}`, body);
+  try {
+    const response = await axiosClient.put(
+      import.meta.env.VITE_APP_API_BLOG + `${key}/`,
+      body
+    );
+    return response;
+  } catch (error: any) {
+    return { type: "error", message: error.response.data };
+  }
 };
 
 export const getBlogById = async (key: number): Promise<any> => {

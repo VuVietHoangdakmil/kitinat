@@ -160,7 +160,7 @@ const ProductTable: React.FC = () => {
 
       const storesCustom: Store[] = stores.map((store: Store) => {
         return {
-          key: store.key,
+          key: store.id,
           name: store.name,
           address: store.address,
 
