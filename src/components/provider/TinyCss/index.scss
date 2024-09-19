@@ -17,20 +17,20 @@
     font-weight: bold;
   }
   h1 {
-    font-size: 2em; /* Thường tương đương với 32px */
+    font-size: 4rem; /* Thường tương đương với 32px */
     font-weight: bold;
     margin: 0.67em 0;
     line-height: 1.2;
   }
 
   h2 {
-    font-size: 1.5em; /* Thường tương đương với 24px */
+    font-size: 3em; /* Thường tương đương với 24px */
     font-weight: bold;
     margin: 0.75em 0;
   }
 
   h3 {
-    font-size: 1.17em; /* Thường tương đương với 18.72px */
+    font-size: 2em; /* Thường tương đương với 18.72px */
     font-weight: bold;
     margin: 0.83em 0;
   }
@@ -77,6 +77,7 @@
   /* Thiết lập line-height cho tất cả các phần tử */
   p {
     line-height: 1.6; /* Tỷ lệ tương đối với kích thước font */
+    font-size: 1.8rem;
   }
 
   span {
