@@ -5,7 +5,7 @@ import { Col, Image, Pagination, Row } from "antd";
 import { animated, useTransition } from "@react-spring/web";
 
 import { SLIDES } from "../home/content/content5/Content5";
-import { useResponsive } from "../../hook/useResponsive";
+import { useResponsive } from "../../hook/helpers/useResponsive";
 const totalPage = SLIDES.length;
 const pageSize = 6;
 const listTrantions = [

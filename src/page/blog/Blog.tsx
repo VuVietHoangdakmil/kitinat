@@ -6,7 +6,7 @@ import { animated, useTransition } from "@react-spring/web";
 import { Blog as TypeBlog } from "../../types/data/blogs";
 import "../../css/hidden-scroll.css";
 // Import hiệu ứng mờ khi tải
-import { useResponsive } from "../../hook/useResponsive";
+import { useResponsive } from "../../hook/helpers/useResponsive";
 
 import { routers } from "../../routes";
 

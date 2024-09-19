@@ -1,7 +1,7 @@
 import { Col, Row, Typography } from "antd";
 import { Link } from "react-router-dom";
 import "./index.css";
-import { useResponsive } from "../../../hook/useResponsive";
+import { useResponsive } from "../../../hook/helpers/useResponsive";
 const Footer = () => {
   const { isMobile } = useResponsive();
   return (
