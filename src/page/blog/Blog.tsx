@@ -1,4 +1,4 @@
-import { Card, Image, List, Pagination } from "antd";
+import { Card, Image, List, Pagination, Typography } from "antd";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -63,7 +63,7 @@ const Blog = () => {
       }}
       className="px-4 container-hidden-scroll"
     >
-      <h1>Bài viết</h1>
+      <Typography.Title>Bài viết</Typography.Title>
       <hr style={{ margin: "10px 0px" }} />
 
       {transitions((style) => (
@@ -76,8 +76,8 @@ const Blog = () => {
               sm: 2,
               md: 2,
               lg: 3,
-              xl: 3,
-              xxl: 3,
+              xl: 4,
+              xxl: 4,
             }}
             renderItem={(item, index) => {
               return (
@@ -90,6 +90,7 @@ const Blog = () => {
                       width: "100%",
                       border: "1px #ebebeb solid ",
                     }}
+                    className="hover:border-border-color hover:shadow-none shadow-lg bg-card  cursor-pointer transition-all"
                     cover={
                       <Image
                         style={{
@@ -104,8 +105,10 @@ const Blog = () => {
                       />
                     }
                   >
-                    <div className="h-[250px] container-hidden-scroll">
-                      <h1>{item?.title}</h1>
+                    <div className=" container-hidden-scroll">
+                      <Typography.Title level={3}>
+                        {item?.title}
+                      </Typography.Title>
                       <p className="text-[16px] text-[#404040]">
                         {item?.summary}
                       </p>

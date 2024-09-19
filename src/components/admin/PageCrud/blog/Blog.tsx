@@ -40,7 +40,7 @@ type FieldType = {
   metaDescription?: string;
 };
 const Product: React.FC<Props> = ({ type }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
   // const { upLoad, getById, update, create } = firebaseService;
   const [form] = Form.useForm();

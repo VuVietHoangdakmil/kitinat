@@ -61,7 +61,7 @@ const EditorCustom = forwardRef<any, Props>(
           /* enable automatic uploads of images represented by blob or data URIs*/
           automatic_uploads: true,
           file_picker_types: "image",
-          file_picker_callback: async (cb, value, meta) => {
+          file_picker_callback: async (cb, _value, meta) => {
             if (meta.filetype === "image") {
               const input = document.createElement("input");
               input.setAttribute("type", "file");

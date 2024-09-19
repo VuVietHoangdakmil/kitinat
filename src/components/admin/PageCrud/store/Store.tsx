@@ -38,9 +38,9 @@ const Product: React.FC<Props> = ({ type }) => {
   const [center] = useState<[number, number]>([16.0544, 108.2022]);
   const [zoom] = useState(6);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
-  const { upLoad, getById, update, create } = firebaseService;
+  const { upLoad, getById, update } = firebaseService;
   const [form] = Form.useForm();
 
   const handleMapClick = (lat: number, lng: number) => {
@@ -107,7 +107,7 @@ const Product: React.FC<Props> = ({ type }) => {
     setLoading(false);
   };
 
-  const handleUpdate = async (inputUpdate: FieldType) => {
+  const handleUpdate = async (inputUpdate: any) => {
     setLoading(true);
     try {
       const BlogsId = searchParams.get("id");
@@ -130,7 +130,7 @@ const Product: React.FC<Props> = ({ type }) => {
           delete blogData[key];
         }
       }
-      update<FieldType>("blogs", BlogsId, blogData);
+      update<FieldType>("blogs", BlogsId, blogData as any);
 
       navigate(-1);
     } catch (error) {

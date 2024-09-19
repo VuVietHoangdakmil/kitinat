@@ -127,6 +127,7 @@ const Product: React.FC = () => {
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
   ) => {
+    setLoading(false);
     console.log("Failed:", errorInfo);
   };
 

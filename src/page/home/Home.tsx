@@ -1,25 +1,12 @@
-import { useEffect, useState } from "react";
+import { Typography } from "antd";
+import MenuBook from "./components/menu-book";
 import "./content.scss";
 import Content1 from "./content/content1";
 import Content2 from "./content/content2";
 import Content3 from "./content/content3";
 import Content4 from "./content/content4";
-import MenuBook from "./components/menu-book";
-import { Typography } from "antd";
 
 const Home = () => {
-  const [offsetY, setOffsetY] = useState(0);
-
-  const handleScroll = () => {
-    setOffsetY(window.scrollY); // Lấy vị trí cuộn theo chiều dọc
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll); // Gắn sự kiện scroll
-    return () => {
-      window.removeEventListener("scroll", handleScroll); // Cleanup khi component unmount
-    };
-  }, []);
   return (
     <>
       <div className="w-full mx-auto  bg-current">

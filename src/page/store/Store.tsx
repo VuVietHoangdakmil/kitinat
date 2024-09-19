@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
-import Map from "../../components/map/Map";
 import { Col, Image, Row } from "antd";
+import cn from "classnames";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Map, { Location } from "../../components/map/Map";
 import { getStore } from "../../services/stores.service";
 import { Store } from "../../types/data/store";
-import { Location } from "../../components/map/Map";
-import cn from "classnames";
 const StoreCard = ({
   store,
   onClick,

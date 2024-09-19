@@ -1,4 +1,3 @@
-import React from "react";
 import { usePagination } from "../../../../hook/helpers/usePagination.hook";
 import { getListCategories } from "../../../../services/category.service";
 

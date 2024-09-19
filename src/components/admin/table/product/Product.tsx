@@ -1,16 +1,18 @@
 import type { TableProps } from "antd";
 import { Image, Modal, Typography } from "antd";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { CiEdit } from "react-icons/ci";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../../../firebase";
+import { usePagination } from "../../../../hook/helpers/usePagination.hook";
 import { routers } from "../../../../routes";
+import {
+  deleteProduct,
+  getListProducts,
+} from "../../../../services/product.service";
+import { notifySuccess } from "../../../../utils/helper/notify.helper";
 import AppTable from "../../../shared/app-table";
 import "./product.css";
-import { usePagination } from "../../../../hook/helpers/usePagination.hook";
-import { getListProducts } from "../../../../services/product.service";
 interface DataType {
   key: string;
   uploadImg: string;
@@ -24,11 +26,12 @@ const ProductTable: React.FC = () => {
   const navigate = useNavigate();
   // const [data, setData] = useState<DataType[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const { data: listProduct } = usePagination(
-    "list-product",
-    {},
-    getListProducts
-  );
+  console.log(loading);
+  const {
+    data: listProduct,
+    isLoading,
+    refresh,
+  } = usePagination("list-product", {}, getListProducts);
   const columns: TableProps<DataType>["columns"] = [
     {
       title: "Hình",
@@ -73,7 +76,7 @@ const ProductTable: React.FC = () => {
 
     {
       title: "Hành động",
-      dataIndex: "key",
+      dataIndex: "id",
       key: "action",
       render: (key) => {
         return (
@@ -102,8 +105,9 @@ const ProductTable: React.FC = () => {
       cancelText: "Không",
       onOk: async () => {
         try {
-          await deleteDoc(doc(db, "products", key));
-          // setData(data.filter((item) => item.key !== key));
+          await deleteProduct(key);
+          refresh();
+          notifySuccess("Xoá thành công");
         } catch (error) {
           console.error("Error deleting document: ", error);
           Modal.error({
@@ -117,19 +121,19 @@ const ProductTable: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
-      const productsCollection = collection(db, "products");
-      const productsSnapshot = await getDocs(productsCollection);
-      const productsList = productsSnapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          key: doc.id,
-          uploadImg: data.uploadImg || "",
-          title: data.title || "",
-          chuyen_muc: data.chuyen_muc || "",
-          price: data.price || "",
-          priceDiscount: data.priceDiscount || "",
-        } as DataType;
-      });
+      // const productsCollection = collection(db, "products");
+      // const productsSnapshot = await getDocs(productsCollection);
+      // const productsList = productsSnapshot.docs.map((doc) => {
+      //   const data = doc.data();
+      //   return {
+      //     key: doc.id,
+      //     uploadImg: data.uploadImg || "",
+      //     title: data.title || "",
+      //     chuyen_muc: data.chuyen_muc || "",
+      //     price: data.price || "",
+      //     priceDiscount: data.priceDiscount || "",
+      //   } as DataType;
+      // });
 
       // setData(productsList);
       setLoading(false);
@@ -141,7 +145,7 @@ const ProductTable: React.FC = () => {
 
   return (
     <AppTable
-      loading={loading}
+      loading={isLoading}
       columns={columns as any}
       dataSource={listProduct}
     />
