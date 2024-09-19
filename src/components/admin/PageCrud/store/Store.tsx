@@ -38,9 +38,9 @@ const Product: React.FC<Props> = ({ type }) => {
   const [center] = useState<[number, number]>([16.0544, 108.2022]);
   const [zoom] = useState(6);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
-  const { upLoad, getById, update, create } = firebaseService;
+  const { upLoad, getById, update } = firebaseService;
   const [form] = Form.useForm();
 
   const handleMapClick = (lat: number, lng: number) => {

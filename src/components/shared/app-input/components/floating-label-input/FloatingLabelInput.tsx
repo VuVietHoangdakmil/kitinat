@@ -1,7 +1,8 @@
 import { FormItemProps, Input, InputProps } from 'antd'
 import React from 'react'
 import './FloatingLabelInput.style.scss'
-import { Split } from '@/types/functions/generic.type'
+import { Split } from '../../../../../types/functions/generic.type'
+
 
 interface FloatingLabelInput
   extends Omit<InputProps, 'name'>,
