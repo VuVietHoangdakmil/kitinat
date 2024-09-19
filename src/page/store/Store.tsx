@@ -1,6 +1,6 @@
 import { Col, Image, Row } from "antd";
 import cn from "classnames";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Map, { Location } from "../../components/map/Map";
 import { getStore } from "../../services/stores.service";
 import { Store } from "../../types/data/store";
@@ -46,15 +46,11 @@ const StoreCard = ({
 const StorePage = () => {
   const [center, setCenter] = useState<[number, number]>([16.0544, 108.2022]);
   const [zoom, setZoom] = useState(6);
-  const mapRef = useRef<any>(null);
-  console.log(center);
+
   const [store, setStore] = useState<Store[]>([]);
   const handleLocationChange = (lat: number, lng: number) => {
     setCenter([lat, lng]);
     setZoom(15); // Đặt mức zoom cao hơn
-    mapRef.current?.flyTo([lat, lng], 15, {
-      duration: 2, // Thời gian di chuyển (giây)
-    });
   };
   useEffect(() => {
     const fetchStore = async () => {
@@ -96,7 +92,6 @@ const StorePage = () => {
         </Col>
         <Col span={19}>
           <Map
-            ref={mapRef}
             style={{ height: "82vh", width: "100%" }}
             locations={locations}
             center={center}

@@ -1,54 +1,85 @@
-import { PageCRUD } from "../../../../types/enum";
-import Map from "../../../map/Map";
-import {
-  Row,
-  Col,
-  Form,
-  Input,
-  Collapse,
-  Upload,
-  Button,
-  FormProps,
-  TimePicker,
-} from "antd";
-import { createStore } from "../../../../services/stores.service";
-import { uploadManyFiles } from "../../../../services/upload.service";
 import { UploadOutlined } from "@ant-design/icons";
-import "./index.css";
+import {
+  Button,
+  Col,
+  Collapse,
+  Form,
+  FormProps,
+  Input,
+  Row,
+  TimePicker,
+  Upload,
+  message,
+} from "antd";
+import dayjs from "dayjs";
+import _ from "lodash";
+import { useEffect, useRef, useState } from "react";
 import { FaRegSave } from "react-icons/fa";
 import { IoReturnUpBackOutline } from "react-icons/io5";
-import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { Location } from "../../../../components/map/Map";
+import {
+  createStore,
+  getStoreById,
+  updateStore,
+} from "../../../../services/stores.service";
+import { uploadManyFiles } from "../../../../services/upload.service";
 import { StoreBody } from "../../../../types/data/store";
-import { firebaseService } from "../../../../service/crudFireBase";
-import dayjs from "dayjs";
+import { PageCRUD } from "../../../../types/enum";
+import Map from "../../../map/Map";
+import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
+import "./index.css";
 type Props = {
   type: string;
 };
 interface FieldType extends Omit<StoreBody, "images"> {
   images?: File | string;
 }
-const locations: any[] = [
-  { lat: 21.0285, lng: 105.8542, name: "Hà Nội" },
-  { lat: 10.8231, lng: 106.6297, name: "Hồ Chí Minh" },
-  { lat: 16.0544, lng: 108.2022, name: "Đà Nẵng" },
-];
-const Product: React.FC<Props> = ({ type }) => {
-  const [center] = useState<[number, number]>([16.0544, 108.2022]);
-  const [zoom] = useState(6);
 
+// const [searchParams] = useSearchParams();
+// const [loading, setLoading] = useState<boolean>(false);
+// const { upLoad, getById, update } = firebaseService;
+const Product: React.FC<Props> = ({ type }) => {
+  const [center, setCenter] = useState<[number, number]>([16.0544, 108.2022]);
+  const [messageApi, contextHolder] = message.useMessage();
+  const [locations, setLocations] = useState<Location[]>([
+    { lat: 21.0285, lng: 105.8542, name: "Hà Nội" },
+    { lat: 10.8231, lng: 106.6297, name: "Hồ Chí Minh" },
+    { lat: 16.0544, lng: 108.2022, name: "Đà Nẵng" },
+  ]);
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "Lưu thành công",
+    });
+  };
+  const handleLocationChange = (lat: number, lng: number) => {
+    setCenter([lat, lng]);
+  };
   const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
-  const { upLoad, getById, update } = firebaseService;
+
   const [form] = Form.useForm();
 
   const handleMapClick = (lat: number, lng: number) => {
     form.setFieldValue("latitude", lat.toFixed(4));
     form.setFieldValue("longitude", lng.toFixed(4));
+    setCenter([lat, lng]);
+    setLocations((prevLocations) => {
+      const newLocations = _.cloneDeep(prevLocations);
+
+      newLocations.pop();
+      newLocations.push({
+        lat: lat,
+        lng: lng,
+        name: form.getFieldValue("name"),
+      });
+      console.log("newLocations2", newLocations);
+      return newLocations;
+    });
   };
 
-  const uploadImgURL = Form.useWatch("img", form);
+  const uploadImgURL = Form.useWatch("images", form);
 
   const refContent = useRef<any>();
 
@@ -112,27 +143,37 @@ const Product: React.FC<Props> = ({ type }) => {
     try {
       const BlogsId = searchParams.get("id");
       if (!BlogsId) throw new Error("No Blogs ID provided");
-
       let imageUrl = "";
-      if (inputUpdate.img instanceof File) {
-        imageUrl = await upLoad(inputUpdate.img, "blogs");
-      } else if (typeof inputUpdate.img === "string") {
-        imageUrl = inputUpdate.img;
-      }
+      if (inputUpdate.images instanceof File) {
+        const formData = new FormData();
+        formData.append("images", inputUpdate.images);
+        if (formData.has("images")) {
+          const resFile = await uploadManyFiles(formData);
 
-      const blogData = {
-        ...inputUpdate,
-        img: imageUrl,
-      } as Record<string, any>;
-
-      for (const key in blogData) {
-        if (blogData[key] === undefined || blogData[key] === null) {
-          delete blogData[key];
+          imageUrl = resFile.images[0];
         }
+      } else {
+        imageUrl = inputUpdate?.images ?? "";
       }
-      update<FieldType>("blogs", BlogsId, blogData as any);
+      // update<FieldType>("blogs", BlogsId, blogData as any);
 
-      navigate(-1);
+      const storeData: StoreBody = {
+        name: inputUpdate.name,
+        address: inputUpdate.address,
+        phone: inputUpdate.phone,
+        description: inputUpdate.description,
+        email: inputUpdate.email,
+        open_time: dayjs(inputUpdate.open_time).format("HH:mm:ss"),
+        close_time: dayjs(inputUpdate.close_time).format("HH:mm:ss"),
+        is_open: inputUpdate.is_open,
+        images: imageUrl,
+        longitude: inputUpdate.longitude,
+        latitude: inputUpdate.latitude,
+      };
+
+      await updateStore(Number(BlogsId), storeData);
+      success();
+      // navigate(-1);
     } catch (error) {
       console.error("Error updating document: ", error);
     }
@@ -141,9 +182,25 @@ const Product: React.FC<Props> = ({ type }) => {
 
   const fetchProductDetails = async (BlogsId: string) => {
     try {
-      const productData = await getById<FieldType>("blogs", BlogsId);
+      const productData = await getStoreById(Number(BlogsId));
+      console.log("productData", productData);
+
+      setLocations((prevLocations) => [
+        ...prevLocations,
+        {
+          lat: productData.latitude,
+          lng: productData.longitude,
+          name: productData.name,
+        },
+      ]);
+      handleLocationChange(productData.latitude, productData.longitude);
       if (productData) {
-        form.setFieldsValue(productData);
+        form.setFieldsValue({
+          ...productData,
+
+          open_time: dayjs(productData.open_time, "HH:mm:ss"),
+          close_time: dayjs(productData.close_time, "HH:mm:ss"),
+        });
       } else {
         console.log("No such document!");
       }
@@ -179,8 +236,10 @@ const Product: React.FC<Props> = ({ type }) => {
             },
           ],
         };
+
   return (
     <>
+      {contextHolder}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
           icon={<FaRegSave />}
@@ -215,7 +274,7 @@ const Product: React.FC<Props> = ({ type }) => {
           <Map
             style={{ height: "80vh", width: "100%" }}
             center={center}
-            zoom={zoom}
+            zoom={15}
             onMapClick={handleMapClick}
             locations={locations}
           />
@@ -377,7 +436,10 @@ const Product: React.FC<Props> = ({ type }) => {
                       <Form.Item
                         rules={[
                           {
-                            type: "object",
+                            type:
+                              uploadImgURL instanceof File
+                                ? "object"
+                                : "string",
                             required: true,
                             message: "Hình ảnh không được để trống",
                           },

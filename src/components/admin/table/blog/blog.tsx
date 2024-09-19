@@ -148,7 +148,8 @@ const ProductTable: React.FC = () => {
 
       const blogsCustom: Blog[] = blogs.map((item: any) => {
         return {
-          key: item.key,
+          key: item.id,
+          id: item.id,
           img: item?.img ?? "",
           title: item?.title ?? "",
           summary: item?.summary ?? "",

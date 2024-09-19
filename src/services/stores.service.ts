@@ -10,7 +10,7 @@ export const createStore = async (body: StoreBody) => {
 };
 
 export const updateStore = async (key: number, body: StoreBody) => {
-  return axiosClient.put(import.meta.env.VITE_APP_API_STORE + `${key}`, body);
+  return axiosClient.put(import.meta.env.VITE_APP_API_STORE + `${key}/`, body);
 };
 
 export const getStoreById = async (key: number): Promise<any> => {

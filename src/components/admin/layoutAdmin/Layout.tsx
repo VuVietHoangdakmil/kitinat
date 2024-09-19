@@ -33,6 +33,12 @@ const pathCusom = (pathname: string, type: "path" | "pathView") => {
     }
     return routers.admin.menu;
   }
+  if (pathname.startsWith(routers.admin.store)) {
+    if (type === "pathView") {
+      return routers.admin.storeView;
+    }
+    return routers.admin.store;
+  }
   if (pathname.startsWith(routers.admin.category)) {
     if (type === "pathView") {
       return routers.admin.categoryView;
@@ -115,7 +121,7 @@ const LayoutFC: React.FC<Props> = ({ children }) => {
               label: "Thông tin Website",
             },
             {
-              key: routers.admin.storeView,
+              key: routers.admin.store,
               icon: <FaStore />,
               label: "Cửa hàng",
             },

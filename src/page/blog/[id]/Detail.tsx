@@ -6,17 +6,17 @@ import TinyCss from "../../../components/provider/TinyCss";
 import { Image, Spin } from "antd";
 import parse from "html-react-parser";
 import "./index.css";
-import { firebaseService } from "../../../service/crudFireBase";
+
+import { getBlogById } from "../../../services/blog.service";
 const Detail = () => {
   const { id } = useParams();
-  const { getById } = firebaseService;
-  const [blogData, setblogData] = useState<Blog>({});
-  const [loading, setLoading] = useState<boolean>(false);
 
+  const [blogData, setblogData] = useState<Blog>();
+  const [loading, setLoading] = useState<boolean>(false);
   const fetchblogDetails = async (blogId: string) => {
     setLoading(true);
     try {
-      const blog = await getById<Blog>("blogs", blogId);
+      const blog = await getBlogById(Number(blogId));
 
       if (blog) {
         setblogData(blog);
