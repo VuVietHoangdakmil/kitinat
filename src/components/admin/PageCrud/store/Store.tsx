@@ -1,34 +1,34 @@
-import { PageCRUD } from "../../../../types/enum";
-import Map from "../../../map/Map";
+import { UploadOutlined } from "@ant-design/icons";
 import {
-  Row,
-  Col,
-  Form,
-  Input,
-  Collapse,
-  Upload,
   Button,
+  Col,
+  Collapse,
+  Form,
   FormProps,
+  Input,
+  Row,
   TimePicker,
+  Upload,
   message,
 } from "antd";
+import dayjs from "dayjs";
+import _ from "lodash";
+import { useEffect, useRef, useState } from "react";
+import { FaRegSave } from "react-icons/fa";
+import { IoReturnUpBackOutline } from "react-icons/io5";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Location } from "../../../../components/map/Map";
 import {
   createStore,
   getStoreById,
   updateStore,
 } from "../../../../services/stores.service";
 import { uploadManyFiles } from "../../../../services/upload.service";
-import { UploadOutlined } from "@ant-design/icons";
-import "./index.css";
-import { FaRegSave } from "react-icons/fa";
-import { IoReturnUpBackOutline } from "react-icons/io5";
-import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
 import { StoreBody } from "../../../../types/data/store";
-import dayjs from "dayjs";
-import { Location } from "../../../../components/map/Map";
-import _ from "lodash";
+import { PageCRUD } from "../../../../types/enum";
+import Map from "../../../map/Map";
+import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
+import "./index.css";
 type Props = {
   type: string;
 };
@@ -36,6 +36,9 @@ interface FieldType extends Omit<StoreBody, "images"> {
   images?: File | string;
 }
 
+// const [searchParams] = useSearchParams();
+// const [loading, setLoading] = useState<boolean>(false);
+// const { upLoad, getById, update } = firebaseService;
 const Product: React.FC<Props> = ({ type }) => {
   const [center, setCenter] = useState<[number, number]>([16.0544, 108.2022]);
   const [messageApi, contextHolder] = message.useMessage();
@@ -53,7 +56,7 @@ const Product: React.FC<Props> = ({ type }) => {
   const handleLocationChange = (lat: number, lng: number) => {
     setCenter([lat, lng]);
   };
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
 
   const [form] = Form.useForm();
@@ -135,7 +138,7 @@ const Product: React.FC<Props> = ({ type }) => {
     setLoading(false);
   };
 
-  const handleUpdate = async (inputUpdate: FieldType) => {
+  const handleUpdate = async (inputUpdate: any) => {
     setLoading(true);
     try {
       const BlogsId = searchParams.get("id");
@@ -152,6 +155,7 @@ const Product: React.FC<Props> = ({ type }) => {
       } else {
         imageUrl = inputUpdate?.images ?? "";
       }
+      // update<FieldType>("blogs", BlogsId, blogData as any);
 
       const storeData: StoreBody = {
         name: inputUpdate.name,

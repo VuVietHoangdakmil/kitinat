@@ -42,7 +42,7 @@ type FieldType = {
 };
 
 const Product: React.FC<Props> = ({ type }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
@@ -68,7 +68,7 @@ const Product: React.FC<Props> = ({ type }) => {
     }
   };
 
-  const handleAdd = async (inputAdd: FieldType) => {
+  const handleAdd = async (inputAdd: any) => {
     setLoading(true);
     try {
       let imageUrl = { src: "" };
@@ -85,7 +85,7 @@ const Product: React.FC<Props> = ({ type }) => {
       }
 
       const body: BlogBody = {
-        img: imageUrl,
+        img: imageUrl as any,
         title: inputAdd.title ?? "",
         summary: inputAdd.summary ?? "",
         content: inputAdd.content ?? "",
@@ -154,27 +154,27 @@ const Product: React.FC<Props> = ({ type }) => {
       const res = (await getBlogById(Number(BlogsId))) as any;
       const data: Blog = res;
       if (data) {
-        const dataBlog: FieldType = {
-          ...data,
-          slug: data?.seo?.slug,
-          metaTitle: data?.seo?.meta_title,
-          metaKeyWord: data?.seo?.meta_keyword,
-          metaDescription: data?.seo?.meta_description,
-        };
-        const dataBlogDataBase: BlogBody = {
-          img: data.img ?? "",
-          title: data.title ?? "",
-          summary: data.summary ?? "",
-          content: data.content ?? "",
-          seo: {
-            slug: data.seo?.slug ?? "",
-            meta_title: data.seo?.meta_title ?? "",
-            meta_keyword: data.seo?.meta_keyword ?? "",
-            meta_description: data.seo?.meta_description ?? "",
-          },
-        };
-        form.setFieldsValue(dataBlog);
-        setBlogDatabase(dataBlogDataBase);
+        // const dataBlog: FieldType = {
+        //   ...data,
+        //   slug: data?.seo?.slug,
+        //   metaTitle: data?.seo?.meta_title,
+        //   metaKeyWord: data?.seo?.meta_keyword,
+        //   metaDescription: data?.seo?.meta_description,
+        // };
+        // const dataBlogDataBase: BlogBody = {
+        //   img: data.img ?? "",
+        //   title: data.title ?? "",
+        //   summary: data.summary ?? "",
+        //   content: data.content ?? "",
+        //   seo: {
+        //     slug: data.seo?.slug ?? "",
+        //     meta_title: data.seo?.meta_title ?? "",
+        //     meta_keyword: data.seo?.meta_keyword ?? "",
+        //     meta_description: data.seo?.meta_description ?? "",
+        //   },
+        // };
+        // form.setFieldsValue(dataBlog);
+        // setBlogDatabase(dataBlogDataBase);
       } else {
         console.log("No such document!");
       }
