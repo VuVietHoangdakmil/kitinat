@@ -10,6 +10,7 @@ export const routers = {
   blog: "/blog",
   store: "/store",
   admin: {
+    login: admin + "/login",
     product: admin + "/product",
     productView: admin + `/product/${PageCRUD.VIEW}`,
     productCreate: admin + `/product/${PageCRUD.CREATE}`,

@@ -1,18 +1,25 @@
-import { Button, Col, Form, Image, Row, Typography } from "antd";
+import { Button, Col, Form, Row, Typography } from "antd";
 import React from "react";
-import { Link } from "react-router-dom";
 import AppInput from "../../components/shared/app-input";
+import { useDispatch } from "react-redux";
+import { login } from "../../store";
+import { useNavigate } from "react-router-dom";
+import { routers } from "../../routes";
 
 const LoginPage: React.FC = () => {
-  const handleSubmit = () => {};
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleSubmit = (value: any) => {
+    if (value.username === "admin" && value.password == "123456") {
+      dispatch(login());
+      navigate(routers.admin.productView);
+    }
+  };
   return (
     <div className="login-page w-screen h-screen flex justify-center items-center bg-card flex-col gap-14">
       <div className="shadow-xl rounded-xl p-8 bg-white">
         <Row gutter={[24, 24]}>
-          <Col
-            span={12}
-            className=" flex justify-center items-center border rounded-lg shadow"
-          >
+          <Col span={24} className=" flex justify-center items-center  p-8">
             <Form onFinish={handleSubmit} layout="vertical">
               <Row gutter={[12, 12]}>
                 <Col span={24}>
@@ -45,23 +52,15 @@ const LoginPage: React.FC = () => {
               </Row>
             </Form>
           </Col>
-          <Col span={12} className="flex justify-center">
-            <Image
-              src="/images/logo-toc-1.png"
-              preview={false}
-              width={400}
-              height={400}
-            />
-          </Col>
         </Row>
       </div>
-      <Link to={"https://itbus.vn/"} target="_blank">
+      {/* <Link to={"https://itbus.vn/"} target="_blank">
         <Image
           src="/images/logo-it-bus.png"
           preview={false}
           className="w-full h-16 object-contain"
         />
-      </Link>
+      </Link> */}
     </div>
   );
 };
