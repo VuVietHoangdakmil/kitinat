@@ -11,29 +11,31 @@ import {
   Upload,
   UploadProps,
 } from "antd";
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { UploadFile } from "antd/es/upload";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import _ from "lodash";
 import { useEffect, useRef, useState } from "react";
-import { FaRegSave, FaUpload } from "react-icons/fa";
+import { FaRegSave } from "react-icons/fa";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { db } from "../../../../firebase";
+import {
+  createProduct,
+  getProductDetail,
+} from "../../../../services/product.service";
+import { uploadManyFiles } from "../../../../services/upload.service";
 import { PageCRUD } from "../../../../types/enum";
 import { formatNumberPrice } from "../../../../utils/const";
-import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
-import AppInput from "../../../shared/app-input";
-import EditorCustom from "../../EditorCustom";
-import "./index.css";
-import { getBase64 } from "../../../../utils/helper/file.helper";
-import { RcFile, UploadFile } from "antd/es/upload";
-import VariantsProduct from "./components/variants-product/VariantsProduct";
-import _ from "lodash";
-import { uploadManyFiles } from "../../../../services/upload.service";
-import { createProduct } from "../../../../services/product.service";
 import {
   notifyError,
   notifySuccess,
 } from "../../../../utils/helper/notify.helper";
+import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
+import AppInput from "../../../shared/app-input";
+import EditorCustom from "../../EditorCustom";
+import VariantsProduct from "./components/variants-product/VariantsProduct";
+import "./index.css";
 type Props = {
   type: string;
 };
@@ -84,13 +86,13 @@ const props: UploadProps = {
 const Product: React.FC<Props> = ({ type }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [loading, setLoading] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState("");
 
   console.log("d", setSearchParams);
   const [form] = Form.useForm();
   const summaryValue = Form.useWatch("summary", form);
   const contentValue = Form.useWatch("content", form);
-  const uploadImgURL = Form.useWatch("uploadImg", form);
+  const uploadImgURL = Form.useWatch("file", form);
+  console.log(summaryValue);
 
   const refSummary = useRef<any>();
   const refContent = useRef<any>();
@@ -218,37 +220,49 @@ const Product: React.FC<Props> = ({ type }) => {
     setLoading(false);
   };
 
-  const fetchProductDetails = async (productId: string) => {
-    try {
-      const docRef = doc(db, "products", productId);
-      const docSnap = await getDoc(docRef);
+  // const fetchProductDetails = async (productId: string) => {
+  //   try {
+  //     const docRef = doc(db, "products", productId);
+  //     const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        const productData = docSnap.data() as FieldType;
+  //     if (docSnap.exists()) {
+  //       const productData = docSnap.data() as FieldType;
 
-        form.setFieldsValue(productData);
-      } else {
-        console.log("No such document!");
-      }
-    } catch (error) {
-      console.error("Error fetching product details: ", error);
-    }
-  };
+  //       form.setFieldsValue(productData);
+  //     } else {
+  //       console.log("No such document!");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching product details: ", error);
+  //   }
+  // };
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
   ) => {
     console.log("Failed:", errorInfo);
   };
 
-  const handleChange: UploadProps["onChange"] = async (info) => {
-    const url = await getBase64(info.file as RcFile);
-    setImageUrl(url);
-  };
-
   useEffect(() => {
-    if (type === PageCRUD.UPDATE) {
-      fetchProductDetails(searchParams.get("id") || "");
-    }
+    const fetchProduct = async () => {
+      if (type === PageCRUD.UPDATE) {
+        // fetchProductDetails(searchParams.get("id") || "");
+        try {
+          if (type === PageCRUD.UPDATE) {
+            // fetchProductDetails(searchParams.get("id") || "");
+            const productDetail = (await getProductDetail(
+              searchParams.get("id") || ""
+            )) as any;
+            if (productDetail) {
+              form.setFieldsValue(productDetail);
+              form.setFieldValue("file", productDetail.image);
+            }
+          }
+        } catch (error: any) {
+          notifyError(error.response.message.data);
+        }
+      }
+    };
+    fetchProduct();
   }, [type, searchParams.get("id")]);
   const propsUpload: any =
     uploadImgURL instanceof File || type === PageCRUD.CREATE
@@ -354,6 +368,7 @@ const Product: React.FC<Props> = ({ type }) => {
                         getValueFromEvent={normFile}
                       >
                         <Upload
+                          {...props}
                           name="logo"
                           listType="picture"
                           maxCount={1}

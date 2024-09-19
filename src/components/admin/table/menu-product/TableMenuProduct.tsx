@@ -1,7 +1,7 @@
 import { Image, Popconfirm } from "antd";
 import { usePagination } from "../../../../hook/helpers/usePagination.hook";
 import {
-  deleteMenuProduct,
+  deleteMenuProductByIndex,
   getMenusProduct,
 } from "../../../../services/product.service";
 import AppTable from "../../../shared/app-table";
@@ -9,6 +9,10 @@ import { CiEdit } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { routers } from "../../../../routes";
 import { FaRegTrashAlt } from "react-icons/fa";
+import {
+  notifyError,
+  notifySuccess,
+} from "../../../../utils/helper/notify.helper";
 
 const TableMenuProduct = () => {
   const navigate = useNavigate();
@@ -21,8 +25,10 @@ const TableMenuProduct = () => {
 
   const handleDelete = async (key: number) => {
     try {
-      await deleteMenuProduct(key);
-    } catch (error) {
+      await deleteMenuProductByIndex(key);
+      notifySuccess("Xoá thành công");
+    } catch (error: any) {
+      notifyError(error.response.data.message);
       console.log(error);
     }
   };

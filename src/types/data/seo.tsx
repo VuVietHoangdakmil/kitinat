@@ -1,6 +1,6 @@
 export interface Seo {
   slug: string;
-  metaTile: string;
-  metaKeyWord: string;
-  metaDescription: string;
+  meta_title: string;
+  meta_keyword: string;
+  meta_description: string;
 }

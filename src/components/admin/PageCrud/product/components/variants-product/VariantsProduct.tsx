@@ -26,7 +26,9 @@ const VariantsProduct: React.FC<Props> = ({ value = [], onChange }) => {
   return (
     <div>
       <List
-        grid={[16, 16]}
+        grid={{
+          gutter: [16, 16],
+        }}
         dataSource={value as any}
         renderItem={(item, index) => (
           <ItemVariant
