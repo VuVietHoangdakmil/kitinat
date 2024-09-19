@@ -3,7 +3,7 @@ import ExitAnimation from "../../../../components/ExitAnimation";
 import { silde } from "../../../../components/ExitAnimation/ExitAnimation";
 import { routers } from "../../../../routes";
 import { KEY } from "../../../../types/enum";
-import { useResponsive } from "../../../../hook/useResponsive";
+import { useResponsive } from "../../../../hook/helpers/useResponsive";
 const OPTIONS: EmblaOptionsType = { loop: true };
 
 export const SLIDES: silde[] = [

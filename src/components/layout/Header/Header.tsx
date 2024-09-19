@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./Header.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { routers } from "../../../routes";
-import { useResponsive } from "../../../hook/useResponsive";
+import { useResponsive } from "../../../hook/helpers/useResponsive";
 import { cn } from "../../../utils/helper/class.helper";
 import { FaBars } from "react-icons/fa6";
 import FloatingContactButtons from "../../FloatingContactButtons";
