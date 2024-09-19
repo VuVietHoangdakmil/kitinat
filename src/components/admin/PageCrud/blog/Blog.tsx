@@ -154,27 +154,26 @@ const Product: React.FC<Props> = ({ type }) => {
       const res = (await getBlogById(Number(BlogsId))) as any;
       const data: Blog = res;
       if (data) {
-        // const dataBlog: FieldType = {
-        //   ...data,
-        //   slug: data?.seo?.slug,
-        //   metaTitle: data?.seo?.meta_title,
-        //   metaKeyWord: data?.seo?.meta_keyword,
-        //   metaDescription: data?.seo?.meta_description,
-        // };
-        // const dataBlogDataBase: BlogBody = {
-        //   img: data.img ?? "",
-        //   title: data.title ?? "",
-        //   summary: data.summary ?? "",
-        //   content: data.content ?? "",
-        //   seo: {
-        //     slug: data.seo?.slug ?? "",
-        //     meta_title: data.seo?.meta_title ?? "",
-        //     meta_keyword: data.seo?.meta_keyword ?? "",
-        //     meta_description: data.seo?.meta_description ?? "",
-        //   },
-        // };
-        // form.setFieldsValue(dataBlog);
-        // setBlogDatabase(dataBlogDataBase);
+        const dataBlog: FieldType = {
+          ...data,
+          slug: data?.seo?.slug,
+          metaTitle: data?.seo?.meta_title,
+          metaKeyWord: data?.seo?.meta_keyword,
+          metaDescription: data?.seo?.meta_description,
+        };
+        const dataBlogDataBase: BlogBody = {
+          img: data.img ?? "",
+          title: data.title ?? "",
+          summary: data.summary ?? "",
+          content: data.content ?? "",
+          seo: {
+            slug: data.seo?.slug ?? "",
+            meta_title: data.seo?.meta_title ?? "",
+            meta_keyword: data.seo?.meta_keyword ?? "",
+            meta_description: data.seo?.meta_description ?? "",
+          },
+        };
+        form.setFieldsValue(dataBlog);
       } else {
         console.log("No such document!");
       }
