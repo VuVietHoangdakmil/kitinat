@@ -1,6 +1,6 @@
 import { useTransition, useSpringRef, animated } from "@react-spring/web";
 import { useEffect } from "react";
-import { useResponsive } from "../../../../hook/useResponsive";
+import { useResponsive } from "../../../../hook/helpers/useResponsive";
 import useInViewCustom from "../../../../hook/useInviewCustom";
 import { Row, Col, Button, Typography } from "antd";
 import ExitAnimation from "../../../../components/ExitAnimation";

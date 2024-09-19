@@ -1,6 +1,6 @@
 import { useTransition, animated } from "@react-spring/web";
 import { Button, Col, Row, Image, Typography } from "antd";
-import { useResponsive } from "../../hook/useResponsive";
+import { useResponsive } from "../../hook/helpers/useResponsive";
 
 type PropsContent = {
   content1: string;
