@@ -1,0 +1,66 @@
+#!/usr/bin/expect -f
+
+# Thiết lập không giới hạn thời gian chờ
+set timeout -1
+
+# Thiết lập thông tin kết nối
+set host "112.213.88.123"
+set user "root"
+set password [lindex $argv 0]
+
+# Khởi động kết nối SSH
+spawn ssh $user@$host
+
+# Xử lý các prompt
+expect {
+    # Nếu đây là lần đầu kết nối và cần xác nhận host
+    "*yes/no*" {
+        send "yes\r"
+        exp_continue
+    }
+    # Nếu được yêu cầu nhập mật khẩu
+    "*password:" {
+        send "$password\r"
+        exp_continue
+    }
+    # Khi đã đăng nhập thành công và nhận được prompt shell
+    -re {# $} {
+        # Gửi các lệnh Docker tuần tự
+        send "cd cafe/\r"
+    }
+}
+
+# Xử lý các lệnh sau khi đã gửi "cd cafe/"
+expect {
+    -re {# $} {
+        send "docker-compose pull\r"
+    }
+}
+
+expect {
+    -re {# $} {
+        send "docker-compose down\r"
+    }
+}
+
+expect {
+    -re {# $} {
+        send "docker-compose up -d\r"
+    }
+}
+
+expect {
+    -re {# $} {
+        send "docker system prune -a -f\r"
+    }
+}
+
+# Thoát khỏi SSH
+expect {
+    -re {# $} {
+        send "exit\r"
+    }
+}
+
+# Đợi kết thúc kết nối
+expect eof

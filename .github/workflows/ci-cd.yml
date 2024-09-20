@@ -1,0 +1,61 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Chạy workflow khi có push lên nhánh master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      DOCKER_IMAGE: kitinat
+      DOCKER_DRIVER: overlay2
+      DOCKER_TLS_CERTDIR: ""  # Để tắt TLS cho Docker-in-Docker
+
+    steps:
+      # Bước 1: Checkout mã nguồn
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Bước 2: Cài đặt Docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Bước 3: Đăng nhập vào Docker Hub
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Bước 4: Xây dựng và đẩy Docker image
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest
+
+      # Bước 5: Upload docker-compose.yml như artifact (tuỳ chọn)
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+
+    steps:
+      # Bước 2: Cài đặt SSH và Expect
+      - name: Install SSH and Expect
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ssh expect
+
+      # Bước 3: Triển khai đến máy chủ từ xa sử dụng Expect
+      - name: Deploy to Remote Server using Expect
+        env:
+          PASS_SETUP: ${{ secrets.PASS_SETUP }}
+        run: |
+          expect -f ssh_deploy.exp "$PASS_SETUP"
