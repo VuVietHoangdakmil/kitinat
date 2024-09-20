@@ -64,7 +64,7 @@ const LayoutFC: React.FC<Props> = ({ children }) => {
   }, [pathname]);
   useEffect(() => {
     if (!auth.isLogin) {
-      navigate(routers.admin.login);
+      // navigate(routers.admin.login);
     }
   }, [auth]);
 

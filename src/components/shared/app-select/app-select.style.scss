@@ -1,0 +1,163 @@
+@import 'scss/_config.scss';
+
+.app-select-disabled {
+  &:hover {
+    .ant-select-selector {
+      border-color: $select-border-disable !important;
+    }
+  }
+}
+.ant-select-focused {
+  .ant-select-selector {
+    border-width: 0.1rem !important;
+    border-color: $select-border-hover !important;
+    box-shadow: $box-shadow-focus !important;
+  }
+}
+
+.ant-select-dropdown {
+  .ant-select-item-option {
+    .ant-select-item-option-content {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: $text-color;
+      line-height: 20px;
+      letter-spacing: 0.28px;
+    }
+  }
+  .ant-select-item-option-selected,
+  .ant-select-item-option-active.ant-select-item-option-selected {
+    background-color: $primary-color !important;
+    .ant-select-item-option-content {
+      color: white;
+    }
+  }
+  .ant-select-item-option-active {
+    background-color: $select-item-active-background !important;
+  }
+}
+
+.prefix-icon-wrapper {
+  position: absolute;
+  z-index: 1;
+  width: 3rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-select-wrap {
+  .app-select {
+    .ant-select-selector {
+      padding: 0 10px !important ;
+      border: 1px solid $select-border-disable !important;
+      padding-left: calc(3rem - 8px);
+      .ant-select-selection-item {
+        font-weight: 500;
+        font-size: 1.4rem;
+        line-height: 38px !important;
+      }
+      span {
+        height: 100%;
+        color: $text-color;
+        input {
+          height: 100% !important;
+        }
+      }
+      .ant-select-selection-placeholder {
+        line-height: 36px !important;
+        color: map-get($primary-gray, 300);
+      }
+    }
+    &:hover {
+      .ant-select-selector {
+        border-color: $select-border-hover !important;
+      }
+    }
+    &.select-line {
+      .ant-select-selector {
+        .ant-select-selection-item {
+          line-height: 36px !important;
+        }
+      }
+    }
+  }
+  // FLoating label css
+  .label-line {
+    color: map-get($primary-brand, 700);
+    position: absolute;
+    pointer-events: none;
+    left: 15px;
+    top: 9px;
+    padding: 0 5px;
+    background: linear-gradient(180deg, transparent 50%, white 50%);
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+  .label-line-disabled {
+    background: transparent;
+  }
+  .select-line {
+    // min-height: 4rem;
+    display: block;
+    width: 100%;
+    background: #fff;
+    color: map-get($primary-gray, 700);
+    border-radius: 8px;
+    box-sizing: border-box;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    .ant-select-selector {
+      padding-left: 20px !important;
+      span {
+        color: map-get($primary-gray, 700);
+        font-weight: 400 !important;
+      }
+      .ant-select-selection-search {
+        inset-inline-start: 20px;
+        inset-inline-end: 20px;
+      }
+    }
+    // &:focus {
+    //   outline: none;
+    //   ~ .label-line {
+    //     top: 0px;
+    //   }
+    // }
+    &::-ms-expand {
+      display: none;
+    }
+  }
+  .label-line.floating {
+    top: -11px;
+  }
+  .label-line-disabled {
+    background: linear-gradient(180deg, transparent 50%, #edeff2 50%);
+  }
+  .select-line[value='']:focus ~ .label-line {
+    top: 12px;
+  }
+  .ant-form-item:has(.ant-select-focused) ~ .label-line {
+    top: -15px;
+  }
+  &:has(.ant-select-selection-search-input[aria-required='true']) {
+    .label-line::after {
+      content: '*';
+      color: $danger-color;
+      display: inline-block;
+      margin-inline-start: 4px;
+      font-size: 1.6rem;
+      line-height: 1;
+      visibility: initial;
+    }
+  }
+
+  &:has(.label-line) {
+    .ant-form-item-label {
+      display: none;
+    }
+  }
+}

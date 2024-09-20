@@ -36,9 +36,6 @@ interface FieldType extends Omit<StoreBody, "images"> {
   images?: File | string;
 }
 
-// const [searchParams] = useSearchParams();
-// const [loading, setLoading] = useState<boolean>(false);
-// const { upLoad, getById, update } = firebaseService;
 const Product: React.FC<Props> = ({ type }) => {
   const [center, setCenter] = useState<[number, number]>([16.0544, 108.2022]);
   const [messageApi, contextHolder] = message.useMessage();
@@ -57,6 +54,7 @@ const Product: React.FC<Props> = ({ type }) => {
     setCenter([lat, lng]);
   };
   const [searchParams] = useSearchParams();
+  const [loadingImg, setLoadingImg] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const [form] = Form.useForm();
@@ -181,6 +179,7 @@ const Product: React.FC<Props> = ({ type }) => {
   };
 
   const fetchProductDetails = async (BlogsId: string) => {
+    setLoadingImg(true);
     try {
       const productData = await getStoreById(Number(BlogsId));
       console.log("productData", productData);
@@ -207,6 +206,7 @@ const Product: React.FC<Props> = ({ type }) => {
     } catch (error) {
       console.error("Error fetching product details: ", error);
     }
+    setLoadingImg(false);
   };
   const onFinishFailed: FormProps<FieldType>["onFinishFailed"] = (
     errorInfo
@@ -214,7 +214,12 @@ const Product: React.FC<Props> = ({ type }) => {
     console.log("Failed:", errorInfo);
   };
   const normFile = (e: any) => {
-    return e?.fileList[0].originFileObj;
+    try {
+      return e?.fileList[0].originFileObj;
+    } catch (error) {
+      console.log("error", error);
+      return "";
+    }
   };
 
   useEffect(() => {
@@ -222,20 +227,6 @@ const Product: React.FC<Props> = ({ type }) => {
       fetchProductDetails(searchParams.get("id") || "");
     }
   }, [type, searchParams.get("id")]);
-
-  const propsUpload: any =
-    uploadImgURL instanceof File || type === PageCRUD.CREATE
-      ? {}
-      : {
-          fileList: [
-            {
-              uid: "-1",
-              name: "",
-              status: "done",
-              url: uploadImgURL,
-            },
-          ],
-        };
 
   return (
     <>
@@ -449,17 +440,26 @@ const Product: React.FC<Props> = ({ type }) => {
                         valuePropName="file"
                         getValueFromEvent={normFile}
                       >
-                        <Upload
-                          name="Hình ảnh"
-                          listType="picture"
-                          maxCount={1}
-                          beforeUpload={() => false}
-                          {...propsUpload}
-                        >
-                          <Button icon={<UploadOutlined />}>
-                            Chọn hình ảnh
-                          </Button>
-                        </Upload>
+                        {loadingImg || (
+                          <Upload
+                            name="Hình ảnh"
+                            listType="picture"
+                            maxCount={1}
+                            beforeUpload={() => false}
+                            defaultFileList={[
+                              {
+                                uid: "-1",
+                                name: "",
+                                status: "done",
+                                url: uploadImgURL,
+                              },
+                            ]}
+                          >
+                            <Button icon={<UploadOutlined />}>
+                              Chọn hình ảnh
+                            </Button>
+                          </Upload>
+                        )}
                       </Form.Item>
                     </>
                   ),
