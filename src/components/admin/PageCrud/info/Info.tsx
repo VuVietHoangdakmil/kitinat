@@ -1,31 +1,33 @@
 import {
-  Form,
-  Input,
-  Collapse,
-  Upload,
   Button,
+  Collapse,
+  Form,
   FormProps,
+  Input,
   message,
+  Upload,
 } from "antd";
 
 import { UploadOutlined } from "@ant-design/icons";
-import "./index.css";
+import { useEffect, useState } from "react";
 import { FaRegSave } from "react-icons/fa";
 import { IoReturnUpBackOutline } from "react-icons/io5";
-import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Info as FieldType } from "../../../../types/data/info";
-import { firebaseService } from "../../../../service/crudFireBase";
-import { KEY } from "../../../../types/enum";
 import { useInfo } from "../../../../components/provider/InfoProvider";
+import { useLoading } from "../../../../hook/helpers/useLoading";
+import { firebaseService } from "../../../../service/crudFireBase";
+import { Info as FieldType } from "../../../../types/data/info";
+import { KEY } from "../../../../types/enum";
+import Config from "../../../provider/ConfigAntdTheme/ConfigProvide";
+import AppLoading from "../../../shared/app-loading";
+import "./index.css";
 interface Field extends Omit<FieldType, "logo"> {
   logo: File | string;
 }
 
 const Product: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false);
   const [loadingFetch, setLoadingFetch] = useState<boolean>(false);
+  const { isLoading, startLoading, stopLoading } = useLoading();
   const { setInfo } = useInfo();
   const { upLoad, getById, update } = firebaseService;
   const [form] = Form.useForm();
@@ -44,7 +46,7 @@ const Product: React.FC = () => {
     });
   };
   const handleUpdate = async (inputUpdate: Field) => {
-    setLoading(true);
+    startLoading();
     try {
       if (!KEY.KEY_INFO) throw new Error("No info ID provided");
 
@@ -72,7 +74,7 @@ const Product: React.FC = () => {
     } catch (error) {
       console.error("Error updating document: ", error);
     }
-    setLoading(false);
+    stopLoading();
   };
 
   const fetchProductDetails = async (infoId: string) => {
@@ -104,6 +106,7 @@ const Product: React.FC = () => {
   return (
     <>
       {contextHolder}
+      {isLoading && <AppLoading />}
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <Button
           icon={<FaRegSave />}
@@ -113,7 +116,7 @@ const Product: React.FC = () => {
             margin: "0 0 10px 0",
           }}
           onClick={() => form.submit()}
-          loading={loading}
+          loading={isLoading}
         >
           Lưu
         </Button>
