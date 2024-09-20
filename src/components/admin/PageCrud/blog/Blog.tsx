@@ -194,7 +194,6 @@ const Product: React.FC<Props> = ({ type }) => {
       fetchProductDetails(searchParams.get("id") ?? "");
     }
   }, [type, searchParams.get("id")]);
-
   return (
     <>
       {contextHolder}

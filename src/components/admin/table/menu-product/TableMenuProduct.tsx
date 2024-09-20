@@ -1,18 +1,19 @@
 import { Image, Popconfirm } from "antd";
+import { CiEdit } from "react-icons/ci";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { usePagination } from "../../../../hook/helpers/usePagination.hook";
+import { routers } from "../../../../routes";
 import {
-  deleteMenuProductByIndex,
+  deleteMenuProduct,
   getMenusProduct,
 } from "../../../../services/product.service";
-import AppTable from "../../../shared/app-table";
-import { CiEdit } from "react-icons/ci";
-import { useNavigate } from "react-router-dom";
-import { routers } from "../../../../routes";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { StoreMenuProduct } from "../../../../types/data/product";
 import {
   notifyError,
   notifySuccess,
 } from "../../../../utils/helper/notify.helper";
+import AppTable from "../../../shared/app-table";
 
 const TableMenuProduct = () => {
   const navigate = useNavigate();
@@ -23,9 +24,9 @@ const TableMenuProduct = () => {
     refresh,
   } = usePagination("list-menu", {}, getMenusProduct);
 
-  const handleDelete = async (key: number) => {
+  const handleDelete = async (key: string) => {
     try {
-      await deleteMenuProductByIndex(key);
+      await deleteMenuProduct(key);
       notifySuccess("Xoá thành công");
       refresh();
     } catch (error: any) {
@@ -56,9 +57,9 @@ const TableMenuProduct = () => {
     },
     {
       title: "Hành động",
-      dataIndex: "index",
+      dataIndex: "id",
       key: "action",
-      render: (key: number) => {
+      render: (key: string) => {
         return (
           <div className="flex gap-4 items-center  justify-start">
             <CiEdit
@@ -78,11 +79,14 @@ const TableMenuProduct = () => {
       },
     },
   ];
+  const sortedListMenus = listMenus?.sort(
+    (a: StoreMenuProduct, b: StoreMenuProduct) => a.index - b.index
+  );
   return (
     <div>
       <AppTable
         columns={columns}
-        dataSource={listMenus ?? []}
+        dataSource={sortedListMenus ?? []}
         loading={isLoading}
       />
     </div>
